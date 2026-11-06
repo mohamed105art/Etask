@@ -231,6 +231,218 @@
   justify-content: center;
 }
 
+/* ==========================================================================
+   تصميم المؤشرات الستة المعتمد (6 Matte KPI Cards Grid - 3x2 / 2x3 / 1x6)
+   ========================================================================== */
+.kpi-matte-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+@media (max-width: 992px) {
+  .kpi-matte-grid-6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 576px) {
+  .kpi-matte-grid-6 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-matte-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 0;
+  min-height: 106px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.kpi-matte-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 1. الأزرق - إجمالي المهام */
+.kpi-matte-card.kpi-theme-blue {
+  border: 2px solid #60a5fa !important;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-blue .kpi-matte-number,
+.kpi-matte-card.kpi-theme-blue .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-blue .kpi-matte-sub {
+  color: #3b82f6 !important;
+}
+.kpi-matte-card.kpi-theme-blue .kpi-matte-footer {
+  background: rgba(59, 130, 246, 0.08) !important;
+  border-top: 1px solid rgba(59, 130, 246, 0.2) !important;
+}
+
+/* 2. الكهرماني / البرتقالي - مهام جارية اليوم */
+.kpi-matte-card.kpi-theme-amber {
+  border: 2px solid #fbbf24 !important;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-amber .kpi-matte-number,
+.kpi-matte-card.kpi-theme-amber .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-amber .kpi-matte-sub {
+  color: #f59e0b !important;
+}
+.kpi-matte-card.kpi-theme-amber .kpi-matte-footer {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border-top: 1px solid rgba(245, 158, 11, 0.2) !important;
+}
+
+/* 3. البنفسجي - مهام مبرمجة ومفتوحة */
+.kpi-matte-card.kpi-theme-purple {
+  border: 2px solid #c084fc !important;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-purple .kpi-matte-number,
+.kpi-matte-card.kpi-theme-purple .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-purple .kpi-matte-sub {
+  color: #8b5cf6 !important;
+}
+.kpi-matte-card.kpi-theme-purple .kpi-matte-footer {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border-top: 1px solid rgba(139, 92, 246, 0.2) !important;
+}
+
+/* 4. الأحمر - تحتاج متابعة وتسوية */
+.kpi-matte-card.kpi-theme-red {
+  border: 2px solid #f87171 !important;
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-red .kpi-matte-number,
+.kpi-matte-card.kpi-theme-red .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-red .kpi-matte-sub {
+  color: #ef4444 !important;
+}
+.kpi-matte-card.kpi-theme-red .kpi-matte-footer {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border-top: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+/* 5. الفيروزي / السماوي - تنقلات الدائرة القضائية */
+.kpi-matte-card.kpi-theme-cyan {
+  border: 2px solid #22d3ee !important;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-cyan .kpi-matte-number,
+.kpi-matte-card.kpi-theme-cyan .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-cyan .kpi-matte-sub {
+  color: #06b6d4 !important;
+}
+.kpi-matte-card.kpi-theme-cyan .kpi-matte-footer {
+  background: rgba(6, 182, 212, 0.08) !important;
+  border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
+}
+
+/* 6. الأخضر الزمردي - مهام منجزة ومستوفاة */
+.kpi-matte-card.kpi-theme-green {
+  border: 2px solid #34d399 !important;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.22) !important;
+}
+.kpi-matte-card.kpi-theme-green .kpi-matte-number,
+.kpi-matte-card.kpi-theme-green .kpi-watermark-icon,
+.kpi-matte-card.kpi-theme-green .kpi-matte-sub {
+  color: #10b981 !important;
+}
+.kpi-matte-card.kpi-theme-green .kpi-matte-footer {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-top: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+
+/* أجزاء البطاقة الداخلية */
+.kpi-matte-top {
+  padding: 8px 12px 2px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.kpi-matte-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-watermark-icon {
+  position: absolute;
+  left: 14px;
+  bottom: 24px;
+  transform: rotate(-30deg);
+  width: 44px;
+  height: 44px;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.kpi-watermark-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.kpi-matte-number {
+  padding: 0px 14px 4px 14px;
+  font-size: 2.15rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: -0.02em;
+}
+
+.kpi-matte-footer {
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.kpi-matte-sub {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 /* Official Administrative A4 Print Styles */
 @media print {
   @page {

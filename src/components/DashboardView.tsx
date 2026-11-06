@@ -59,105 +59,139 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   return (
     <div className="space-y-5">
-      {/* 1. TOP 5 MINIMALIST MATTE KPI METRIC CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-        {/* Total Tasks */}
+      {/* 1. EXACT 6 MINIMALIST MATTE KPI METRIC CARDS (3x2 Desktop, 2x3 Tablet, 1x6 Mobile) */}
+      <div className="kpi-matte-grid-6">
+        {/* Card 1: Total Registered Tasks (Blue) */}
         <div 
           onClick={() => { setFilters({}); onNavigate('tasks'); }}
-          className="bg-white dark:bg-[#151d30] border border-slate-200 dark:border-[#1f2937] hover:border-blue-500/80 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+          className="kpi-matte-card kpi-theme-blue"
+          title="النقر لعرض كافة المهام المسجلة"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">إجمالي المهام المسجلة</span>
-            <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-              <ClipboardList className="w-4 h-4" />
-            </div>
+          <div className="kpi-watermark-icon">
+            <ClipboardList />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900 dark:text-white my-2 tabular-nums font-mono">
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">إجمالي المهام المسجلة</span>
+          </div>
+          <div className="kpi-matte-number">
             {kpiStats.totalTasks}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-[#1f2937]">
-            <span>{kpiStats.localCount} محلي · {kpiStats.externalCount} تنقل</span>
-            <span className="text-blue-500 font-bold group-hover:translate-x-[-2px] transition-transform">السجل ➜</span>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>{kpiStats.localCount} محلي</span>
+              <span>·</span>
+              <span>{kpiStats.externalCount} تنقل خارجي</span>
+            </span>
           </div>
         </div>
 
-        {/* Scheduled Today */}
+        {/* Card 2: Today's Active Tasks (Amber) */}
         <div 
           onClick={() => onNavigate('today')}
-          className="bg-white dark:bg-[#151d30] border border-slate-200 dark:border-[#1f2937] hover:border-amber-500/80 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+          className="kpi-matte-card kpi-theme-amber"
+          title="النقر للانتقال إلى لوحة مهام اليوم"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">مهام جارية اليوم</span>
-            <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-              <Sun className="w-4 h-4" />
-            </div>
+          <div className="kpi-watermark-icon">
+            <Sun />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900 dark:text-white my-2 tabular-nums font-mono">
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">مهام جارية اليوم</span>
+          </div>
+          <div className="kpi-matte-number">
             {kpiStats.todayTasks}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-[#1f2937]">
-            <span>برنامج اليوم الحالي</span>
-            <span className="text-amber-500 font-bold group-hover:translate-x-[-2px] transition-transform">لوحة اليوم ➜</span>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>برنامج وجدولة اليوم</span>
+            </span>
           </div>
         </div>
 
-        {/* Future / Backlog */}
+        {/* Card 3: Scheduled & Open Tasks (Purple) */}
         <div 
           onClick={() => onNavigate('backlog')}
-          className="bg-white dark:bg-[#151d30] border border-slate-200 dark:border-[#1f2937] hover:border-purple-500/80 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+          className="kpi-matte-card kpi-theme-purple"
+          title="النقر لعرض المهام المبرمجة والمستقبلية"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">مهام مبرمجة ومفتوحة</span>
-            <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-              <Calendar className="w-4 h-4" />
-            </div>
+          <div className="kpi-watermark-icon">
+            <Calendar />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900 dark:text-white my-2 tabular-nums font-mono">
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">مهام مبرمجة ومفتوحة</span>
+          </div>
+          <div className="kpi-matte-number">
             {kpiStats.futureTasks}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-[#1f2937]">
-            <span>مجدولة للمستقبل</span>
-            <span className="text-purple-500 font-bold group-hover:translate-x-[-2px] transition-transform">البرمجة ➜</span>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>مجدولة وقيد التحضير</span>
+            </span>
           </div>
         </div>
 
-        {/* Needs Follow-up / Overdue */}
+        {/* Card 4: Needs Follow-up / Overdue (Red) */}
         <div 
           onClick={() => { setFilters({ status: 'قيد المتابعة' }); onNavigate('tasks'); }}
-          className="bg-white dark:bg-[#151d30] border border-slate-200 dark:border-[#1f2937] hover:border-red-500/80 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+          className="kpi-matte-card kpi-theme-red"
+          title="النقر لتصفية المهام التي تحتاج متابعة أو تسوية"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">تحتاج متابعة / تسوية</span>
-            <div className="w-7 h-7 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
+          <div className="kpi-watermark-icon">
+            <AlertTriangle />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900 dark:text-white my-2 tabular-nums font-mono">
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">تحتاج متابعة وتسوية</span>
+          </div>
+          <div className="kpi-matte-number">
             {kpiStats.pendingTasks}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-[#1f2937]">
-            <span>قيد المطابقة والتتبع</span>
-            <span className="text-red-500 font-bold group-hover:translate-x-[-2px] transition-transform">تصفية ➜</span>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>قيد التتبع والمطابقة</span>
+            </span>
           </div>
         </div>
 
-        {/* Completed */}
+        {/* Card 5: Regional Judicial Trips (Cyan) */}
+        <div 
+          onClick={() => { setFilters({ scope: 'تنقل خارجي' }); onNavigate('tasks'); }}
+          className="kpi-matte-card kpi-theme-cyan"
+          title="النقر لتصفية تنقلات وتدخلات الدائرة القضائية"
+        >
+          <div className="kpi-watermark-icon">
+            <MapPin />
+          </div>
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">تنقلات الدائرة القضائية</span>
+          </div>
+          <div className="kpi-matte-number">
+            {kpiStats.externalCount}
+          </div>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>الرباط · ابن أحمد · برشيد</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Card 6: Completed Tasks & Rate (Emerald Green) */}
         <div 
           onClick={() => { setFilters({ status: 'منجزة' }); onNavigate('tasks'); }}
-          className="bg-white dark:bg-[#151d30] border border-slate-200 dark:border-[#1f2937] hover:border-emerald-500/80 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+          className="kpi-matte-card kpi-theme-green"
+          title="النقر لعرض المهام المنجزة والمستوفاة"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">مهام مستوفاة ومنجزة</span>
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
+          <div className="kpi-watermark-icon">
+            <CheckCircle2 />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900 dark:text-white my-2 tabular-nums font-mono">
+          <div className="kpi-matte-top">
+            <span className="kpi-matte-title">مهام مستوفاة ومنجزة</span>
+          </div>
+          <div className="kpi-matte-number">
             {kpiStats.doneTasks}
           </div>
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-[#1f2937]">
-            <span>نسبة الاستيفاء: {kpiStats.completionRate}%</span>
-            <span className="text-emerald-500 font-bold group-hover:translate-x-[-2px] transition-transform">المنجزة ➜</span>
+          <div className="kpi-matte-footer">
+            <span className="kpi-matte-sub">
+              <span>نسبة الإنجاز: {kpiStats.completionRate}%</span>
+            </span>
           </div>
         </div>
       </div>

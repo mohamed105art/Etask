@@ -1,0 +1,247 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  /* ==========================================================================
+     قالب المتغيرات المعتمد (Design Tokens) - المنظومة القياسية الموحدة
+     ========================================================================== */
+
+  /* 1. الوضع النهاري الصافي (Clean Slate Light Mode) */
+  :root, [data-theme="light"], body.light-mode {
+    --font-sans: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --header-height: 58px;
+    --sidebar-w: 280px;
+
+    --bg-app: #f8fafc;
+    --bg-sidebar: #ffffff;
+    --bg-header: rgba(255, 255, 255, 0.94);
+    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-muted: #f1f5f9;
+    --bg-input: #ffffff;
+
+    --text-main: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+
+    --border-subtle: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --border-color: #e2e8f0;
+
+    --primary: #0f4c81;
+    --primary-hover: #0c3e6a;
+    --primary-soft: rgba(15, 76, 129, 0.08);
+
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --purple: #8b5cf6;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 2. الوضع الليلي الإداري الفخم (Obsidian Dark Mode) - الوضع الافتراضي */
+  [data-theme="dark"], html.dark, html.dark-mode, body.dark-mode, .dark {
+    --bg-app: #0b0f19;              /* خلفية الصفحة الأساسية المعتمة الفخمة */
+    --bg-sidebar: #111827;          /* خلفية الشريط الجانبي الفحمية الداكنة */
+    --bg-header: rgba(17, 24, 39, 0.94); /* خلفية شريط التنقل الزجاجي */
+    --bg-surface: #131b2e;          /* خلفية الحاويات المفرغة */
+    --bg-card: #151d30;             /* خلفية البطاقات الإحصائية والكتل */
+    --bg-card-hover: #1c263e;       /* تمييز البطاقات عند التمرير */
+    --bg-muted: #1e293b;            /* خلفيات خافتة للأزرار وحقول الإدخال */
+    --bg-input: #111827;
+
+    --text-main: #f8fafc;           /* النص الرئيسي الصريح عالي التباين */
+    --text-secondary: #94a3b8;      /* النصوص الثانوية الهادئة */
+    --text-muted: #64748b;          /* النصوص الخافتة والرمادية */
+    --text-inverse: #090d16;        /* نص مقلوب عند الألوان الفاقعة */
+
+    --border-subtle: #1f2937;       /* حدود البطاقات والتقسيمات الرفيعة 1px */
+    --border-strong: #374151;       /* حدود العناصر التفاعلية النشطة */
+    --border-color: #1f2937;
+
+    --primary: #3b82f6;             /* اللون التفاعلي والنشط الأساسي (أزرق ملكي تقني) */
+    --primary-hover: #2563eb;       /* درجة التمرير للأزرار الأساسية */
+    --primary-soft: rgba(59, 130, 246, 0.12); /* خلفيات خفيفة للأزرار النشطة */
+
+    --success: #10b981;             /* مؤشرات العمليات المكتملة وحالة الاتصال */
+    --warning: #f59e0b;             /* مؤشرات المزامنة والإنذارات المتوسطة */
+    --danger: #ef4444;              /* مؤشرات العمليات الحرجة والحذف وحالة عدم الاتصال */
+    --purple: #8b5cf6;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.55);
+  }
+
+  html {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;
+  }
+
+  /* Density & Font Scale Presets */
+  html.font-scale-sm { font-size: 14px; }
+  html.font-scale-md { font-size: 16px; }
+  html.font-scale-lg { font-size: 18px; }
+
+  /* ========================================================
+     INVISIBLE, ULTRA-SLEEK, EYE-FRIENDLY SCROLLBAR ARCHITECTURE
+     Zero ugly white bars, zero clipped rounded corners!
+     ======================================================== */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent !important;
+    margin-block: 4px;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.22);
+    border-radius: 9999px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.22) transparent;
+  }
+}
+
+/* ========================================================
+   الأشرطة والعناصر المعمارية الأساسية للواجهة
+   ======================================================== */
+
+#app-header {
+  height: var(--header-height, 58px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg-header);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+#app-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1050;
+  width: var(--sidebar-w, 280px);
+  max-width: 85vw;
+  background: var(--bg-sidebar);
+  border-left: 1px solid var(--border-subtle);
+  transform: translateX(105%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+#app-sidebar.open {
+  transform: translateX(0);
+}
+
+#sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1040;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#sidebar-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* زر الرأس الموحد 38px x 38px */
+.header-ctrl-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.header-ctrl-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--bg-card-hover);
+}
+
+/* مصباح نبض المزامنة */
+@keyframes lampPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.65; }
+}
+
+.lamp-pulse {
+  animation: lampPulse 1.8s infinite ease-in-out;
+}
+
+/* Zero vertical drift */
+.zero-drift {
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Official Administrative A4 Print Styles */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 10mm 12mm 10mm;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  header, aside, #app-header, #app-sidebar, #sidebar-backdrop, .no-print, button:not(.allow-print) {
+    display: none !important;
+  }
+}

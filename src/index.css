@@ -1,173 +1,116 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer base {
-  /* ==========================================================================
-     قالب المتغيرات المعتمد (Design Tokens) - المنظومة القياسية الموحدة
-     ========================================================================== */
+@theme {
+  --color-slate-blue: #59718A;
+  --color-teal-custom: #2F6F6D;
+  --color-terracotta: #E07A47;
+  --color-mustard: #D4A72C;
+  --color-sage-green: #8FA68F;
+  --color-dusty-rose: #C47C8A;
+  --color-deep-plum: #5B3A62;
+  --color-bg-dark: #12131C;
+  --color-card-bg: #1B1D2A;
+  --font-cairo: 'Cairo', sans-serif;
+}
 
-  /* 1. الوضع النهاري الصافي (Clean Slate Light Mode) */
-  :root, [data-theme="light"], body.light-mode {
-    --font-sans: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+@layer base {
+  :root {
+    --font-sans: 'Cairo', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --header-height: 58px;
-    --sidebar-w: 280px;
+    --bg-app: #12131C;
+    --bg-sidebar: #1B1D2A;
+    --bg-header: #1B1D2A;
+    --bg-surface: #12131C;
+    --bg-card: #1B1D2A;
+    --bg-card-hover: #222536;
+    --bg-muted: #1e2130;
+    --bg-input: #12131C;
 
-    --bg-app: #f8fafc;
-    --bg-sidebar: #ffffff;
-    --bg-header: rgba(255, 255, 255, 0.94);
-    --bg-surface: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
-    --bg-muted: #f1f5f9;
-    --bg-input: #ffffff;
-
-    --text-main: #0f172a;
-    --text-secondary: #475569;
+    --text-main: #FFFFFF;
+    --text-secondary: #8E91A0;
     --text-muted: #64748b;
-    --text-inverse: #ffffff;
+    --text-inverse: #12131C;
 
-    --border-subtle: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --border-color: #e2e8f0;
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --border-color: rgba(255, 255, 255, 0.1);
 
-    --primary: #0f4c81;
-    --primary-hover: #0c3e6a;
-    --primary-soft: rgba(15, 76, 129, 0.08);
+    --slate-blue: #59718A;
+    --teal-custom: #2F6F6D;
+    --terracotta: #E07A47;
+    --mustard: #D4A72C;
+    --sage-green: #8FA68F;
+    --dusty-rose: #C47C8A;
+    --deep-plum: #5B3A62;
 
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --purple: #8b5cf6;
-
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-
-  /* 2. الوضع الليلي الإداري الفخم (Obsidian Dark Mode) - الوضع الافتراضي */
-  [data-theme="dark"], html.dark, html.dark-mode, body.dark-mode, .dark {
-    --bg-app: #0b0f19;              /* خلفية الصفحة الأساسية المعتمة الفخمة */
-    --bg-sidebar: #111827;          /* خلفية الشريط الجانبي الفحمية الداكنة */
-    --bg-header: rgba(17, 24, 39, 0.94); /* خلفية شريط التنقل الزجاجي */
-    --bg-surface: #131b2e;          /* خلفية الحاويات المفرغة */
-    --bg-card: #151d30;             /* خلفية البطاقات الإحصائية والكتل */
-    --bg-card-hover: #1c263e;       /* تمييز البطاقات عند التمرير */
-    --bg-muted: #1e293b;            /* خلفيات خافتة للأزرار وحقول الإدخال */
-    --bg-input: #111827;
-
-    --text-main: #f8fafc;           /* النص الرئيسي الصريح عالي التباين */
-    --text-secondary: #94a3b8;      /* النصوص الثانوية الهادئة */
-    --text-muted: #64748b;          /* النصوص الخافتة والرمادية */
-    --text-inverse: #090d16;        /* نص مقلوب عند الألوان الفاقعة */
-
-    --border-subtle: #1f2937;       /* حدود البطاقات والتقسيمات الرفيعة 1px */
-    --border-strong: #374151;       /* حدود العناصر التفاعلية النشطة */
-    --border-color: #1f2937;
-
-    --primary: #3b82f6;             /* اللون التفاعلي والنشط الأساسي (أزرق ملكي تقني) */
-    --primary-hover: #2563eb;       /* درجة التمرير للأزرار الأساسية */
-    --primary-soft: rgba(59, 130, 246, 0.12); /* خلفيات خفيفة للأزرار النشطة */
-
-    --success: #10b981;             /* مؤشرات العمليات المكتملة وحالة الاتصال */
-    --warning: #f59e0b;             /* مؤشرات المزامنة والإنذارات المتوسطة */
-    --danger: #ef4444;              /* مؤشرات العمليات الحرجة والحذف وحالة عدم الاتصال */
-    --purple: #8b5cf6;
-
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.45);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.55);
+    --primary: #59718A;
+    --primary-hover: #4a5f75;
+    --success: #8FA68F;
+    --warning: #D4A72C;
+    --danger: #E07A47;
   }
 
   html {
     direction: rtl;
     text-align: right;
-    font-family: var(--font-sans);
+    font-family: 'Cairo', sans-serif;
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
-    background-color: var(--bg-app);
-    color: var(--text-main);
-    transition: background-color 0.25s ease, color 0.25s ease;
+    background-color: #12131C;
+    color: #FFFFFF;
   }
 
   body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-app);
-    color: var(--text-main);
-    transition: background-color 0.25s ease, color 0.25s ease;
+    background-color: #12131C;
+    color: #FFFFFF;
+    font-family: 'Cairo', sans-serif;
     overflow-x: hidden;
   }
 
-  /* Density & Font Scale Presets */
-  html.font-scale-sm { font-size: 14px; }
-  html.font-scale-md { font-size: 16px; }
-  html.font-scale-lg { font-size: 18px; }
-
-  /* ========================================================
-     INVISIBLE, ULTRA-SLEEK, EYE-FRIENDLY SCROLLBAR ARCHITECTURE
-     Zero ugly white bars, zero clipped rounded corners!
-     ======================================================== */
+  /* Custom Sleek Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
-    background: transparent;
   }
-
   ::-webkit-scrollbar-track {
-    background: transparent !important;
-    margin-block: 4px;
-    border-radius: 9999px;
+    background: #12131C !important;
   }
-
   ::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.22);
-    border-radius: 9999px;
-    transition: background 0.2s ease;
+    background: #59718A;
+    border-radius: 10px;
   }
-
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary);
+    background: #D4A72C;
   }
-
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(148, 163, 184, 0.22) transparent;
+    scrollbar-color: #59718A #12131C;
   }
 }
 
-/* ========================================================
-   الأشرطة والعناصر المعمارية الأساسية للواجهة
-   ======================================================== */
-
-#app-header {
-  height: var(--header-height, 58px);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: var(--bg-header);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
+/* Offcanvas Sidebar */
 #app-sidebar {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 1050;
-  width: var(--sidebar-w, 280px);
-  max-width: 85vw;
-  background: var(--bg-sidebar);
-  border-left: 1px solid var(--border-subtle);
-  transform: translateX(105%);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  width: 85%;
+  max-width: 320px;
+  height: 100%;
+  background: #1B1D2A;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: -4px 0 25px rgba(0, 0, 0, 0.3);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
 }
 
 #app-sidebar.open {
@@ -177,13 +120,13 @@
 #sidebar-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1040;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
 
 #sidebar-backdrop.open {
@@ -191,269 +134,17 @@
   pointer-events: auto;
 }
 
-/* زر الرأس الموحد 38px x 38px */
-.header-ctrl-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.header-ctrl-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--bg-card-hover);
-}
-
-/* مصباح نبض المزامنة */
-@keyframes lampPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.25); opacity: 0.65; }
-}
-
-.lamp-pulse {
-  animation: lampPulse 1.8s infinite ease-in-out;
-}
-
-/* Zero vertical drift */
-.zero-drift {
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ==========================================================================
-   تصميم المؤشرات الستة المعتمد (6 Matte KPI Cards Grid - 3x2 / 2x3 / 1x6)
-   ========================================================================== */
-.kpi-matte-grid-6 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  width: 100%;
-}
-@media (max-width: 992px) {
-  .kpi-matte-grid-6 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 576px) {
-  .kpi-matte-grid-6 {
-    grid-template-columns: 1fr;
-  }
-}
-
-.kpi-matte-card {
-  background: var(--bg-card);
-  border-radius: 12px;
-  padding: 0;
-  min-height: 106px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-  transition: transform 0.16s ease, box-shadow 0.16s ease;
-  cursor: pointer;
-  user-select: none;
-}
-.kpi-matte-card:hover {
-  transform: translateY(-2px);
-}
-
-/* 1. الأزرق - إجمالي المهام */
-.kpi-matte-card.kpi-theme-blue {
-  border: 2px solid #60a5fa !important;
-  box-shadow: 0 0 10px rgba(96, 165, 250, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-blue .kpi-matte-number,
-.kpi-matte-card.kpi-theme-blue .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-blue .kpi-matte-sub {
-  color: #3b82f6 !important;
-}
-.kpi-matte-card.kpi-theme-blue .kpi-matte-footer {
-  background: rgba(59, 130, 246, 0.08) !important;
-  border-top: 1px solid rgba(59, 130, 246, 0.2) !important;
-}
-
-/* 2. الكهرماني / البرتقالي - مهام جارية اليوم */
-.kpi-matte-card.kpi-theme-amber {
-  border: 2px solid #fbbf24 !important;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-amber .kpi-matte-number,
-.kpi-matte-card.kpi-theme-amber .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-amber .kpi-matte-sub {
-  color: #f59e0b !important;
-}
-.kpi-matte-card.kpi-theme-amber .kpi-matte-footer {
-  background: rgba(245, 158, 11, 0.08) !important;
-  border-top: 1px solid rgba(245, 158, 11, 0.2) !important;
-}
-
-/* 3. البنفسجي - مهام مبرمجة ومفتوحة */
-.kpi-matte-card.kpi-theme-purple {
-  border: 2px solid #c084fc !important;
-  box-shadow: 0 0 10px rgba(192, 132, 252, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-purple .kpi-matte-number,
-.kpi-matte-card.kpi-theme-purple .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-purple .kpi-matte-sub {
-  color: #8b5cf6 !important;
-}
-.kpi-matte-card.kpi-theme-purple .kpi-matte-footer {
-  background: rgba(139, 92, 246, 0.08) !important;
-  border-top: 1px solid rgba(139, 92, 246, 0.2) !important;
-}
-
-/* 4. الأحمر - تحتاج متابعة وتسوية */
-.kpi-matte-card.kpi-theme-red {
-  border: 2px solid #f87171 !important;
-  box-shadow: 0 0 10px rgba(248, 113, 113, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-red .kpi-matte-number,
-.kpi-matte-card.kpi-theme-red .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-red .kpi-matte-sub {
-  color: #ef4444 !important;
-}
-.kpi-matte-card.kpi-theme-red .kpi-matte-footer {
-  background: rgba(239, 68, 68, 0.08) !important;
-  border-top: 1px solid rgba(239, 68, 68, 0.2) !important;
-}
-
-/* 5. الفيروزي / السماوي - تنقلات الدائرة القضائية */
-.kpi-matte-card.kpi-theme-cyan {
-  border: 2px solid #22d3ee !important;
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-cyan .kpi-matte-number,
-.kpi-matte-card.kpi-theme-cyan .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-cyan .kpi-matte-sub {
-  color: #06b6d4 !important;
-}
-.kpi-matte-card.kpi-theme-cyan .kpi-matte-footer {
-  background: rgba(6, 182, 212, 0.08) !important;
-  border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
-}
-
-/* 6. الأخضر الزمردي - مهام منجزة ومستوفاة */
-.kpi-matte-card.kpi-theme-green {
-  border: 2px solid #34d399 !important;
-  box-shadow: 0 0 10px rgba(52, 211, 153, 0.22) !important;
-}
-.kpi-matte-card.kpi-theme-green .kpi-matte-number,
-.kpi-matte-card.kpi-theme-green .kpi-watermark-icon,
-.kpi-matte-card.kpi-theme-green .kpi-matte-sub {
-  color: #10b981 !important;
-}
-.kpi-matte-card.kpi-theme-green .kpi-matte-footer {
-  background: rgba(16, 185, 129, 0.08) !important;
-  border-top: 1px solid rgba(16, 185, 129, 0.2) !important;
-}
-
-/* أجزاء البطاقة الداخلية */
-.kpi-matte-top {
-  padding: 8px 12px 2px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 2;
-}
-
-.kpi-matte-title {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.kpi-watermark-icon {
-  position: absolute;
-  left: 14px;
-  bottom: 24px;
-  transform: rotate(-30deg);
-  width: 44px;
-  height: 44px;
-  opacity: 0.18;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.kpi-watermark-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.kpi-matte-number {
-  padding: 0px 14px 4px 14px;
-  font-size: 2.15rem;
-  font-weight: 900;
-  line-height: 1;
-  text-align: center;
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  font-variant-numeric: tabular-nums;
-  font-family: var(--font-mono, monospace);
-  letter-spacing: -0.02em;
-}
-
-.kpi-matte-footer {
-  padding: 4px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 2;
-}
-
-.kpi-matte-sub {
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-/* Official Administrative A4 Print Styles */
+/* Print Styles */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 10mm 12mm 10mm;
+    margin: 10mm;
   }
   body {
     background: #ffffff !important;
     color: #000000 !important;
   }
-  header, aside, #app-header, #app-sidebar, #sidebar-backdrop, .no-print, button:not(.allow-print) {
+  header, aside, #app-sidebar, #sidebar-backdrop, .no-print, button:not(.allow-print) {
     display: none !important;
   }
 }

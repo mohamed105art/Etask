@@ -5,17 +5,22 @@ import {
   Search, 
   Sun, 
   Moon, 
+  Save, 
+  User, 
   Download, 
   Upload, 
-  Lock
+  Lock,
+  CheckCircle2
 } from 'lucide-react';
+import { CalendarAppLogo } from './CalendarAppLogo';
 
 interface HeaderProps {
   currentView: string;
+  isSidebarOpen: boolean;
   onToggleSidebar: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentView, onToggleSidebar }) => {
+export const Header: React.FC<HeaderProps> = ({ isSidebarOpen, onToggleSidebar }) => {
   const { 
     settings, 
     profile, 
@@ -27,30 +32,36 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onToggleSidebar }) 
 
   const theme = settings?.theme || 'dark';
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [syncState, setSyncState] = useState<'online' | 'syncing' | 'offline'>('online');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync state & network listeners
-  useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true);
-      setSyncState('syncing');
-      setTimeout(() => setSyncState('online'), 800);
-    };
-    const handleOffline = () => {
-      setIsOnline(false);
-      setSyncState('offline');
-    };
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+  const handleBackupClick = () => {
+    exportBackupJSON();
+    showToast('تم تصدير وحفظ النسخة الاحتياطية بنجاح 💾');
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const content = event.target?.result as string;
+        if (content) {
+          importBackupJSON(content);
+          showToast('تم استيراد البيانات وتحديثها بنجاح');
+        }
+      };
+      reader.readAsText(file);
+      setIsProfileMenuOpen(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   // Close profile dropdown on click outside
   useEffect(() => {
@@ -63,40 +74,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onToggleSidebar }) 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const viewTitles: Record<string, string> = {
-    dashboard: settings?.sidebarLabels?.dashboard || 'لوحة القيادة والمؤشرات',
-    today: settings?.sidebarLabels?.today || 'لوحة إدارة اليوم',
-    backlog: settings?.sidebarLabels?.backlog || 'برمجة المهام',
-    calendar: settings?.sidebarLabels?.calendar || 'التقويم الزمني',
-    tasks: settings?.sidebarLabels?.tasks || 'سجل المهام والعمليات',
-    report: settings?.sidebarLabels?.report || 'تقرير خاص بالمهمة',
-    audit: 'سجل العمليات والتتبع الزمني',
-    trash: settings?.sidebarLabels?.trash || 'سلة المهملات',
-    settings: settings?.sidebarLabels?.settings || 'الإعدادات والنسخ'
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const content = event.target?.result as string;
-        if (content) {
-          importBackupJSON(content);
-        }
-      };
-      reader.readAsText(file);
-      setIsProfileMenuOpen(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
-  };
-
   return (
-    <header 
-      id="app-header" 
-      className="h-[58px] px-3 sm:px-5 flex items-center justify-between border-b transition-colors select-none"
-    >
-      {/* Hidden file input for quick backup restore */}
+    <>
+      {/* Hidden file input for backup restore */}
       <input
         ref={fileInputRef}
         type="file"
@@ -105,205 +85,183 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onToggleSidebar }) 
         className="hidden"
       />
 
-      {/* RIGHT ZONE (RTL): Hamburger Drawer Toggle + System Identity + View Title */}
-      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-        {/* Unified 38x38 Hamburger Toggle Button (#btn-sidebar-toggle) */}
-        <button
-          id="btn-sidebar-toggle"
-          type="button"
-          onClick={onToggleSidebar}
-          aria-label="فتح القائمة الجانبية للتنقل"
-          title="فتح القائمة الجانبية (Ctrl+B / Alt+S)"
-          className="header-ctrl-btn hover:scale-105 active:scale-95"
-        >
-          <Menu className="w-5 h-5 text-slate-700 dark:text-slate-200" />
-        </button>
-
-        {/* Brand Lockup */}
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-blue-600/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 text-base font-bold shadow-xs">
-            ⚖️
-          </div>
-          <div className="flex flex-col min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
-                {settings.systemName || 'نظام تدبير المهام'}
-              </span>
-              <span className="hidden lg:inline-block text-[10px] font-mono px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-                V18
-              </span>
-            </div>
-            <span className="hidden sm:inline-block text-[10px] text-slate-500 dark:text-slate-400 truncate">
-              {viewTitles[currentView] || 'المديرية الإقليمية لوزارة العدل بسطات'}
-            </span>
-          </div>
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#2F6F6D] text-white px-6 py-2.5 rounded-full shadow-2xl z-50 flex items-center gap-2.5 text-xs font-bold transition-all animate-bounce">
+          <CheckCircle2 className="w-4 h-4 text-white" />
+          <span>{toastMessage}</span>
         </div>
-      </div>
+      )}
 
-      {/* CENTER ZONE: Interactive Global Search Box */}
-      <div className="hidden md:flex items-center justify-center flex-1 max-w-md mx-4">
-        <button
-          type="button"
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent('open-global-search'));
-          }}
-          className="w-full h-[38px] px-3 rounded-lg border border-slate-200 dark:border-[#1f2937] bg-slate-100/70 dark:bg-[#131b2e] text-slate-500 dark:text-slate-400 hover:border-blue-500 dark:hover:border-blue-500 hover:text-slate-800 dark:hover:text-slate-200 transition-all flex items-center justify-between text-xs cursor-pointer group"
-          title="البحث الشامل في أرشيف وتدخلات المهام (Ctrl+K)"
-        >
-          <div className="flex items-center gap-2 truncate">
-            <Search className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" />
-            <span className="truncate">بحث شامل في المهام والعمليات...</span>
-          </div>
-          <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono bg-white dark:bg-[#1e293b] text-slate-400 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            Ctrl+K
-          </kbd>
-        </button>
-      </div>
-
-      {/* LEFT ZONE: Unified 38x38 Control Buttons */}
-      <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Mobile Search Button */}
-        <button
-          type="button"
-          onClick={() => {
-            window.dispatchEvent(new CustomEvent('open-global-search'));
-          }}
-          className="md:hidden header-ctrl-btn"
-          title="بحث سريع (Ctrl+K)"
-          aria-label="بحث شامل"
-        >
-          <Search className="w-4 h-4" />
-        </button>
-
-        {/* Theme Mode Toggle (Dark / Light) */}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          title={theme === 'dark' ? 'التبديل إلى الوضع النهاري الصافي' : 'التبديل إلى الوضع الليلي الفخم'}
-          aria-label="تبديل وضع السمة"
-          className="header-ctrl-btn"
-        >
-          {theme === 'dark' ? (
-            <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
-          ) : (
-            <Moon className="w-4 h-4 text-blue-600 hover:-rotate-12 transition-transform" />
-          )}
-        </button>
-
-        {/* 3-State Account & Sync Lamp Button (#header-user-avatar-btn) */}
-        <div className="relative" ref={profileMenuRef}>
-          <button
-            id="header-user-avatar-btn"
-            type="button"
-            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-            title={`المسؤول: ${profile.fullName || 'محمد'} (${isOnline ? 'متصل ومزامن 100%' : 'غير متصل'})`}
-            aria-label="الملف الشخصي وحالة المزامنة السحابية"
-            className={`
-              header-ctrl-btn relative overflow-hidden transition-all
-              ${syncState === 'online' ? 'hover:border-emerald-500' : ''}
-              ${syncState === 'syncing' ? 'border-amber-500' : ''}
-              ${syncState === 'offline' ? 'border-red-500' : ''}
-            `}
-          >
-            {/* User Icon or Initial */}
-            <span className="font-bold text-xs text-slate-800 dark:text-slate-100">
-              {profile.fullName ? profile.fullName.charAt(0) : 'م'}
-            </span>
-
-            {/* 3-State Connection Status Dot */}
-            <span 
-              className={`
-                absolute bottom-1 left-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-[#111827]
-                ${syncState === 'online' ? 'bg-emerald-500' : ''}
-                ${syncState === 'syncing' ? 'bg-amber-500 lamp-pulse' : ''}
-                ${syncState === 'offline' ? 'bg-red-500' : ''}
-              `} 
-            />
-          </button>
-
-          {/* Profile & Sync Management Dropdown Modal */}
-          {isProfileMenuOpen && (
-            <div className="absolute left-0 mt-2 w-72 rounded-xl bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1f2937] shadow-xl p-3 z-50 text-right text-xs">
-              {/* User Identity Card */}
-              <div className="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 dark:bg-[#151d30] border border-slate-100 dark:border-[#1f2937] mb-2.5">
-                <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
-                  {profile.fullName ? profile.fullName.charAt(0) : 'م'}
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-bold text-slate-900 dark:text-white truncate">
-                    {profile.fullName || 'الأستاذ محمد'}
-                  </span>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate">
-                    mohamed105@gmail.com
-                  </span>
-                </div>
+      {/* Main Header Bar */}
+      <header className="bg-[#1B1D2A] border-b border-white/10 sticky top-0 z-30 shadow-lg w-full select-none">
+        <div className="w-full px-4 md:px-6 py-2.5 flex justify-between items-center">
+          
+          {/* Far Right (RTL): Hamburger Button -> Logo Box -> App Title */}
+          <div className="flex items-center gap-3">
+            {/* Sidebar toggle button (☰) */}
+            <button 
+              type="button"
+              onClick={onToggleSidebar}
+              title="فتح القائمة الجانبية"
+              aria-label="القائمة الجانبية"
+              className="w-11 h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center hover:border-[#D4A72C] transition-colors text-white shadow-sm shrink-0 cursor-pointer"
+            >
+              <Menu className="w-5 h-5 text-white" />
+            </button>
+            
+            {/* Branding Container: Hides smoothly when sidebar is open! */}
+            <div 
+              id="mainHeaderBranding" 
+              className={`flex items-center gap-3 transition-all duration-300 ${
+                isSidebarOpen ? 'opacity-0 pointer-events-none -translate-x-3' : 'opacity-100 translate-x-0'
+              }`}
+            >
+              {/* Calendar Daily App Logo in square box matching menu button */}
+              <div className="w-11 h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center shadow-sm shrink-0">
+                <CalendarAppLogo size={22} />
               </div>
 
-              {/* Status and Sync State */}
-              <div className="p-2 rounded-lg bg-slate-50 dark:bg-[#131b2e] border border-slate-100 dark:border-[#1f2937] mb-2.5 space-y-1.5">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500 dark:text-slate-400">حالة الربط والمزامنة:</span>
-                  <div className="flex items-center gap-1.5">
-                    <span 
-                      className={`w-2 h-2 rounded-full ${
-                        syncState === 'online' ? 'bg-emerald-500' : syncState === 'syncing' ? 'bg-amber-500 lamp-pulse' : 'bg-red-500'
-                      }`} 
-                    />
-                    <span className="font-bold text-slate-800 dark:text-slate-200">
-                      {syncState === 'online' ? 'متصل ومزامن 100%' : syncState === 'syncing' ? 'جارٍ المزامنة...' : 'وضع غير متصل'}
-                    </span>
+              {/* Title */}
+              <div className="flex flex-col">
+                <span className="font-extrabold text-base md:text-lg text-white truncate">
+                  نظام تدبير المهام اليومية
+                </span>
+                <span className="text-[10px] text-[#8E91A0] truncate hidden sm:block">
+                  المديرية الإقليمية لوزارة العدل بسطات
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Far Left: Tool Buttons (💾 Save, 🔍 Search, 🌙 Theme, 👤 Profile) */}
+          <div className="flex items-center gap-2">
+            {/* 1. Save Button 💾 */}
+            <button 
+              type="button"
+              onClick={handleBackupClick}
+              title="حفظ وتصدير نسخة احتياطية كاملة (JSON)"
+              aria-label="تصدير نسخة احتياطية"
+              className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center text-[#59718A] hover:border-[#59718A] hover:bg-[#59718A]/10 transition-colors shrink-0 shadow-sm cursor-pointer"
+            >
+              <Save className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+
+            {/* 2. Search Button 🔍 */}
+            <button 
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('open-global-search'));
+              }}
+              title="بحث شامل في المهام والعمليات (Ctrl+K)"
+              aria-label="بحث شامل"
+              className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center hover:border-[#2F6F6D] transition-colors text-white shrink-0 shadow-sm cursor-pointer"
+            >
+              <Search className="w-4 h-4 md:w-5 md:h-5 text-gray-200" />
+            </button>
+
+            {/* 3. Theme Mode Toggle Button 🌙 / ☀️ */}
+            <button 
+              type="button"
+              onClick={toggleTheme}
+              title={theme === 'dark' ? 'التبديل إلى مظهر بديل' : 'تفعيل المظهر الداكن'}
+              aria-label="تغيير المظهر"
+              className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center hover:border-[#D4A72C] transition-colors text-white shrink-0 shadow-sm cursor-pointer"
+            >
+              {theme === 'dark' ? (
+                <Moon className="w-4 h-4 md:w-5 md:h-5 text-[#D4A72C]" />
+              ) : (
+                <Sun className="w-4 h-4 md:w-5 md:h-5 text-[#D4A72C]" />
+              )}
+            </button>
+
+            {/* 4. Profile Button 👤 with dropdown */}
+            <div className="relative" ref={profileMenuRef}>
+              <button 
+                type="button"
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                title="الملف الشخصي وإدارة النظام"
+                aria-label="الملف الشخصي"
+                className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-[#12131C] border border-white/10 flex justify-center items-center hover:border-[#E07A47] transition-colors text-[#E07A47] shrink-0 shadow-sm cursor-pointer"
+              >
+                <User className="w-4 h-4 md:w-5 md:h-5" />
+              </button>
+
+              {/* Profile Dropdown Modal */}
+              {isProfileMenuOpen && (
+                <div className="absolute left-0 mt-2 w-72 rounded-2xl bg-[#1B1D2A] border border-white/10 shadow-2xl p-4 z-50 text-right text-xs">
+                  <div className="flex items-center gap-3 p-2.5 rounded-xl bg-[#12131C] border border-white/5 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-[#59718A] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
+                      {profile.fullName ? profile.fullName.charAt(0) : 'م'}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-bold text-white truncate text-sm">
+                        {profile.fullName || 'محمد ايت حمادي'}
+                      </span>
+                      <span className="text-[11px] text-[#8E91A0] font-mono truncate">
+                        mohamed105@gmail.com
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-[#12131C] border border-white/5 mb-3 space-y-2">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-[#8E91A0]">حالة الحفظ والمزامنة:</span>
+                      <span className="font-bold text-[#8FA68F] flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full bg-[#8FA68F]" />
+                        محفوظ محلياً ومؤمن
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-[#8E91A0]">إجمالي التدخلات:</span>
+                      <span className="font-bold text-white font-mono tabular-nums">
+                        {kpiStats.totalTasks} مهمة
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-[#8E91A0]">رمز الطوارئ PIN:</span>
+                      <span className="text-[#D4A72C] flex items-center gap-1 font-semibold">
+                        <Lock className="w-3 h-3" />
+                        <span>مفعل (105 / 7080)</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-2 border-t border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        exportBackupJSON();
+                        setIsProfileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-[#12131C] hover:bg-white/5 text-white font-semibold transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Download className="w-3.5 h-3.5 text-[#59718A]" />
+                        <span>تصدير نسخة احتياطية</span>
+                      </span>
+                      <span className="text-[10px] text-[#8E91A0] font-mono">.json</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-[#12131C] hover:bg-white/5 text-white font-semibold transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Upload className="w-3.5 h-3.5 text-[#E07A47]" />
+                        <span>استيراد وتحديث البيانات</span>
+                      </span>
+                      <span className="text-[10px] text-[#8E91A0]">استرجاع</span>
+                    </button>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500 dark:text-slate-400">إجمالي المهام المحفوظة:</span>
-                  <span className="font-bold font-mono text-blue-600 dark:text-blue-400 tabular-nums">
-                    {kpiStats.totalTasks} مهمة
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500 dark:text-slate-400">حماية الطوارئ:</span>
-                  <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
-                    <Lock className="w-3 h-3" />
-                    <span>رمز PIN مفعل (105 / 7080)</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="space-y-1 pt-1 border-t border-slate-100 dark:border-[#1f2937]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    exportBackupJSON();
-                    setIsProfileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#1c263e] text-slate-700 dark:text-slate-300 font-semibold transition-colors"
-                >
-                  <span className="flex items-center gap-2">
-                    <Download className="w-3.5 h-3.5 text-blue-500" />
-                    <span>تصدير نسخة احتياطية (JSON)</span>
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-mono">.json</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#1c263e] text-slate-700 dark:text-slate-300 font-semibold transition-colors"
-                >
-                  <span className="flex items-center gap-2">
-                    <Upload className="w-3.5 h-3.5 text-purple-500" />
-                    <span>استيراد وتحديث المعطيات</span>
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-mono">استرجاع</span>
-                </button>
-              </div>
+              )}
             </div>
-          )}
+          </div>
+
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };

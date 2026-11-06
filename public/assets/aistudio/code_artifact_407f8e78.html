@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تدبير المهام اليومية - المديرية الإقليمية</title>
+    
+    <!-- خطوط عربية متناسقة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة Tailwind CSS للتصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slateBlue: '#59718A',
+                        tealCustom: '#2F6F6D',
+                        terracotta: '#E07A47',
+                        mustard: '#D4A72C',
+                        sageGreen: '#8FA68F',
+                        dustyRose: '#C47C8A',
+                        deepPlum: '#5B3A62',
+                        bgDark: '#12131C',
+                        cardBg: '#1B1D2A'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #12131C;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #12131C; }
+        ::-webkit-scrollbar-thumb { background: #59718A; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-bgDark min-h-screen flex flex-col">
+
+    <!-- نافذة الإشعارات (Toast) -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#2F6F6D] text-white px-6 py-3 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-3">
+        <i id="toastIcon" class="fa-solid fa-check-circle"></i>
+        <span id="toastMessage" class="font-bold text-sm"></span>
+    </div>
+
+    <!-- الشريط الجانبي (Sidebar) -->
+    <aside id="sidebar" class="fixed top-0 right-0 w-[85%] max-w-[320px] h-full bg-cardBg z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-white/10 shadow-2xl overflow-y-auto">
+        
+        <!-- رأس الشريط الجانبي -->
+        <div class="flex justify-between items-center p-5 border-b border-white/10">
+            <!-- اللوجو والعنوان في اليمين -->
+            <div class="flex items-center gap-3">
+                <!-- لوجو التقويم المخصص -->
+                <div class="w-12 h-12 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center shadow-lg shrink-0">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="#59718A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="7" y="14" width="4" height="4" rx="1" fill="#E07A47"/>
+                        <rect x="13" y="14" width="4" height="4" rx="1" fill="#D4A72C"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-bold text-[15px] text-white">نظام تدبير المهام اليومية</h2>
+                    <p class="text-[11px] text-gray-400">المديرية الإقليمية بسطات</p>
+                </div>
+            </div>
+
+            <!-- زر الغلق في أقصى اليسار -->
+            <button onclick="closeSidebar()" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex justify-center items-center hover:bg-white/10 transition-colors text-gray-400 hover:text-white shrink-0">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- أزرار الإجراءات في الشريط الجانبي -->
+        <div class="p-5 flex gap-2">
+            <button onclick="showToast('البحث الشامل', 'fa-search')" class="flex-1 bg-cardBg border border-terracotta/50 text-terracotta rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 hover:bg-terracotta/10 transition-colors">
+                <i class="fa-solid fa-search"></i> بحث شامل
+            </button>
+            <button onclick="showToast('إدخال فوري', 'fa-bolt')" class="flex-1 bg-mustard/20 border border-mustard/50 text-mustard rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 hover:bg-mustard/30 transition-colors">
+                <i class="fa-solid fa-bolt"></i> إدخال فوري
+            </button>
+        </div>
+        <div class="px-5 pb-4">
+            <button onclick="showToast('مهمة جديدة', 'fa-plus')" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg transition-colors">
+                <i class="fa-solid fa-plus"></i> مهمة جديدة
+            </button>
+        </div>
+
+        <!-- قائمة الصفحات (Navigation) -->
+        <nav class="flex-1 px-3 overflow-y-auto">
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 bg-white/5 border border-slateBlue/30 rounded-xl text-slateBlue mb-2 font-bold">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-chart-line text-lg"></i> لوحة القيادة والمؤشرات</div>
+            </a>
+            
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-regular fa-sun text-lg"></i> لوحة إدارة اليوم</div>
+            </a>
+            
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-regular fa-bookmark text-lg"></i> برمجة المهام</div>
+                <span class="bg-deepPlum/20 border border-deepPlum text-deepPlum w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold">3</span>
+            </a>
+
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-regular fa-calendar text-lg"></i> التقويم الزمني</div>
+            </a>
+
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-clipboard-list text-lg"></i> سجل المهام والعمليات</div>
+                <span class="bg-white/10 text-gray-300 w-7 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold">81</span>
+            </a>
+
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-regular fa-file-lines text-lg"></i> تقرير خاص بالمهمة</div>
+            </a>
+
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-1">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-clock-rotate-left text-lg"></i> سجل العمليات والتتبع</div>
+            </a>
+
+            <a href="#" class="flex items-center justify-between px-4 py-3.5 text-gray-300 hover:bg-white/5 rounded-xl transition-colors mb-4">
+                <div class="flex items-center gap-3"><i class="fa-regular fa-trash-can text-lg text-terracotta"></i> سلة المهملات</div>
+                <span class="bg-terracotta/20 border border-terracotta text-terracotta w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+            </a>
+        </nav>
+
+        <!-- الإعدادات والملف الشخصي في أسفل الشريط الجانبي -->
+        <div class="p-4 border-t border-white/10 mt-auto">
+            <a href="#" class="flex items-center justify-between px-2 py-3 text-gray-400 hover:text-white font-semibold text-sm transition-colors mb-2">
+                <span>الإعدادات والنسخ</span>
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            <div class="bg-bgDark border border-white/5 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:border-slateBlue/50 transition-colors shadow-inner">
+                <div class="text-right">
+                    <h4 class="font-bold text-sm text-white">محمد ايت حمادي</h4>
+                    <p class="text-[10px] text-gray-500">إطار إداري وتقني</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center font-bold text-white shadow-lg text-lg">م</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- الخلفية الداكنة عند فتح الشريط الجانبي -->
+    <div id="overlay" onclick="closeSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- الشريط العلوي الرئيسي (Header) -->
+    <header class="bg-cardBg border-b border-white/10 sticky top-0 z-30 shadow-lg">
+        <div class="w-full mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+            
+            <!-- أقصى اليمين: زر القائمة الجانبية -> اللوجو -> العنوان -->
+            <div class="flex items-center gap-3">
+                <button onclick="openSidebar()" class="w-11 h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center hover:border-mustard transition-colors text-white shadow-sm shrink-0">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                
+                <!-- حاوية اللوجو والعنوان (تختفي عند فتح القائمة) -->
+                <div id="mainHeaderBranding" class="flex items-center gap-3 transition-opacity duration-300">
+                    <!-- لوجو التقويم -->
+                    <div class="w-11 h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center shadow-sm shrink-0">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 2V6M8 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="#59718A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="7" y="14" width="4" height="4" rx="1" fill="#E07A47"/>
+                            <rect x="13" y="14" width="4" height="4" rx="1" fill="#D4A72C"/>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-lg md:text-xl text-white truncate hidden sm:block">نظام تدبير المهام</span>
+                </div>
+            </div>
+            
+            <!-- أقصى اليسار: أزرار الأدوات -->
+            <div class="flex items-center gap-2">
+                <!-- زر الحفظ -->
+                <button onclick="showToast('تم حفظ التعديلات بنجاح', 'fa-floppy-disk')" class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center text-slateBlue hover:border-slateBlue hover:bg-slateBlue/10 transition-colors shrink-0 shadow-sm">
+                    <i class="fa-solid fa-floppy-disk text-lg"></i>
+                </button>
+                <!-- زر البحث -->
+                <button onclick="showToast('البحث', 'fa-magnifying-glass')" class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center hover:border-tealCustom transition-colors text-white shrink-0 shadow-sm hidden sm:flex">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                <!-- زر الوضع الليلي/النهاري -->
+                <button onclick="showToast('تغيير المظهر', 'fa-moon')" class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center hover:border-mustard transition-colors text-white shrink-0 shadow-sm hidden xs:flex">
+                    <i class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <!-- زر البروفايل -->
+                <button onclick="openSidebar()" class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-bgDark border border-white/10 flex justify-center items-center hover:border-terracotta transition-colors text-terracotta shrink-0 shadow-sm">
+                    <i class="fa-solid fa-user text-lg"></i>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي (ممتد على الشاشة) -->
+    <main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6 pb-20">
+        
+        <!-- حاوية المؤشرات الأساسية (خلفيات ملونة بالكامل) -->
+        <!-- استخدام Grid: 1 عمود للهاتف، 2 عمود للشاشات الأكبر (اثنين تحت اثنين) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- 1. إجمالي المهام (Slate Blue) -->
+            <div class="bg-slateBlue rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-solid fa-clipboard-list text-lg"></i>
+                        <span class="font-semibold text-sm">إجمالي المهام المسجلة</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">5 محلي • 76 تنقل خارجي</div>
+                </div>
+                <div class="text-4xl font-black ml-2">81</div>
+            </div>
+
+            <!-- 2. مهام جارية اليوم (Mustard) -->
+            <div class="bg-mustard rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-regular fa-sun text-lg"></i>
+                        <span class="font-semibold text-sm">مهام جارية اليوم</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">برنامج وجدولة اليوم</div>
+                </div>
+                <div class="text-4xl font-black ml-2">0</div>
+            </div>
+
+            <!-- 3. مهام مبرمجة ومفتوحة (Deep Plum) -->
+            <div class="bg-deepPlum rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-regular fa-calendar-check text-lg"></i>
+                        <span class="font-semibold text-sm">مهام مبرمجة ومفتوحة</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">مجدولة وقيد التحضير</div>
+                </div>
+                <div class="text-4xl font-black ml-2">3</div>
+            </div>
+
+            <!-- 4. تحتاج متابعة وتسوية (Terracotta) -->
+            <div class="bg-terracotta rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                        <span class="font-semibold text-sm">تحتاج متابعة وتسوية</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">قيد التتبع والمطابقة</div>
+                </div>
+                <div class="text-4xl font-black ml-2">42</div>
+            </div>
+
+            <!-- 5. تنقلات الدائرة القضائية (Teal Custom) -->
+            <div class="bg-tealCustom rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-solid fa-map-location-dot text-lg"></i>
+                        <span class="font-semibold text-sm">تنقلات الدائرة القضائية</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">الرباط • ابن أحمد • برشيد</div>
+                </div>
+                <div class="text-4xl font-black ml-2">76</div>
+            </div>
+
+            <!-- 6. مهام مستوفاة ومنجزة (Sage Green) -->
+            <div class="bg-sageGreen rounded-xl px-5 py-4 shadow-lg flex justify-between items-center text-white transform hover:scale-[1.02] transition-transform">
+                <div>
+                    <div class="flex items-center gap-2 opacity-90">
+                        <i class="fa-regular fa-circle-check text-lg"></i>
+                        <span class="font-semibold text-sm">مهام مستوفاة ومنجزة</span>
+                    </div>
+                    <div class="text-[11px] opacity-80 font-medium mt-1">نسبة الإنجاز: 44%</div>
+                </div>
+                <div class="text-4xl font-black ml-2">36</div>
+            </div>
+
+        </div>
+
+        <!-- حاوية مهام اليوم الجارية (ممتدة بالكامل) -->
+        <div class="bg-cardBg border border-mustard/40 rounded-2xl p-5 shadow-lg w-full">
+            <div class="flex justify-between items-center mb-6">
+                <div class="font-bold text-mustard flex items-center gap-2">
+                    <i class="fa-regular fa-sun text-lg"></i> برنامج مهام اليوم الجارية (0)
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors">
+                    <i class="fa-solid fa-plus"></i> مهمة لليوم
+                </button>
+            </div>
+            <div class="border border-dashed border-white/10 rounded-xl py-12 flex flex-col items-center justify-center text-center">
+                <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
+                    <i class="fa-regular fa-clock text-2xl text-gray-500"></i>
+                </div>
+                <h4 class="font-bold text-gray-300 text-sm mb-1">لا توجد مهام مبرمجة لليوم حالياً.</h4>
+                <p class="text-xs text-gray-500 max-w-xs">يمكنك إضافة مهمة بالضغط على «مهمة لليوم» أو تعيين مهمة من القائمة المبرمجة أدناه.</p>
+            </div>
+        </div>
+
+        <!-- حاوية استشراف المهام المبرمجة (ممتدة بالكامل) -->
+        <div class="bg-cardBg border border-deepPlum/40 rounded-2xl p-5 shadow-lg w-full">
+            <div class="flex justify-between items-center mb-5">
+                <div class="font-bold text-deepPlum flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-days text-lg"></i> استشراف المهام المستقبلية (3)
+                </div>
+                <button class="text-sm text-deepPlum font-bold hover:text-white transition-colors underline">
+                    جدول البرمجة الكامل
+                </button>
+            </div>
+            
+            <!-- شبكة للمهام تنقسم حسب حجم الشاشة -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <!-- مهمة 1 -->
+                <div class="bg-bgDark border border-white/5 rounded-xl p-4 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center gap-1.5 text-mustard text-xs font-bold bg-mustard/10 px-2 py-1 rounded-lg">
+                            <span class="w-1.5 h-1.5 rounded-full bg-mustard"></span> مفتوحة بدون تاريخ
+                        </div>
+                        <div class="text-[10px] text-gray-400 bg-white/5 px-2 py-1 rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-tag"></i> مهام إدارية عامة
+                        </div>
+                    </div>
+                    <p class="font-semibold text-sm text-white mb-4 line-clamp-2 leading-relaxed">إعداد صفقة اقتناء عتاد المعلوميات ومستلزمات الطباعة والتصوير</p>
+                    <div class="mt-auto flex justify-between items-center pt-3 border-t border-white/5">
+                        <div class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-terracotta"></i> المديرية الإقليمية
+                        </div>
+                        <button class="bg-deepPlum hover:bg-deepPlum/80 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            تعيين لليوم
+                        </button>
+                    </div>
+                </div>
+
+                <!-- مهمة 2 -->
+                <div class="bg-bgDark border border-white/5 rounded-xl p-4 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center gap-1.5 text-tealCustom text-xs font-bold bg-tealCustom/10 px-2 py-1 rounded-lg">
+                            <span class="w-1.5 h-1.5 rounded-full bg-tealCustom"></span> مفتوحة بدون تاريخ
+                        </div>
+                        <div class="text-[10px] text-gray-400 bg-white/5 px-2 py-1 rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-tag"></i> التدخلات التقنية
+                        </div>
+                    </div>
+                    <p class="font-semibold text-sm text-white mb-4 line-clamp-2 leading-relaxed">إحصاء شامل لمتطلبات صيانة الشبكة المعلوماتية والبدالات الهاتفية</p>
+                    <div class="mt-auto flex justify-between items-center pt-3 border-t border-white/5">
+                        <div class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-terracotta"></i> المحكمة الابتدائية
+                        </div>
+                        <button class="bg-deepPlum hover:bg-deepPlum/80 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            تعيين لليوم
+                        </button>
+                    </div>
+                </div>
+
+                <!-- مهمة 3 -->
+                <div class="bg-bgDark border border-white/5 rounded-xl p-4 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center gap-1.5 text-dustyRose text-xs font-bold bg-dustyRose/10 px-2 py-1 rounded-lg">
+                            <span class="w-1.5 h-1.5 rounded-full bg-dustyRose"></span> مفتوحة بدون تاريخ
+                        </div>
+                        <div class="text-[10px] text-gray-400 bg-white/5 px-2 py-1 rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-tag"></i> الميدانية والتنقلات
+                        </div>
+                    </div>
+                    <p class="font-semibold text-sm text-white mb-4 line-clamp-2 leading-relaxed">برمجة تنقل لمصالح كتابة النيابة العامة لمعاينة ظروف الأرشيف</p>
+                    <div class="mt-auto flex justify-between items-center pt-3 border-t border-white/5">
+                        <div class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-terracotta"></i> المحكمة الابتدائية
+                        </div>
+                        <button class="bg-deepPlum hover:bg-deepPlum/80 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            تعيين لليوم
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- حاوية تنقلات وتدخلات الدائرة (ممتدة بالكامل) -->
+        <div class="bg-cardBg border border-sageGreen/40 rounded-2xl p-5 shadow-lg w-full">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-bold text-sageGreen flex items-center gap-2">
+                    <i class="fa-solid fa-map-location-dot text-lg"></i> تنقلات وتدخلات الدائرة القضائية
+                </div>
+                <div class="text-xs text-gray-400 hidden sm:block">حسب مقرات المحاكم والمصالح</div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex justify-between items-center hover:border-slateBlue/50 transition-colors cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slateBlue"></span>
+                        <span class="font-semibold text-sm text-gray-200">الرباط (المصالح المركزية)</span>
+                    </div>
+                    <span class="text-slateBlue text-xs font-bold bg-slateBlue/10 px-3 py-1 rounded-lg">8 تدخلات</span>
+                </div>
+                <div class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex justify-between items-center hover:border-tealCustom/50 transition-colors cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-tealCustom"></span>
+                        <span class="font-semibold text-sm text-gray-200">المحكمة الابتدائية بابن أحمد</span>
+                    </div>
+                    <span class="text-tealCustom text-xs font-bold bg-tealCustom/10 px-3 py-1 rounded-lg">19 تدخلاً</span>
+                </div>
+                <div class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex justify-between items-center hover:border-terracotta/50 transition-colors cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-terracotta"></span>
+                        <span class="font-semibold text-sm text-gray-200">المحكمة الابتدائية ببرشيد</span>
+                    </div>
+                    <span class="text-terracotta text-xs font-bold bg-terracotta/10 px-3 py-1 rounded-lg">23 تدخلاً</span>
+                </div>
+                <div class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex justify-between items-center hover:border-mustard/50 transition-colors cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-mustard"></span>
+                        <span class="font-semibold text-sm text-gray-200">الدائرة القضائية بسطات (محلي)</span>
+                    </div>
+                    <span class="text-mustard text-xs font-bold bg-mustard/10 px-3 py-1 rounded-lg">29 تدخلاً</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- حاوية قوالب التدخلات السريعة (ممتدة بالكامل) -->
+        <div class="bg-cardBg border border-tealCustom/40 rounded-2xl p-5 shadow-lg w-full">
+            <div class="font-bold text-tealCustom flex items-center gap-2 mb-5">
+                <i class="fa-solid fa-bolt text-lg"></i> قوالب التدخلات السريعة بنقرة واحدة:
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <button onclick="showToast('تسليم خراطيش طونير', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">تسليم خراطيش طونير واسترجاع الفارغ</span>
+                </button>
+                <button onclick="showToast('توزيع عتاد معلوماتية', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">توزيع عتاد وملحقات معلوماتية</span>
+                </button>
+                <button onclick="showToast('إيداع ملفات Barid eSign', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">مهمة الرباط: إيداع ملفات التوقيع الإلكتروني Barid eSign</span>
+                </button>
+                <button onclick="showToast('استيفاء توقيعات الموظفين', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">استيفاء توقيعات الموظفين على مطبوعات التوقيع الإلكتروني</span>
+                </button>
+                <button onclick="showToast('تدخل تقني للرمز السري', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">تدخل تقني لمعاينة عطل مفتاح التوقيع وضبط الرمز السري PIN</span>
+                </button>
+                <button onclick="showToast('معاينة ميدانية وتوثيق', 'fa-bolt')" class="bg-bgDark border border-white/5 rounded-xl p-3.5 flex items-center gap-3 text-right hover:bg-white/5 transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-mustard/10 text-mustard flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
+                    <span class="text-sm font-medium text-gray-300 group-hover:text-white">معاينة ميدانية وتوثيق بالصور لبنايات المحاكم والأشغال</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainHeaderBranding = document.getElementById('mainHeaderBranding');
+        let toastTimeout;
+
+        // دالة فتح القائمة الجانبية
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+            // تأخير بسيط لظهور الخلفية السوداء تدريجياً
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+            }, 10);
+            
+            // إخفاء العنوان واللوجو من الشريط العلوي بلمسة أنيقة
+            mainHeaderBranding.classList.add('opacity-0');
+            setTimeout(() => {
+                mainHeaderBranding.classList.add('hidden');
+            }, 300);
+        }
+
+        // دالة إغلاق القائمة الجانبية
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+
+            // إعادة إظهار العنوان واللوجو في الشريط العلوي
+            mainHeaderBranding.classList.remove('hidden');
+            setTimeout(() => {
+                mainHeaderBranding.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        // دالة إظهار الإشعارات (Toast) بدل الـ alert المزعج
+        function showToast(message, iconClass = 'fa-check-circle') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            toastIcon.className = `fa-solid ${iconClass}`;
+            
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0', 'mb-6');
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0', 'mb-6');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

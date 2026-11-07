@@ -258,25 +258,25 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
       <div 
-        className="w-full max-w-xl max-h-[92vh] flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden"
+        className="w-full max-w-xl max-h-[92vh] flex flex-col bg-[#1B1D2A] border border-white/10 rounded-[20px] shadow-2xl overflow-hidden"
         onClick={() => setIsTitleSuggestionsOpen(false)}
       >
         {/* Header */}
-        <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+        <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-blue-600 dark:text-blue-400 font-bold">
+            <span className="text-[#59718A] font-bold">
               {taskToEdit ? '✏️' : '➕'}
             </span>
-            <h3 className="font-extrabold text-sm text-slate-900 dark:text-white">
+            <h3 className="font-extrabold text-sm text-white">
               {taskToEdit ? 'تعديل وتوسيع بيانات المهمة' : 'تسجيل مهمة أو تدخل ميداني'}
             </h3>
           </div>
           <button 
             type="button" 
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="p-1 rounded-lg text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -291,19 +291,19 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           />
 
           {/* STAGE 1: DATE & ORIGIN */}
-          <div className="bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2.5">
+          <div className="bg-[#12131C] border border-white/10 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
-              <label className="font-bold text-slate-700 dark:text-slate-300">موعد المهمة:</label>
+              <Calendar className="w-4 h-4 text-[#59718A] shrink-0" />
+              <label className="font-bold text-white">موعد المهمة:</label>
               {!isBacklog ? (
                 <input
                   type="date"
                   value={taskDate}
                   onChange={e => setTaskDate(e.target.value)}
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:border-blue-500"
+                  className="px-2.5 py-1 rounded-lg border border-white/10 bg-[#1B1D2A] text-white font-mono text-xs focus:border-[#59718A]"
                 />
               ) : (
-                <span className="text-amber-600 dark:text-amber-400 font-bold text-xs">
+                <span className="text-[#D4A72C] font-bold text-xs">
                   📌 مفتوحة (بدون تاريخ محدد)
                 </span>
               )}
@@ -313,7 +313,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               <button
                 type="button"
                 onClick={() => { setIsBacklog(false); setTaskDate(todayStr); }}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${!isBacklog && taskDate === todayStr ? 'bg-blue-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'}`}
+                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${!isBacklog && taskDate === todayStr ? 'bg-[#59718A] text-white' : 'bg-[#1B1D2A] text-[#8E91A0] hover:text-white border border-white/10'}`}
               >
                 اليوم
               </button>
@@ -325,14 +325,14 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                   setIsBacklog(false);
                   setTaskDate(tom.toISOString().split('T')[0]);
                 }}
-                className="px-2.5 py-1 rounded-lg font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100"
+                className="px-2.5 py-1 rounded-lg font-semibold bg-[#1B1D2A] text-[#8E91A0] hover:text-white border border-white/10"
               >
                 غداً
               </button>
               <button
                 type="button"
                 onClick={() => setIsBacklog(!isBacklog)}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${isBacklog ? 'bg-purple-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'}`}
+                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${isBacklog ? 'bg-[#5B3A62] text-white' : 'bg-[#1B1D2A] text-[#8E91A0] hover:text-white border border-white/10'}`}
               >
                 برمجة مفتوحة
               </button>
@@ -342,10 +342,10 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           {/* STAGE 2: SMART TITLE & AUTO-LEARNING CATEGORY */}
           <div className="space-y-1.5 relative">
             <div className="flex items-center justify-between">
-              <label className="font-bold text-slate-800 dark:text-slate-200">
+              <label className="font-bold text-white">
                 🎯 عنوان المهمة أو التدخل:
               </label>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-[#8E91A0]">
                 التعرف التلقائي على المجال الذكي
               </span>
             </div>
@@ -359,12 +359,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                 onFocus={() => setIsTitleSuggestionsOpen(true)}
                 onClick={e => e.stopPropagation()}
                 placeholder="ماذا ستنجز؟ (مثال: تسليم طونير HP، تنظيم مباراة، تفعيل توقيع...)"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:border-blue-500 shadow-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-[#12131C] text-white placeholder-[#8E91A0] text-xs font-semibold focus:outline-none focus:border-[#59718A]"
               />
               <button
                 type="button"
                 onClick={e => { e.stopPropagation(); setIsTitleSuggestionsOpen(!isTitleSuggestionsOpen); }}
-                className="absolute left-2.5 top-2.5 text-slate-400 hover:text-slate-600 p-0.5"
+                className="absolute left-2.5 top-2.5 text-[#8E91A0] hover:text-white p-0.5"
               >
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -372,20 +372,20 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               {/* Title Suggestions Dropdown */}
               {isTitleSuggestionsOpen && (
                 <div 
-                  className="absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-30 max-h-48 overflow-y-auto py-1"
+                  className="absolute left-0 right-0 top-full mt-1 bg-[#1B1D2A] border border-white/10 rounded-xl shadow-xl z-30 max-h-48 overflow-y-auto py-1"
                   onClick={e => e.stopPropagation()}
                 >
-                  <div className="px-3 py-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                  <div className="px-3 py-1 text-[10px] font-bold text-[#8E91A0] uppercase">
                     أحدث العناوين المقترحة
                   </div>
                   {savedTitles.slice(0, 10).map((t, i) => (
                     <div
                       key={i}
                       onClick={() => { handleTitleChange(t); setIsTitleSuggestionsOpen(false); }}
-                      className="px-3 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer flex items-center justify-between"
+                      className="px-3 py-2 text-xs text-white hover:bg-white/5 cursor-pointer flex items-center justify-between transition-colors"
                     >
                       <span className="truncate">{t}</span>
-                      <span className="text-[10px] text-blue-500">اختر ↵</span>
+                      <span className="text-[10px] text-[#59718A]">اختر ↵</span>
                     </div>
                   ))}
                 </div>
@@ -394,14 +394,14 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
             {/* Inferred or Selected Category Selector */}
             <div className="flex items-center gap-2 pt-1 text-[11px]">
-              <span className="text-slate-400 font-semibold">المجال:</span>
+              <span className="text-[#8E91A0] font-semibold">المجال:</span>
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value)}
-                className="bg-transparent text-blue-600 dark:text-blue-400 font-bold focus:outline-none cursor-pointer"
+                className="bg-transparent text-[#59718A] font-bold focus:outline-none cursor-pointer"
               >
                 {categories.map(c => (
-                  <option key={c.id} value={c.name} className="dark:bg-slate-800 dark:text-white">
+                  <option key={c.id} value={c.name} className="bg-[#1B1D2A] text-white">
                     {c.icon || '🏷️'} {c.name}
                   </option>
                 ))}
@@ -410,12 +410,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </div>
 
           {/* STAGE 3: CASCADING DYNAMIC SUB-TASKS */}
-          <div className="space-y-2 bg-slate-50/60 dark:bg-slate-800/20 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3">
+          <div className="space-y-2 bg-[#12131C] border border-white/10 rounded-xl p-3">
             <div className="flex items-center justify-between">
-              <label className="font-bold text-slate-800 dark:text-slate-200">
+              <label className="font-bold text-white">
                 ☑️ العمليات والمهام الفرعية (تظهر ديناميكياً):
               </label>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-[#8E91A0]">
                 {subtasks.length} عمليات
               </span>
             </div>
@@ -425,23 +425,23 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               {subtasks.map((st, idx) => (
                 <div 
                   key={st.id || idx}
-                  className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 text-xs"
+                  className="flex items-center justify-between gap-2 p-2 rounded-lg bg-[#1B1D2A] border border-white/10 text-xs"
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <input
                       type="checkbox"
                       checked={Boolean(st.completed || st.done)}
                       onChange={() => handleToggleSubtask(idx)}
-                      className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
+                      className="w-4 h-4 rounded text-[#59718A] focus:ring-[#59718A] cursor-pointer"
                     />
-                    <span className={`truncate font-semibold ${st.completed || st.done ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}`}>
+                    <span className={`truncate font-semibold ${st.completed || st.done ? 'line-through text-[#8E91A0]' : 'text-white'}`}>
                       {st.title}
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleRemoveSubtask(idx)}
-                    className="text-slate-400 hover:text-red-500 p-1"
+                    className="text-[#8E91A0] hover:text-[#E07A47] p-1 transition-colors"
                     title="إزالة"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -463,12 +463,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                   }
                 }}
                 placeholder={`+ أضف مهمة فرعية ${subtasks.length + 1} (اكتب ثم اضغط Enter)...`}
-                className="flex-1 px-3 py-1.5 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 py-1.5 rounded-lg border border-dashed border-white/20 bg-[#1B1D2A] text-xs text-white placeholder-[#8E91A0] focus:outline-none focus:border-[#59718A]"
               />
               <button
                 type="button"
                 onClick={handleTrailingSubtaskSubmit}
-                className="px-3 py-1.5 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-blue-600 hover:text-white rounded-lg font-bold transition-colors"
+                className="px-3 py-1.5 bg-[#59718A] text-white hover:bg-[#4d6379] rounded-lg font-bold transition-colors"
               >
                 إضافة
               </button>
@@ -476,13 +476,13 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </div>
 
           {/* STAGE 4: GEOGRAPHICAL INTELLIGENCE */}
-          <div className="space-y-1.5 bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3">
+          <div className="space-y-1.5 bg-[#12131C] border border-white/10 rounded-xl p-3">
             <div className="flex items-center justify-between">
-              <label className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-emerald-500" />
+              <label className="font-bold text-white flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-[#8FA68F]" />
                 <span>الوجهة / المحكمة / المرفق القضائي:</span>
               </label>
-              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">
+              <span className="text-[11px] text-[#8FA68F] font-bold">
                 {city} ({city.includes('سطات') ? 'محلي' : 'تنقل خارجي'})
               </span>
             </div>
@@ -493,7 +493,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               value={destination}
               onChange={e => handleDestinationChange(e.target.value)}
               placeholder="اختر أو اكتب مقراً أو وجهة (مثل: ابتدائية برشيد، ابن أحمد...)"
-              className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:border-blue-500"
+              className="w-full px-3.5 py-2 rounded-xl border border-white/10 bg-[#1B1D2A] text-white text-xs font-semibold focus:outline-none focus:border-[#59718A]"
             />
             <datalist id="destinations-list">
               {courts.map(c => (
@@ -503,8 +503,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
             {/* Conditional City prompt for new places */}
             {isNewCityPromptOpen && (
-              <div className="mt-2 p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 flex items-center justify-between text-xs">
-                <span className="text-emerald-800 dark:text-emerald-300 font-semibold">
+              <div className="mt-2 p-2.5 rounded-lg bg-[#2F6F6D]/20 border border-[#2F6F6D]/40 flex items-center justify-between text-xs">
+                <span className="text-[#8FA68F] font-semibold">
                   ✨ وجهة جديدة! بأي مدينة تتواجد لحفظها في السجل؟
                 </span>
                 <div className="flex gap-1">
@@ -513,7 +513,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                       key={c}
                       type="button"
                       onClick={() => { setCity(c); setIsNewCityPromptOpen(false); }}
-                      className={`px-2 py-0.5 rounded text-[11px] font-bold ${city === c ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 border border-emerald-300'}`}
+                      className={`px-2 py-0.5 rounded text-[11px] font-bold transition-colors ${city === c ? 'bg-[#2F6F6D] text-white' : 'bg-[#1B1D2A] text-[#8FA68F] border border-[#2F6F6D]/30'}`}
                     >
                       {c}
                     </button>
@@ -524,19 +524,19 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </div>
 
           {/* STAGE 5: PRIORITY & PROGRESS CONTROLS */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#12131C] border border-white/10 rounded-xl p-3">
             {/* Priority 4-Tier Segmented Control */}
             <div className="space-y-1.5">
-              <label className="font-bold text-slate-800 dark:text-slate-200">
+              <label className="font-bold text-white">
                 الأولوية:
               </label>
-              <div className="grid grid-cols-4 gap-1 p-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-center">
+              <div className="grid grid-cols-4 gap-1 p-1 bg-[#1B1D2A] border border-white/10 rounded-lg text-center">
                 {(['عادية', 'متوسطة', 'عالية', 'عاجلة'] as TaskPriority[]).map(p => (
                   <button
                     key={p}
                     type="button"
                     onClick={() => setPriority(p)}
-                    className={`py-1 rounded text-[11px] font-bold transition-all ${priority === p ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+                    className={`py-1 rounded text-[11px] font-bold transition-all ${priority === p ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
                   >
                     {p}
                   </button>
@@ -546,10 +546,10 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
             {/* Lifecycle State: 4-state selector */}
             <div className="space-y-1.5">
-              <label className="font-bold text-slate-800 dark:text-slate-200">
+              <label className="font-bold text-white">
                 الحالة:
               </label>
-              <div className="grid grid-cols-4 gap-1 p-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-center">
+              <div className="grid grid-cols-4 gap-1 p-1 bg-[#1B1D2A] border border-white/10 rounded-lg text-center">
                 {[
                   { id: 'مبرمجة', label: '📅 مبرمجة' },
                   { id: 'قيد الإنجاز', label: '⚙️ جارية' },
@@ -575,8 +575,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                     }}
                     className={`py-1 rounded text-[10px] font-bold transition-all ${
                       status === st.id 
-                        ? (st.id === 'منجزة' ? 'bg-emerald-600 text-white' : (st.id === 'قيد المتابعة' ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'))
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                        ? (st.id === 'منجزة' ? 'bg-[#2F6F6D] text-white' : (st.id === 'قيد المتابعة' ? 'bg-[#D4A72C] text-[#12131C]' : 'bg-[#59718A] text-white'))
+                        : 'text-[#8E91A0] hover:text-white'
                     }`}
                   >
                     {st.label}
@@ -588,8 +588,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             {/* Progress Slider 0-100% */}
             <div className="sm:col-span-2 space-y-1 pt-1">
               <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-slate-600 dark:text-slate-400">مؤشر التقدم:</span>
-                <span className="font-mono font-bold text-blue-600 dark:text-blue-400">{progress}%</span>
+                <span className="font-bold text-[#8E91A0]">مؤشر التقدم:</span>
+                <span className="font-mono font-bold text-[#59718A]">{progress}%</span>
               </div>
               <input
                 type="range"
@@ -611,7 +611,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                     setStatus('قيد الإنجاز');
                   }
                 }}
-                className="w-full accent-blue-600 cursor-pointer"
+                className="w-full accent-[#59718A] cursor-pointer"
               />
             </div>
           </div>
@@ -621,7 +621,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             <button
               type="button"
               onClick={() => setShowNotes(!showNotes)}
-              className="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline flex items-center gap-1"
+              className="text-xs text-[#59718A] hover:text-white font-semibold flex items-center gap-1 transition-colors"
             >
               <span>{showNotes ? '▲ إخفاء الملاحظات الإضافية' : '+ إضافة ملاحظات أو تفاصيل تقنية (اختياري)'}</span>
             </button>
@@ -631,25 +631,25 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                 onChange={e => setDescription(e.target.value)}
                 rows={3}
                 placeholder="تفاصيل إضافية حول التدخل أو أرقام المراجع والمحاضر..."
-                className="w-full mt-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500"
+                className="w-full mt-2 p-2.5 rounded-xl border border-white/10 bg-[#12131C] text-white placeholder-[#8E91A0] text-xs focus:outline-none focus:border-[#59718A]"
               />
             )}
           </div>
         </form>
 
         {/* Footer Actions */}
-        <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2 shrink-0 bg-slate-50 dark:bg-slate-800/40">
+        <div className="px-5 py-3 border-t border-white/10 flex items-center justify-end gap-2 shrink-0 bg-[#12131C]/60">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="px-4 py-2 text-xs font-semibold rounded-xl border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors"
           >
             إلغاء
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-5 py-2 text-xs font-bold rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-md transition-all active:scale-95"
+            className="px-5 py-2 text-xs font-bold rounded-xl bg-[#59718A] text-white hover:bg-[#4d6379] shadow-md transition-all active:scale-95"
           >
             {taskToEdit ? '💾 حفظ التعديلات' : '💾 تسجيل المهمة'}
           </button>

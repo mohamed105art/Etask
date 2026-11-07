@@ -7,13 +7,13 @@ export const TrashView: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex items-center justify-between">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center gap-2">
+          <h2 className="text-sm font-bold text-[#E07A47] flex items-center gap-2">
             <Trash2 className="w-4 h-4" />
             <span>سلة المهملات والأمان ({trash.length})</span>
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-[#8E91A0] mt-0.5">
             المهام المحذوفة مؤقتاً لحمايتها من الحذف غير المقصود مع إمكانية استرجاعها فوراً
           </p>
         </div>
@@ -26,7 +26,7 @@ export const TrashView: React.FC = () => {
                 emptyTrash();
               }
             }}
-            className="px-3 py-1.5 rounded-lg border border-red-300 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 text-xs font-bold transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg border border-[#E07A47]/40 text-[#E07A47] hover:bg-[#E07A47]/10 text-xs font-bold transition-colors flex items-center gap-1.5"
           >
             <AlertTriangle className="w-3.5 h-3.5" />
             <span>تفريغ سلة المهملات</span>
@@ -34,10 +34,10 @@ export const TrashView: React.FC = () => {
         )}
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-800">
+            <thead className="bg-[#12131C]/80 text-[#8E91A0] font-bold border-b border-white/10">
               <tr>
                 <th className="py-3 px-4 w-36 text-center">تاريخ الحذف</th>
                 <th className="py-3 px-4">موضوع المهمة المحذوفة</th>
@@ -46,36 +46,36 @@ export const TrashView: React.FC = () => {
                 <th className="py-3 px-4 w-36 text-center">إجراءات الأمان</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-white/10">
               {trash.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-12 text-center text-slate-500">
+                  <td colSpan={5} className="py-12 text-center text-[#8E91A0]">
                     سلة المهملات فارغة حالياً. لا توجد عناصر محذوفة.
                   </td>
                 </tr>
               ) : (
                 trash.map(task => (
-                  <tr key={task.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
-                    <td className="py-3 px-4 text-center font-mono text-[11px] text-slate-500 whitespace-nowrap">
+                  <tr key={task.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
                       {task.deletedAt ? task.deletedAt.replace('T', ' ').slice(0, 16) : '-'}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-bold text-slate-900 dark:text-white">{task.title}</div>
+                      <div className="font-bold text-white">{task.title}</div>
                       {task.description && (
-                        <div className="text-[11px] text-slate-500 line-clamp-1">{task.description}</div>
+                        <div className="text-[11px] text-[#8E91A0] line-clamp-1">{task.description}</div>
                       )}
                     </td>
-                    <td className="py-3 px-4 text-slate-600 dark:text-slate-300 font-semibold">{task.category}</td>
-                    <td className="py-3 px-4 text-slate-600 dark:text-slate-300">📍 {task.destination}</td>
+                    <td className="py-3 px-4 text-[#8E91A0] font-semibold">{task.category}</td>
+                    <td className="py-3 px-4 text-white">📍 {task.destination}</td>
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-1.5">
                         <button
                           type="button"
                           onClick={() => restoreTask(task.id)}
-                          className="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1"
+                          className="px-2.5 py-1 text-xs font-bold rounded-lg border border-white/10 text-white hover:bg-white/5 flex items-center gap-1 transition-colors"
                           title="استرجاع إلى السجل النشط"
                         >
-                          <RotateCcw className="w-3.5 h-3.5 text-blue-500" />
+                          <RotateCcw className="w-3.5 h-3.5 text-[#59718A]" />
                           <span>استرجاع</span>
                         </button>
 
@@ -86,7 +86,7 @@ export const TrashView: React.FC = () => {
                               deleteTask(task.id, true);
                             }
                           }}
-                          className="p-1 rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+                          className="p-1 rounded-lg border border-white/10 text-[#E07A47] hover:bg-white/5 transition-colors"
                           title="حذف نهائي"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

@@ -37,13 +37,13 @@ export const MissionReportView: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Control Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex items-center justify-between no-print">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 flex items-center justify-between no-print">
         <div>
-          <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <FileText className="w-4 h-4 text-blue-600" />
+          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#59718A]" />
             <span>تقرير خاص بالمهمة الإدارية والميدانية</span>
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-[#8E91A0] mt-0.5">
             استخراج وطباعة تقرير إداري رسمي معتمد بصيغة A4 لوزارة العدل
           </p>
         </div>
@@ -52,7 +52,7 @@ export const MissionReportView: React.FC = () => {
           <button
             type="button"
             onClick={() => handleTaskSelect('__manual__')}
-            className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 flex items-center gap-1.5"
+            className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center gap-1.5 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>إدخال يدوي جديد</span>
@@ -61,7 +61,7 @@ export const MissionReportView: React.FC = () => {
           <button
             type="button"
             onClick={handlePrint}
-            className="px-4 py-1.5 text-xs font-bold rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-sm flex items-center gap-1.5"
+            className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#59718A] text-white hover:bg-[#4d6379] flex items-center gap-1.5 transition-colors"
           >
             <Printer className="w-3.5 h-3.5" />
             <span>🖨️ طباعة التقرير (A4)</span>
@@ -70,16 +70,16 @@ export const MissionReportView: React.FC = () => {
       </div>
 
       {/* Inputs Form */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4 text-xs no-print">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 space-y-4 text-xs no-print">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-white block mb-1">
               اختر المهمة المعنية لتعبئة المعطيات تلقائياً:
             </label>
             <select
               value={selectedTaskId}
               onChange={e => handleTaskSelect(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold focus:outline-none"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-semibold focus:outline-none focus:border-[#59718A]"
             >
               <option value="__manual__">➕ إدخال يدوي حر جديد</option>
               {tasks.map(t => (
@@ -91,77 +91,77 @@ export const MissionReportView: React.FC = () => {
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-white block mb-1">
               مكان التدخل / الوجهة الرسمية:
             </label>
             <input
               type="text"
               value={destination}
               onChange={e => setDestination(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold focus:outline-none"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-semibold focus:outline-none focus:border-[#59718A]"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-[#8E91A0] block mb-1">
               القائم بالمهمة:
             </label>
             <input
               type="text"
               readOnly
               value={profile.fullName || settings.userName || 'محمد ايت حمادي'}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 font-bold"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C]/60 text-[#8E91A0] font-bold"
             />
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-[#8E91A0] block mb-1">
               المصلحة / الإدارة:
             </label>
             <input
               type="text"
               readOnly
               value={profile.organization || settings.department || 'المديرية الإقليمية بسطات'}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 font-bold"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C]/60 text-[#8E91A0] font-bold"
             />
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-white block mb-1">
               تاريخ المهمة:
             </label>
             <input
               type="date"
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-mono font-bold"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-mono font-bold focus:outline-none focus:border-[#59718A]"
             />
           </div>
         </div>
 
         <div>
-          <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+          <label className="font-bold text-white block mb-1">
             موضوع المهمة والغرض منها:
           </label>
           <input
             type="text"
             value={subject}
             onChange={e => setSubject(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-bold"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-bold focus:outline-none focus:border-[#59718A]"
           />
         </div>
 
         <div>
-          <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+          <label className="font-bold text-white block mb-1">
             تفاصيل وملاحظات سير تنفيذ المهمة:
           </label>
           <textarea
             rows={3}
             value={notes}
             onChange={e => setNotes(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs leading-relaxed"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-xs leading-relaxed focus:outline-none focus:border-[#59718A]"
           />
         </div>
       </div>

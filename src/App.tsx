@@ -84,10 +84,11 @@ function MainLayout() {
 
       {/* Main Full-Width Content Canvas */}
       <div className="flex-1 flex flex-col w-full min-w-0">
-        {/* Sticky 58px Glassmorphic Top Navbar */}
+        {/* Top Navbar */}
         <Header
           currentView={currentView}
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          isSidebarOpen={isSidebarOpen}
         />
 
         {/* Viewport Content Container */}

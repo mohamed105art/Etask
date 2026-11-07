@@ -175,51 +175,51 @@ export const SettingsView: React.FC = () => {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Control Center Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <Settings className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          <h2 className="text-base font-extrabold text-white flex items-center gap-2">
+            <Settings className="w-5 h-5 text-[#59718A]" />
             <span>مركز التحكم والإعدادات الشاملة (Enterprise Control Center)</span>
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-[#8E91A0] mt-0.5">
             إدارة متقدمة للقواميس، قواعد التعلم الذاتي، المظهر المؤسساتي، وفاحص الذاكرة المحلية
           </p>
         </div>
 
         {/* Tab Switcher Pills */}
-        <div className="flex flex-wrap items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs">
+        <div className="flex flex-wrap items-center gap-1 p-1 bg-[#12131C] border border-white/10 rounded-xl text-xs">
           <button
             type="button"
             onClick={() => setActiveTab('dictionaries')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'dictionaries' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'dictionaries' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
             📚 القواميس والتعلم الذاتي
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('profile')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'profile' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'profile' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
             👤 البطاقة المهنية
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('appearance')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'appearance' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'appearance' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
             🎨 المظهر والواجهة
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('workflow')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'workflow' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'workflow' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
             ⚙️ سير العمل والافتراضات
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('backup')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'backup' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'backup' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
             💾 البيانات وفاحص الذاكرة
           </button>
@@ -232,10 +232,10 @@ export const SettingsView: React.FC = () => {
       {activeTab === 'dictionaries' && (
         <div className="space-y-5">
           {/* 1.1 Autocomplete Titles Registry */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
-                <h3 className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">
+                <h3 className="font-extrabold text-xs text-white flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-blue-500" />
                   <span>عناوين التدخلات المحفوظة للإكمال التلقائي ({savedTitles.length})</span>
                 </h3>
@@ -264,7 +264,7 @@ export const SettingsView: React.FC = () => {
                 onChange={e => setNewTitleInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') handleAddTitle(); }}
                 placeholder="أضف عنوان مهمة جديد إلى القاموس..."
-                className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-xs font-semibold text-white focus:outline-none focus:border-blue-500"
               />
               <button
                 type="button"
@@ -281,7 +281,7 @@ export const SettingsView: React.FC = () => {
               {savedTitles.map((t, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/30 text-xs text-slate-800 dark:text-slate-200"
+                  className="flex items-center justify-between p-2.5 rounded-lg border border-white/10 bg-slate-50/60 dark:bg-slate-800/30 text-xs text-slate-800 dark:text-slate-200"
                 >
                   <span className="font-semibold truncate">{t}</span>
                   <button
@@ -298,10 +298,10 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* 1.2 Locations & Courts Registry */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
-                <h3 className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">
+                <h3 className="font-extrabold text-xs text-white flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-emerald-500" />
                   <span>دليل المحاكم والمرافق القضائية ({courts.length})</span>
                 </h3>
@@ -318,7 +318,7 @@ export const SettingsView: React.FC = () => {
                 value={newCourtName}
                 onChange={e => setNewCourtName(e.target.value)}
                 placeholder="اسم المرفق (مثال: محكمة الاستئناف بالدار البيضاء)..."
-                className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 sm:col-span-2"
+                className="px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 sm:col-span-2"
               />
               <div className="flex gap-2">
                 <input
@@ -326,7 +326,7 @@ export const SettingsView: React.FC = () => {
                   value={newCourtCity}
                   onChange={e => setNewCourtCity(e.target.value)}
                   placeholder="المدينة..."
-                  className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                  className="flex-1 px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-xs font-semibold text-white focus:outline-none focus:border-emerald-500"
                 />
                 <button
                   type="button"
@@ -353,7 +353,7 @@ export const SettingsView: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {courts.map(c => (
                     <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                      <td className="py-2 px-3 font-bold text-slate-900 dark:text-white">📍 {c.name}</td>
+                      <td className="py-2 px-3 font-bold text-white">📍 {c.name}</td>
                       <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{c.city || 'سطات'}</td>
                       <td className="py-2 px-3">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${c.scope === 'محلي' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' : 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300'}`}>
@@ -378,10 +378,10 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* 1.3 Categories & Keyword Auto-mapping */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
-                <h3 className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">
+                <h3 className="font-extrabold text-xs text-white flex items-center gap-2">
                   <Tag className="w-4 h-4 text-purple-500" />
                   <span>مجالات وتصنيفات التدخل ({categories.length})</span>
                 </h3>
@@ -398,14 +398,14 @@ export const SettingsView: React.FC = () => {
                 value={newCatIcon}
                 onChange={e => setNewCatIcon(e.target.value)}
                 placeholder="رمز (Emoji)..."
-                className="w-16 px-2 py-2 text-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none"
+                className="w-16 px-2 py-2 text-center rounded-xl border border-white/10 bg-[#12131C] text-white text-xs focus:outline-none"
               />
               <input
                 type="text"
                 value={newCatName}
                 onChange={e => setNewCatName(e.target.value)}
                 placeholder="اسم التصنيف الجديد..."
-                className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-purple-500"
+                className="flex-1 px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-xs font-semibold text-white focus:outline-none focus:border-purple-500"
               />
               <button
                 type="button"
@@ -426,7 +426,7 @@ export const SettingsView: React.FC = () => {
                 >
                   <div className="flex items-center gap-2 truncate">
                     <span className="text-base">{c.icon || '📁'}</span>
-                    <span className="font-bold text-slate-900 dark:text-white truncate">{c.name}</span>
+                    <span className="font-bold text-white truncate">{c.name}</span>
                     <span className="text-[10px] text-slate-400">({c.subs?.length || 0} تفريعات)</span>
                   </div>
                   <button
@@ -448,10 +448,10 @@ export const SettingsView: React.FC = () => {
           TAB 2: PROFESSIONAL PROFILE
           ======================================================== */}
       {activeTab === 'profile' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+        <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-2 border-b border-white/10">
             <User className="w-4 h-4 text-blue-500" />
-            <h3 className="font-extrabold text-xs text-slate-900 dark:text-white">
+            <h3 className="font-extrabold text-xs text-white">
               البطاقة المهنية وتخصيص المنصب الإداري والتقني
             </h3>
           </div>
@@ -465,7 +465,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={fullName}
                   onChange={e => setFullName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
 
@@ -476,7 +476,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={jobTitle}
                   onChange={e => setJobTitle(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
 
@@ -487,7 +487,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={organization}
                   onChange={e => setOrganization(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
 
@@ -497,7 +497,7 @@ export const SettingsView: React.FC = () => {
                   type="text"
                   value={service}
                   onChange={e => setService(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
 
@@ -507,7 +507,7 @@ export const SettingsView: React.FC = () => {
                   type="text"
                   value={workplace}
                   onChange={e => setWorkplace(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
 
@@ -517,7 +517,7 @@ export const SettingsView: React.FC = () => {
                   type="text"
                   value={mainDomain}
                   onChange={e => setMainDomain(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white focus:outline-none focus:border-blue-500 font-semibold"
                 />
               </div>
             </div>
@@ -541,10 +541,10 @@ export const SettingsView: React.FC = () => {
           TAB 3: APPEARANCE & UI CUSTOMIZATION (تخصيص الواجهة والمظهر)
           ======================================================== */}
       {activeTab === 'appearance' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-5 text-xs">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+        <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-5 text-xs">
+          <div className="flex items-center gap-2 pb-2 border-b border-white/10">
             <Sliders className="w-4 h-4 text-blue-500" />
-            <h3 className="font-extrabold text-xs text-slate-900 dark:text-white">
+            <h3 className="font-extrabold text-xs text-white">
               تخصيص المظهر وتجربة العرض المؤسساتية
             </h3>
           </div>
@@ -586,7 +586,7 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Font Scale */}
-          <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="space-y-2 pt-2 border-t border-white/10">
             <label className="font-bold text-slate-800 dark:text-slate-200 block">
               حجم الخط وتكبير النصوص:
             </label>
@@ -609,14 +609,14 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Default Startup View */}
-          <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="space-y-2 pt-2 border-t border-white/10">
             <label className="font-bold text-slate-800 dark:text-slate-200 block">
               الشاشة الافتراضية عند فتح التطبيق:
             </label>
             <select
               value={settings.defaultStartupView || 'dashboard'}
               onChange={e => updateSettings({ defaultStartupView: e.target.value as any })}
-              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-bold focus:outline-none"
+              className="px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
             >
               <option value="dashboard">لوحة القيادة والمؤشرات (Dashboard)</option>
               <option value="today">لوحة إدارة اليوم (Today Board)</option>
@@ -632,10 +632,10 @@ export const SettingsView: React.FC = () => {
           TAB 4: WORKFLOW & DEFAULT PARAMETERS (سير العمل والبارامترات الافتراضية)
           ======================================================== */}
       {activeTab === 'workflow' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4 text-xs">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+        <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4 text-xs">
+          <div className="flex items-center gap-2 pb-2 border-b border-white/10">
             <Sliders className="w-4 h-4 text-purple-500" />
-            <h3 className="font-extrabold text-xs text-slate-900 dark:text-white">
+            <h3 className="font-extrabold text-xs text-white">
               ضبط سلوك سير العمل وحسابات الإنجاز
             </h3>
           </div>
@@ -644,7 +644,7 @@ export const SettingsView: React.FC = () => {
             {/* Auto Complete when Subtasks 100% */}
             <div className="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40">
               <div>
-                <span className="font-bold text-slate-900 dark:text-white block">
+                <span className="font-bold text-white block">
                   الإنجاز التلقائي للمهمة عند استيفاء العمليات الفرعية (100%):
                 </span>
                 <span className="text-[11px] text-slate-500">
@@ -667,7 +667,7 @@ export const SettingsView: React.FC = () => {
               <select
                 value={settings.defaultPriority || 'عادية'}
                 onChange={e => updateSettings({ defaultPriority: e.target.value as any })}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-bold focus:outline-none"
+                className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
               >
                 <option value="عادية">🟢 عادية (عمل يومي روتيني)</option>
                 <option value="متوسطة">🔵 متوسطة (مأمورية / متابعة)</option>
@@ -684,7 +684,7 @@ export const SettingsView: React.FC = () => {
               <select
                 value={settings.defaultStatus || 'قيد الإنجاز'}
                 onChange={e => updateSettings({ defaultStatus: e.target.value as any })}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-bold focus:outline-none"
+                className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
               >
                 <option value="قيد الإنجاز">⚙️ قيد الإنجاز</option>
                 <option value="مبرمجة">📅 مبرمجة</option>
@@ -701,11 +701,11 @@ export const SettingsView: React.FC = () => {
       {activeTab === 'backup' && (
         <div className="space-y-5 text-xs">
           {/* Storage Health Inspector Box */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <Database className="w-4 h-4 text-blue-500" />
-                <h3 className="font-extrabold text-xs text-slate-900 dark:text-white">
+                <h3 className="font-extrabold text-xs text-white">
                   فاحص سلامة الذاكرة المحلية (LocalStorage Health Inspector)
                 </h3>
               </div>
@@ -717,7 +717,7 @@ export const SettingsView: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 text-center">
                 <div className="text-[11px] text-slate-500">إجمالي المهام المخزنة</div>
-                <div className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">{tasks.length}</div>
+                <div className="text-xl font-extrabold text-white tabular-nums">{tasks.length}</div>
               </div>
               <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 text-center">
                 <div className="text-[11px] text-slate-500">المحاكم والوجهات</div>
@@ -734,7 +734,7 @@ export const SettingsView: React.FC = () => {
             </div>
 
             {/* Granular Reset & Maintenance Buttons */}
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+            <div className="pt-2 border-t border-white/10 space-y-2">
               <span className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                 عمليات الصيانة وإعادة الضبط الدقيقة:
               </span>
@@ -785,15 +785,15 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Backup Export & Restore */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <h3 className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">
+          <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
+            <h3 className="font-extrabold text-xs text-white flex items-center gap-2">
               <Download className="w-4 h-4 text-emerald-500" />
               <span>النسخ الاحتياطي وتصدير واسترجاع ملف JSON الشامل</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-2">
-                <span className="font-bold text-slate-900 dark:text-white block">تصدير ملف النسخة الاحتياطية:</span>
+                <span className="font-bold text-white block">تصدير ملف النسخة الاحتياطية:</span>
                 <p className="text-[11px] text-slate-500">
                   تحميل ملف JSON كامل ومطابق يحتوي على كافة المهام (75+)، الوجهات، التصنيفات، القوالب، وسجل العمليات.
                 </p>
@@ -808,7 +808,7 @@ export const SettingsView: React.FC = () => {
               </div>
 
               <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-2">
-                <span className="font-bold text-slate-900 dark:text-white block">استرجاع بيانات من ملف JSON:</span>
+                <span className="font-bold text-white block">استرجاع بيانات من ملف JSON:</span>
                 <p className="text-[11px] text-slate-500">
                   اختر ملف نسخة احتياطية سابقة لاستعادة حالتك دون فقدان التوافق.
                 </p>

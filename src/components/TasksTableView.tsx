@@ -88,13 +88,13 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
   return (
     <div className="space-y-4">
       {/* 1. FILTER CONTROLS BAR */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm space-y-3">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+            <h2 className="text-sm font-bold text-white">
               سجل المهام والعمليات
             </h2>
-            <span className="text-xs text-slate-500 tabular-nums">
+            <span className="text-xs text-[#8E91A0] tabular-nums">
               ({totalItems} مهمة مطابقة)
             </span>
           </div>
@@ -104,7 +104,7 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
               type="button"
               onClick={resetFilters}
               title="إعادة تعيين الفلاتر"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center gap-1.5 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>مسح الفلاتر</span>
@@ -114,7 +114,7 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
               type="button"
               onClick={handlePrintSummary}
               title="طباعة كشف المهام الحالية بصيغة A4"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-1.5 shadow-sm"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#59718A] text-white hover:bg-[#4d6379] flex items-center gap-1.5 shadow-sm transition-colors"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>طباعة كشف A4</span>
@@ -131,20 +131,20 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
               value={filterOptions.searchQuery || ''}
               onChange={e => { setFilters({ searchQuery: e.target.value }); setCurrentPage(1); }}
               placeholder="بحث في العنوان، التفاصيل..."
-              className="w-full pl-3 pr-8 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+              className="w-full pl-3 pr-8 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white placeholder-[#8E91A0] focus:outline-none focus:border-[#59718A]"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute right-2.5 top-2.5" />
+            <Search className="w-4 h-4 text-[#8E91A0] absolute right-2.5 top-2.5" />
           </div>
 
           {/* Destination Filter */}
           <select
             value={filterOptions.destination || ''}
             onChange={e => { setFilters({ destination: e.target.value }); setCurrentPage(1); }}
-            className="w-full px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-2.5 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white focus:outline-none focus:border-[#59718A]"
           >
-            <option value="">جميع الوجهات والمحاكم</option>
+            <option value="" className="bg-[#1B1D2A] text-white">جميع الوجهات والمحاكم</option>
             {courts.map(c => (
-              <option key={c.id} value={c.name}>{c.name}</option>
+              <option key={c.id} value={c.name} className="bg-[#1B1D2A] text-white">{c.name}</option>
             ))}
           </select>
 
@@ -152,11 +152,11 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
           <select
             value={filterOptions.category || ''}
             onChange={e => { setFilters({ category: e.target.value }); setCurrentPage(1); }}
-            className="w-full px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-2.5 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white focus:outline-none focus:border-[#59718A]"
           >
-            <option value="">جميع التصنيفات</option>
+            <option value="" className="bg-[#1B1D2A] text-white">جميع التصنيفات</option>
             {categories.map(c => (
-              <option key={c.id} value={c.name}>{c.name}</option>
+              <option key={c.id} value={c.name} className="bg-[#1B1D2A] text-white">{c.name}</option>
             ))}
           </select>
 
@@ -164,48 +164,48 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
           <select
             value={filterOptions.scope || ''}
             onChange={e => { setFilters({ scope: e.target.value as any }); setCurrentPage(1); }}
-            className="w-full px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-2.5 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white focus:outline-none focus:border-[#59718A]"
           >
-            <option value="">جميع النطاقات</option>
-            <option value="محلي">محلي (سطات)</option>
-            <option value="تنقل خارجي">تنقل خارجي (خارج سطات)</option>
+            <option value="" className="bg-[#1B1D2A] text-white">جميع النطاقات</option>
+            <option value="محلي" className="bg-[#1B1D2A] text-white">محلي (سطات)</option>
+            <option value="تنقل خارجي" className="bg-[#1B1D2A] text-white">تنقل خارجي (خارج سطات)</option>
           </select>
 
           {/* Status Filter */}
           <select
             value={filterOptions.status || ''}
             onChange={e => { setFilters({ status: e.target.value as any }); setCurrentPage(1); }}
-            className="w-full px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-2.5 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white focus:outline-none focus:border-[#59718A]"
           >
-            <option value="">جميع الحالات</option>
-            <option value="قيد الإنجاز">قيد الإنجاز</option>
-            <option value="مبرمجة">مبرمجة</option>
-            <option value="قيد المتابعة">قيد المتابعة</option>
-            <option value="متأخرة">متأخرة</option>
-            <option value="منجزة">منجزة ومستوفاة</option>
+            <option value="" className="bg-[#1B1D2A] text-white">جميع الحالات</option>
+            <option value="قيد الإنجاز" className="bg-[#1B1D2A] text-white">قيد الإنجاز</option>
+            <option value="مبرمجة" className="bg-[#1B1D2A] text-white">مبرمجة</option>
+            <option value="قيد المتابعة" className="bg-[#1B1D2A] text-white">قيد المتابعة</option>
+            <option value="متأخرة" className="bg-[#1B1D2A] text-white">متأخرة</option>
+            <option value="منجزة" className="bg-[#1B1D2A] text-white">منجزة ومستوفاة</option>
           </select>
 
           {/* Priority Filter */}
           <select
             value={filterOptions.priority || ''}
             onChange={e => { setFilters({ priority: e.target.value as any }); setCurrentPage(1); }}
-            className="w-full px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-2.5 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white focus:outline-none focus:border-[#59718A]"
           >
-            <option value="">جميع الأولويات</option>
-            <option value="عاجلة">عاجلة وطارئة</option>
-            <option value="عالية">عالية / مهمة</option>
-            <option value="متوسطة">متوسطة</option>
-            <option value="عادية">عادية</option>
-            <option value="منخفضة">منخفضة</option>
+            <option value="" className="bg-[#1B1D2A] text-white">جميع الأولويات</option>
+            <option value="عاجلة" className="bg-[#1B1D2A] text-[#E07A47]">عاجلة وطارئة</option>
+            <option value="عالية" className="bg-[#1B1D2A] text-[#D4A72C]">عالية / مهمة</option>
+            <option value="متوسطة" className="bg-[#1B1D2A] text-[#59718A]">متوسطة</option>
+            <option value="عادية" className="bg-[#1B1D2A] text-white">عادية</option>
+            <option value="منخفضة" className="bg-[#1B1D2A] text-[#8E91A0]">منخفضة</option>
           </select>
         </div>
       </div>
 
       {/* 2. HIGH-DENSITY DATA TABLE */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-800">
+            <thead className="bg-[#12131C]/80 text-[#8E91A0] font-bold border-b border-white/10">
               <tr>
                 <th className="py-3 px-4 w-28 text-center">التاريخ</th>
                 <th className="py-3 px-4 min-w-[240px]">موضوع التدخل والعمليات الفرعية</th>
@@ -216,10 +216,10 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
                 <th className="py-3 px-4 w-24 text-center">الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-white/10">
               {paginatedTasks.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan={7} className="py-12 text-center text-[#8E91A0]">
                     لا توجد مهام مطابقة لخيارات البحث المحددة.
                   </td>
                 </tr>
@@ -232,30 +232,30 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
                   return (
                     <tr 
                       key={task.id}
-                      className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
+                      className="hover:bg-white/[0.03] transition-colors"
                     >
                       {/* Date */}
-                      <td className="py-3 px-4 text-center font-mono text-[11px] text-slate-600 dark:text-slate-400 whitespace-nowrap">
-                        {task.taskDate ? task.taskDate : <span className="text-purple-600 dark:text-purple-400 font-bold">مفتوحة</span>}
+                      <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
+                        {task.taskDate ? task.taskDate : <span className="text-[#C47C8A] font-bold">مفتوحة</span>}
                       </td>
 
                       {/* Title & Subtasks */}
                       <td className="py-3 px-4">
                         <div 
                           onClick={() => onViewTask(task)}
-                          className="font-bold text-slate-900 dark:text-white hover:text-blue-500 cursor-pointer text-xs"
+                          className="font-bold text-white hover:text-[#59718A] cursor-pointer text-xs transition-colors"
                           title={task.title}
                         >
                           {task.title}
                         </div>
                         {task.description && (
-                          <div className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
+                          <div className="text-[11px] text-[#8E91A0] line-clamp-1 mt-0.5">
                             {task.description}
                           </div>
                         )}
                         {subtasksTotal > 0 && (
-                          <div className="mt-1 flex items-center gap-1.5 text-[10px] text-slate-500">
-                            <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          <div className="mt-1 flex items-center gap-1.5 text-[10px] text-[#8E91A0]">
+                            <span className="font-semibold text-[#8FA68F]">
                               ☑️ {subtasksDone}/{subtasksTotal} عمليات
                             </span>
                             <span>·</span>
@@ -266,11 +266,11 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
 
                       {/* Category */}
                       <td className="py-3 px-4">
-                        <span className="font-semibold text-slate-700 dark:text-slate-300">
+                        <span className="font-semibold text-white/90">
                           {task.category}
                         </span>
                         {task.subcategory && (
-                          <span className="text-[10px] text-slate-400 block">
+                          <span className="text-[10px] text-[#8E91A0] block">
                             {task.subcategory}
                           </span>
                         )}
@@ -278,10 +278,10 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
 
                       {/* Destination & Scope */}
                       <td className="py-3 px-4">
-                        <div className="font-semibold text-slate-900 dark:text-white truncate">
+                        <div className="font-semibold text-white truncate">
                           📍 {task.destination}
                         </div>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                        <span className="text-[10px] text-[#8E91A0]">
                           {task.city || 'سطات'} · {task.scope}
                         </span>
                       </td>
@@ -302,43 +302,43 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
                           <button
                             type="button"
                             onClick={() => setActiveMenuId(isMenuOpen ? null : task.id)}
-                            className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
+                            className="p-1 rounded-lg hover:bg-white/10 text-[#8E91A0] hover:text-white transition-colors"
                             title="خيارات"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </button>
 
                           {isMenuOpen && (
-                            <div className="absolute left-0 mt-1 w-36 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg py-1 z-30 text-right">
+                            <div className="absolute left-0 mt-1 w-36 bg-[#1B1D2A] border border-white/10 rounded-xl shadow-xl py-1 z-30 text-right">
                               <button
                                 type="button"
                                 onClick={() => { setActiveMenuId(null); onViewTask(task); }}
-                                className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                                className="w-full px-3 py-1.5 text-xs text-white hover:bg-white/5 flex items-center gap-2 transition-colors"
                               >
-                                <Eye className="w-3.5 h-3.5 text-blue-500" />
+                                <Eye className="w-3.5 h-3.5 text-[#59718A]" />
                                 <span>معاينة</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={() => { setActiveMenuId(null); onEditTask(task); }}
-                                className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                                className="w-full px-3 py-1.5 text-xs text-white hover:bg-white/5 flex items-center gap-2 transition-colors"
                               >
-                                <Edit3 className="w-3.5 h-3.5 text-amber-500" />
+                                <Edit3 className="w-3.5 h-3.5 text-[#D4A72C]" />
                                 <span>تعديل</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={() => { setActiveMenuId(null); toggleTaskStatus(task.id); }}
-                                className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                                className="w-full px-3 py-1.5 text-xs text-white hover:bg-white/5 flex items-center gap-2 transition-colors"
                               >
-                                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                <Check className="w-3.5 h-3.5 text-[#8FA68F]" />
                                 <span>{task.status === 'منجزة' ? 'إعادة فتح' : 'إنجاز'}</span>
                               </button>
-                              <div className="my-1 border-t border-slate-100 dark:border-slate-700" />
+                              <div className="my-1 border-t border-white/10" />
                               <button
                                 type="button"
                                 onClick={() => { setActiveMenuId(null); deleteTask(task.id); }}
-                                className="w-full px-3 py-1.5 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2"
+                                className="w-full px-3 py-1.5 text-xs text-[#E07A47] hover:bg-white/5 flex items-center gap-2 transition-colors"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                                 <span>سلة المهملات</span>
@@ -356,7 +356,7 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
         </div>
 
         {/* Pagination Bar */}
-        <div className="p-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div className="p-3 border-t border-white/10 flex items-center justify-between text-xs text-[#8E91A0]">
           <div>
             عرض {totalItems > 0 ? startIndex + 1 : 0} إلى {Math.min(startIndex + itemsPerPage, totalItems)} من أصل {totalItems}
           </div>
@@ -366,18 +366,18 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
               type="button"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-              className="p-1 rounded-md border border-slate-200 dark:border-slate-800 disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-1 rounded-md border border-white/10 disabled:opacity-40 hover:bg-white/5 text-white transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
-            <span className="px-2 font-mono font-bold text-slate-700 dark:text-slate-200">
+            <span className="px-2 font-mono font-bold text-white">
               {currentPage} / {totalPages}
             </span>
             <button
               type="button"
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-              className="p-1 rounded-md border border-slate-200 dark:border-slate-800 disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-1 rounded-md border border-white/10 disabled:opacity-40 hover:bg-white/5 text-white transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>

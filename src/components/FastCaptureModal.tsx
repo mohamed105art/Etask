@@ -43,21 +43,21 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-900/60 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-5 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md bg-[#1B1D2A] border border-white/10 rounded-[20px] shadow-2xl p-5 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#D4A72C]/20 text-[#D4A72C] flex items-center justify-center">
               <Zap className="w-4 h-4" />
             </div>
-            <h3 className="font-extrabold text-sm text-slate-900 dark:text-white">
+            <h3 className="font-extrabold text-sm text-white">
               إدخال فوري وسريع لمهمة (Saisie Rapide)
             </h3>
           </div>
           <button 
             type="button" 
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-1 rounded-lg text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -65,7 +65,7 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
 
         <form onSubmit={handleSubmit} className="space-y-3 text-xs">
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-white block mb-1">
               نص المهمة أو التدخل الفجائي:
             </label>
             <input
@@ -75,12 +75,12 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
               value={inputText}
               onChange={e => setInputText(e.target.value)}
               placeholder="مثال: تسليم طونير HP بابتدائية ابن أحمد، عطل مفتاح التوقيع..."
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:border-amber-500"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white placeholder-[#8E91A0] text-xs font-semibold focus:outline-none focus:border-[#D4A72C]"
             />
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+            <label className="font-bold text-white block mb-1">
               الوجهة المقترحة (اختياري):
             </label>
             <input
@@ -89,7 +89,7 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
               value={destination}
               onChange={e => setDestination(e.target.value)}
               placeholder="ابتدائية سطات، برشيد، ابن أحمد..."
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-amber-500"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white placeholder-[#8E91A0] text-xs focus:outline-none focus:border-[#D4A72C]"
             />
             <datalist id="fc-courts-list">
               {courts.map(c => (
@@ -102,13 +102,13 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
             <button
               type="button"
               onClick={onClose}
-              className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100"
+              className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors"
             >
               إلغاء
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 text-xs font-bold rounded-lg bg-amber-500 text-white hover:bg-amber-600 shadow-sm transition-all"
+              className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#D4A72C] text-[#12131C] hover:bg-[#D4A72C]/90 shadow-sm transition-all"
             >
               ⚡ تسجيل فوري
             </button>

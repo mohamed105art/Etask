@@ -22,14 +22,14 @@ export const TrashView: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              if (window.confirm('⚠️ هل أنت متأكد من رغبتك في تفريغ سلة المهملات نهائياً؟ لا يمكن التراجع عن هذا الإجراء.')) {
+              if (window.confirm('هل أنت متأكد من تفريغ سلة المهملات نهائياً؟ لا يمكن التراجع عن هذا الإجراء.')) {
                 emptyTrash();
               }
             }}
             className="px-3 py-1.5 rounded-lg border border-[#E07A47]/40 text-[#E07A47] hover:bg-[#E07A47]/10 text-xs font-bold transition-colors flex items-center gap-1.5"
           >
             <AlertTriangle className="w-3.5 h-3.5" />
-            <span>تفريغ سلة المهملات</span>
+            <span>تفريغ السلة</span>
           </button>
         )}
       </div>

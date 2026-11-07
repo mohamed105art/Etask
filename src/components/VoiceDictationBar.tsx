@@ -107,7 +107,7 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-50/80 via-indigo-50/40 to-purple-50/60 dark:from-slate-800/60 dark:via-slate-800/40 dark:to-slate-800/60 border border-blue-200/80 dark:border-blue-900/50 rounded-xl p-3 space-y-2 text-xs transition-all">
+    <div className="bg-[#12131C] border border-white/10 rounded-xl p-3 space-y-2 text-xs transition-all">
       {/* Controls row */}
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
@@ -115,29 +115,29 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
             type="button"
             onClick={isListening ? stopListening : startListening}
             className={`
-              flex items-center gap-2 px-3 py-1.5 rounded-lg font-bold text-xs shadow-sm transition-all
+              flex items-center gap-2 px-3 py-1.5 rounded-lg font-bold text-xs shadow-sm transition-all cursor-pointer
               ${isListening 
-                ? 'bg-red-600 text-white animate-pulse' 
-                : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'}
+                ? 'bg-[#E07A47] text-white animate-pulse' 
+                : 'bg-[#59718A] text-white hover:bg-[#4d6379] active:scale-95'}
             `}
             title={isListening ? 'إيقاف التسجيل الصوتي والتحليل' : 'بدء الإملاء الصوتي المباشر'}
           >
             {isListening ? (
               <>
-                <MicOff className="w-4 h-4 animate-bounce" />
-                <span>إيقاف وتحليل ⏹️</span>
+                <MicOff className="w-4 h-4" />
+                <span>إيقاف</span>
               </>
             ) : (
               <>
                 <Mic className="w-4 h-4" />
-                <span>إملاء صوتي ذكي</span>
+                <span>إملاء صوتي</span>
               </>
             )}
           </button>
 
           {isListening && (
-            <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold text-xs animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-red-500" />
+            <div className="flex items-center gap-1.5 text-[#E07A47] font-bold text-xs animate-pulse">
+              <span className="w-2 h-2 rounded-full bg-[#E07A47]" />
               <span>جار الاستماع الصوتي... تكلم بحرية</span>
             </div>
           )}
@@ -145,17 +145,17 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
 
         {/* Language selector & hint */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 text-[11px] text-slate-500">
-            <Globe className="w-3.5 h-3.5 text-slate-400" />
+          <div className="flex items-center gap-1 text-[11px] text-[#8E91A0]">
+            <Globe className="w-3.5 h-3.5 text-[#8E91A0]" />
             <select
               value={language}
               onChange={e => setLanguage(e.target.value as any)}
               disabled={isListening}
-              className="bg-transparent font-semibold text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
+              className="bg-transparent font-semibold text-white focus:outline-none cursor-pointer"
             >
-              <option value="ar-MA" className="dark:bg-slate-800">العربية (المغرب)</option>
-              <option value="ar-SA" className="dark:bg-slate-800">العربية الفصحى</option>
-              <option value="fr-FR" className="dark:bg-slate-800">الفرنسية (Français)</option>
+              <option value="ar-MA" className="bg-[#1B1D2A] text-white">العربية (المغرب)</option>
+              <option value="ar-SA" className="bg-[#1B1D2A] text-white">العربية الفصحى</option>
+              <option value="fr-FR" className="bg-[#1B1D2A] text-white">الفرنسية</option>
             </select>
           </div>
         </div>
@@ -163,18 +163,18 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
 
       {/* Live transcript preview */}
       {transcript && (
-        <div className="p-2.5 rounded-lg bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 flex items-start justify-between gap-2 shadow-inner">
+        <div className="p-2.5 rounded-lg bg-[#1B1D2A] border border-white/10 text-white flex items-start justify-between gap-2 shadow-inner">
           <div className="flex-1">
-            <span className="text-[10px] font-bold text-slate-400 block mb-0.5">النص الصوتي الملتقط:</span>
+            <span className="text-[10px] font-bold text-[#8E91A0] block mb-0.5">النص الصوتي الملتقط:</span>
             <p className="text-xs font-semibold leading-relaxed">&quot;{transcript}&quot;</p>
           </div>
           {!isListening && (
             <button
               type="button"
               onClick={() => handleProcessTranscript(transcript)}
-              className="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[10px] hover:bg-blue-700 shrink-0 cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-[#59718A] hover:bg-[#4d6379] text-white font-bold text-[10px] shrink-0 cursor-pointer transition-colors"
             >
-              إعادة التحليل
+              تحليل
             </button>
           )}
         </div>
@@ -182,30 +182,30 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
 
       {/* Extraction feedback summary badges */}
       {lastParsedSummary && (
-        <div className="pt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-slate-600 dark:text-slate-300">
-          <span className="font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-amber-500" />
-            <span>تم استخراج المعطيات تلقائياً:</span>
+        <div className="pt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-[#8E91A0]">
+          <span className="font-bold text-[#59718A] flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#D4A72C]" />
+            <span>المعطيات المستخرجة:</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded-md bg-[#1B1D2A] border border-white/10 font-semibold flex items-center gap-1 text-white">
             <Calendar className="w-3 h-3 text-[#59718A]" />
             <span>{lastParsedSummary.dateDetected}</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded-md bg-[#1B1D2A] border border-white/10 font-semibold flex items-center gap-1 text-white">
             <Tag className="w-3 h-3 text-[#8FA68F]" />
             <span>{lastParsedSummary.domainDetected}</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded-md bg-[#1B1D2A] border border-white/10 font-semibold flex items-center gap-1 text-white">
             <MapPin className="w-3 h-3 text-[#D4A72C]" />
             <span>{lastParsedSummary.facilityDetected}</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold">
+          <span className="px-2 py-0.5 rounded-md bg-[#1B1D2A] border border-white/10 font-semibold text-white">
             {lastParsedSummary.priorityDetected}
           </span>
           {lastParsedSummary.subtasksDetectedCount > 0 && (
-            <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1">
+            <span className="px-2 py-0.5 rounded-md bg-[#8FA68F]/20 border border-[#8FA68F]/40 text-[#8FA68F] font-bold flex items-center gap-1">
               <CheckSquare className="w-3 h-3" />
-              <span>{lastParsedSummary.subtasksDetectedCount} عمليات فرعية مستخرجة</span>
+              <span>{lastParsedSummary.subtasksDetectedCount} عمليات فرعية</span>
             </span>
           )}
         </div>
@@ -213,8 +213,8 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
 
       {/* Error alert */}
       {errorMessage && (
-        <div className="p-2 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 flex items-center gap-1.5 text-[11px]">
-          <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+        <div className="p-2 rounded-lg bg-[#E07A47]/20 border border-[#E07A47]/40 text-[#E07A47] flex items-center gap-1.5 text-[11px]">
+          <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}

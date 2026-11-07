@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTasks } from '../context/TaskContext';
-import { FileText, Printer, RotateCcw } from 'lucide-react';
+import { FileText, Printer, RotateCcw, CheckSquare, Square } from 'lucide-react';
 
 export const MissionReportView: React.FC = () => {
   const { tasks, profile, settings } = useTasks();
@@ -218,7 +218,11 @@ export const MissionReportView: React.FC = () => {
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1 text-xs">
               {selectedTask.subtasks.map((st, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <span>{st.completed || st.done ? '☑️' : '◻️'}</span>
+                  {st.completed || st.done ? (
+                    <CheckSquare className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  ) : (
+                    <Square className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  )}
                   <span>{st.title}</span>
                 </div>
               ))}

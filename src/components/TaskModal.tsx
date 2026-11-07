@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTasks } from '../context/TaskContext';
 import { Task, SubTask, TaskPriority, TaskStatus } from '../types/tasks';
-import { X, Calendar, MapPin, Plus, Trash2, CheckCircle2, Sliders, ChevronDown } from 'lucide-react';
+import { X, Calendar, MapPin, Plus, Trash2, CheckCircle2, Sliders, ChevronDown, Edit3 } from 'lucide-react';
 import { VoiceDictationBar } from './VoiceDictationBar';
 import { ParsedVoiceTask } from '../services/voiceParserService';
 
@@ -266,8 +266,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         {/* Header */}
         <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-[#59718A] font-bold">
-              {taskToEdit ? '✏️' : '➕'}
+            <span className="text-[#59718A]">
+              {taskToEdit ? <Edit3 className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
             </span>
             <h3 className="font-extrabold text-sm text-white">
               {taskToEdit ? 'تعديل وتوسيع بيانات المهمة' : 'تسجيل مهمة أو تدخل ميداني'}
@@ -276,7 +276,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           <button 
             type="button" 
             onClick={onClose}
-            className="p-1 rounded-lg text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors"
+            className="p-1 rounded-lg text-[#8E91A0] hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -412,10 +412,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           {/* STAGE 3: CASCADING DYNAMIC SUB-TASKS */}
           <div className="space-y-2 bg-[#12131C] border border-white/10 rounded-xl p-3">
             <div className="flex items-center justify-between">
-              <label className="font-bold text-white">
-                ☑️ العمليات والمهام الفرعية (تظهر ديناميكياً):
+              <label className="font-bold text-white flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#8FA68F]" />
+                <span>العمليات والمهام الفرعية:</span>
               </label>
-              <span className="text-[11px] text-[#8E91A0]">
+              <span className="text-[11px] text-[#8E91A0] font-sans tabular-nums">
                 {subtasks.length} عمليات
               </span>
             </div>
@@ -504,8 +505,9 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             {/* Conditional City prompt for new places */}
             {isNewCityPromptOpen && (
               <div className="mt-2 p-2.5 rounded-lg bg-[#2F6F6D]/20 border border-[#2F6F6D]/40 flex items-center justify-between text-xs">
-                <span className="text-[#8FA68F] font-semibold">
-                  ✨ وجهة جديدة! بأي مدينة تتواجد لحفظها في السجل؟
+                <span className="text-[#8FA68F] font-semibold flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>وجهة جديدة. اختر المدينة للحفظ:</span>
                 </span>
                 <div className="flex gap-1">
                   {['سطات', 'برشيد', 'ابن أحمد', 'الرباط'].map(c => (
@@ -623,7 +625,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               onClick={() => setShowNotes(!showNotes)}
               className="text-xs text-[#59718A] hover:text-white font-semibold flex items-center gap-1 transition-colors"
             >
-              <span>{showNotes ? '▲ إخفاء الملاحظات الإضافية' : '+ إضافة ملاحظات أو تفاصيل تقنية (اختياري)'}</span>
+              <span>{showNotes ? 'إخفاء الملاحظات' : 'إضافة ملاحظات'}</span>
             </button>
             {showNotes && (
               <textarea
@@ -651,7 +653,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             onClick={handleSubmit}
             className="px-5 py-2 text-xs font-bold rounded-xl bg-[#59718A] text-white hover:bg-[#4d6379] shadow-md transition-all active:scale-95 cursor-pointer"
           >
-            {taskToEdit ? 'حفظ التعديلات' : 'تسجيل المهمة'}
+            {taskToEdit ? 'حفظ' : 'تسجيل'}
           </button>
         </div>
       </div>

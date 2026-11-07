@@ -108,9 +108,10 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#D4A72C] text-[#12131C] hover:bg-[#D4A72C]/90 shadow-sm transition-all"
+              className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#D4A72C] text-[#12131C] hover:bg-[#D4A72C]/90 shadow-sm transition-all flex items-center gap-1.5"
             >
-              ⚡ تسجيل فوري
+              <Zap className="w-3.5 h-3.5" />
+              <span>تسجيل</span>
             </button>
           </div>
         </form>

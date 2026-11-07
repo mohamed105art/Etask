@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTasks } from '../context/TaskContext';
-import { Trash2, RotateCcw, AlertTriangle } from 'lucide-react';
+import { Trash2, RotateCcw, AlertTriangle, MapPin } from 'lucide-react';
 
 export const TrashView: React.FC = () => {
   const { trash, restoreTask, deleteTask, emptyTrash } = useTasks();
@@ -56,7 +56,7 @@ export const TrashView: React.FC = () => {
               ) : (
                 trash.map(task => (
                   <tr key={task.id} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
+                    <td className="py-3 px-4 text-center font-sans text-xs text-[#8E91A0] whitespace-nowrap">
                       {task.deletedAt ? task.deletedAt.replace('T', ' ').slice(0, 16) : '-'}
                     </td>
                     <td className="py-3 px-4">
@@ -66,7 +66,12 @@ export const TrashView: React.FC = () => {
                       )}
                     </td>
                     <td className="py-3 px-4 text-[#8E91A0] font-semibold">{task.category}</td>
-                    <td className="py-3 px-4 text-white">📍 {task.destination}</td>
+                    <td className="py-3 px-4 text-white">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-[#D4A72C] shrink-0" />
+                        <span>{task.destination}</span>
+                      </span>
+                    </td>
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-1.5">
                         <button

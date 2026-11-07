@@ -300,11 +300,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                   type="date"
                   value={taskDate}
                   onChange={e => setTaskDate(e.target.value)}
-                  className="px-2.5 py-1 rounded-lg border border-white/10 bg-[#1B1D2A] text-white font-mono text-xs focus:border-[#59718A]"
+                  className="px-2.5 py-1 rounded-lg border border-white/10 bg-[#1B1D2A] text-white font-sans text-xs focus:border-[#59718A]"
                 />
               ) : (
                 <span className="text-[#D4A72C] font-bold text-xs">
-                  📌 مفتوحة (بدون تاريخ محدد)
+                  مفتوحة (بدون تاريخ محدد)
                 </span>
               )}
             </div>
@@ -343,7 +343,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           <div className="space-y-1.5 relative">
             <div className="flex items-center justify-between">
               <label className="font-bold text-white">
-                🎯 عنوان المهمة أو التدخل:
+                عنوان المهمة أو التدخل:
               </label>
               <span className="text-[11px] text-[#8E91A0]">
                 التعرف التلقائي على المجال الذكي
@@ -402,7 +402,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               >
                 {categories.map(c => (
                   <option key={c.id} value={c.name} className="bg-[#1B1D2A] text-white">
-                    {c.icon || '🏷️'} {c.name}
+                    {c.name}
                   </option>
                 ))}
               </select>
@@ -551,10 +551,10 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               </label>
               <div className="grid grid-cols-4 gap-1 p-1 bg-[#1B1D2A] border border-white/10 rounded-lg text-center">
                 {[
-                  { id: 'مبرمجة', label: '📅 مبرمجة' },
-                  { id: 'قيد الإنجاز', label: '⚙️ جارية' },
-                  { id: 'قيد المتابعة', label: '🔄 متابعة' },
-                  { id: 'منجزة', label: '✅ منجزة' }
+                  { id: 'مبرمجة', label: 'مبرمجة' },
+                  { id: 'قيد الإنجاز', label: 'جارية' },
+                  { id: 'قيد المتابعة', label: 'متابعة' },
+                  { id: 'منجزة', label: 'منجزة' }
                 ].map(st => (
                   <button
                     key={st.id}
@@ -589,7 +589,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             <div className="sm:col-span-2 space-y-1 pt-1">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="font-bold text-[#8E91A0]">مؤشر التقدم:</span>
-                <span className="font-mono font-bold text-[#59718A]">{progress}%</span>
+                <span className="font-sans font-bold text-[#59718A] tabular-nums">{progress}%</span>
               </div>
               <input
                 type="range"
@@ -649,9 +649,9 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-5 py-2 text-xs font-bold rounded-xl bg-[#59718A] text-white hover:bg-[#4d6379] shadow-md transition-all active:scale-95"
+            className="px-5 py-2 text-xs font-bold rounded-xl bg-[#59718A] text-white hover:bg-[#4d6379] shadow-md transition-all active:scale-95 cursor-pointer"
           >
-            {taskToEdit ? '💾 حفظ التعديلات' : '💾 تسجيل المهمة'}
+            {taskToEdit ? 'حفظ التعديلات' : 'تسجيل المهمة'}
           </button>
         </div>
       </div>

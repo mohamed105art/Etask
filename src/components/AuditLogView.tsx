@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTasks } from '../context/TaskContext';
-import { History, Search, Filter } from 'lucide-react';
+import { History, Search } from 'lucide-react';
 
 export const AuditLogView: React.FC = () => {
   const { auditLog } = useTasks();
@@ -19,30 +19,42 @@ export const AuditLogView: React.FC = () => {
     return true;
   });
 
-  const getActionBadge = (type?: string, action?: string) => {
+  const getActionBadge = (type?: string) => {
     switch (type) {
       case 'create':
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#59718A] text-white">➕ إنشاء</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-500/15 text-blue-400">إنشاء</span>;
       case 'update':
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D4A72C] text-[#12131C]">✏️ تعديل</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-500/15 text-amber-400">تعديل</span>;
       case 'done':
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#2F6F6D] text-white">✅ إنجاز</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/15 text-emerald-400">إنجاز</span>;
       case 'delete':
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#E07A47] text-white">🗑️ حذف</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-red-500/15 text-red-400">حذف</span>;
       case 'restore':
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#5B3A62] text-white">↩️ استرجاع</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-purple-500/15 text-purple-400">استرجاع</span>;
       default:
-        return <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-white/10 text-[#8E91A0]">⚙️ نظام</span>;
+        return <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-white/10 text-[#8E91A0]">نظام</span>;
+    }
+  };
+
+  const formatTimestamp = (timestamp?: string) => {
+    if (!timestamp) return { date: '-', time: '' };
+    try {
+      const parts = timestamp.split('T');
+      const date = parts[0] || '-';
+      const time = parts[1] ? parts[1].slice(0, 8) : '';
+      return { date, time };
+    } catch {
+      return { date: timestamp, time: '' };
     }
   };
 
   return (
     <div className="space-y-4">
-      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
         <div>
           <h2 className="text-sm font-bold text-white flex items-center gap-2">
             <History className="w-4 h-4 text-[#59718A]" />
-            <span>سجل العمليات والأحداث الزمنية (Audit Log)</span>
+            <span>سجل العمليات والأحداث الزمنية</span>
           </h2>
           <p className="text-xs text-[#8E91A0] mt-0.5">
             توثيق تلقائي زمني لكافة عمليات الإنشاء، التعديل، الإنجاز، والحذف لحماية سلامة البيانات
@@ -76,16 +88,16 @@ export const AuditLogView: React.FC = () => {
         </div>
       </div>
 
-      {/* Log Table */}
-      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] overflow-hidden">
+      {/* Log Table with Min-Width & Horizontal Scroll */}
+      <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-[#12131C]/80 text-[#8E91A0] font-bold border-b border-white/10">
+            <thead className="bg-[#12131C]/90 text-[#8E91A0] font-bold border-b border-white/10">
               <tr>
-                <th className="py-3 px-4 w-40 text-center">التاريخ والتوقيت</th>
-                <th className="py-3 px-4 w-28 text-center">نوع الإجراء</th>
-                <th className="py-3 px-4 min-w-[200px]">المهمة / العنصر المعني</th>
-                <th className="py-3 px-4">تفاصيل وسياق العملية</th>
+                <th className="py-3 px-4 w-36 text-center whitespace-nowrap">التاريخ والتوقيت</th>
+                <th className="py-3 px-4 w-28 text-center whitespace-nowrap">نوع الإجراء</th>
+                <th className="py-3 px-4 min-w-[250px] whitespace-nowrap">المهمة / العنصر المعني</th>
+                <th className="py-3 px-4 min-w-[280px]">تفاصيل وسياق العملية</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10">
@@ -96,22 +108,33 @@ export const AuditLogView: React.FC = () => {
                   </td>
                 </tr>
               ) : (
-                filteredLogs.map((log, index) => (
-                  <tr key={log.id || `audit-log-${index}-${log.timestamp || ''}`} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
-                      {log.timestamp ? log.timestamp.replace('T', ' ').slice(0, 19) : '-'}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      {getActionBadge(log.type, log.action)}
-                    </td>
-                    <td className="py-3 px-4 font-bold text-white">
-                      {log.targetTitle || log.action}
-                    </td>
-                    <td className="py-3 px-4 text-[#8E91A0]">
-                      {log.details || '-'}
-                    </td>
-                  </tr>
-                ))
+                filteredLogs.map((log, index) => {
+                  const { date, time } = formatTimestamp(log.timestamp);
+                  return (
+                    <tr 
+                      key={log.id || `audit-log-${index}-${log.timestamp || ''}`} 
+                      className="hover:bg-white/[0.03] transition-colors"
+                    >
+                      {/* Stacked Date on top, Time below */}
+                      <td className="py-3 px-4 text-center whitespace-nowrap">
+                        <div className="font-sans text-xs text-gray-200 font-semibold">{date}</div>
+                        {time && <div className="text-[10px] text-[#8E91A0] font-sans mt-0.5">{time}</div>}
+                      </td>
+
+                      <td className="py-3 px-4 text-center whitespace-nowrap">
+                        {getActionBadge(log.type)}
+                      </td>
+
+                      <td className="py-3 px-4 font-bold text-white min-w-[250px]">
+                        {log.targetTitle || log.action}
+                      </td>
+
+                      <td className="py-3 px-4 text-[#8E91A0] min-w-[280px] leading-relaxed">
+                        {log.details || '-'}
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

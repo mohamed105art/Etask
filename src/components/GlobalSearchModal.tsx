@@ -83,7 +83,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               مسح
             </button>
           )}
-          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold text-[#8E91A0] bg-[#12131C] border border-white/10 rounded">
+          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-sans font-bold text-[#8E91A0] bg-[#12131C] border border-white/10 rounded">
             ESC
           </kbd>
           <button
@@ -124,7 +124,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
             </div>
           ) : searchResults.length === 0 ? (
             <div className="py-12 text-center text-[#8E91A0] space-y-2">
-              <div className="text-xl">🔍</div>
+              <Search className="w-8 h-8 mx-auto text-[#8E91A0] opacity-50" />
               <div className="font-bold text-xs text-white">
                 لم يتم العثور على أي تدخل يطابق: &quot;{globalSearchQuery}&quot;
               </div>
@@ -136,7 +136,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
             <>
               <div className="flex items-center justify-between text-[11px] text-[#8E91A0] px-1 mb-1">
                 <span>نتائج البحث الفوري: {searchResults.length} تدخل تاريخي</span>
-                <span>مرتبة حسب درجة التطابق ⚡</span>
+                <span>مرتبة حسب درجة التطابق</span>
               </div>
 
               {searchResults.map(({ task, score, matches }) => {
@@ -149,13 +149,19 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                     <div className="flex-1 min-w-0">
                       {/* Meta kicker */}
                       <div className="flex items-center gap-2 text-[11px] text-[#8E91A0] mb-1">
-                        <span className="font-mono text-[#59718A] font-semibold">
+                        <span className="font-sans text-[#59718A] font-semibold">
                           {task.taskDate ? task.taskDate : 'مفتوحة'}
                         </span>
                         <span>·</span>
-                        <span className="truncate">📍 {task.destination}</span>
+                        <span className="truncate flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-[#D4A72C] shrink-0" />
+                          <span>{task.destination}</span>
+                        </span>
                         <span>·</span>
-                        <span className="text-white/80 font-medium">🏷️ {task.category}</span>
+                        <span className="text-white/80 font-medium flex items-center gap-1">
+                          <Tag className="w-3 h-3 text-[#8FA68F] shrink-0" />
+                          <span>{task.category}</span>
+                        </span>
                         <span>·</span>
                         <span className={isDone ? 'text-[#8FA68F] font-bold' : 'text-[#D4A72C] font-bold'}>
                           {task.status}
@@ -225,7 +231,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         {/* Footer info */}
         <div className="px-4 py-2.5 border-t border-white/10 text-[11px] text-[#8E91A0] flex items-center justify-between shrink-0 bg-[#12131C]/60">
           <span>نظام البحث الفوري المتكامل — E-Tasks Enterprise</span>
-          <span>اختصار سريع: <kbd className="font-mono bg-[#1B1D2A] border border-white/10 px-1 rounded text-white">Ctrl+K</kbd></span>
+          <span>اختصار سريع: <kbd className="font-sans bg-[#1B1D2A] border border-white/10 px-1 rounded text-white">Ctrl+K</kbd></span>
         </div>
       </div>
     </div>

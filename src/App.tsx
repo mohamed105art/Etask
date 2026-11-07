@@ -15,6 +15,7 @@ import { TaskModal } from './components/TaskModal';
 import { FastCaptureModal } from './components/FastCaptureModal';
 import { TaskPreviewModal } from './components/TaskPreviewModal';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Task } from './types/tasks';
 
 function MainLayout() {
@@ -71,7 +72,7 @@ function MainLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors">
+    <div className="min-h-screen bg-[#12131C] text-white flex flex-col font-sans selection:bg-[#59718A]/30">
       {/* Smart Slide-in Drawer Sidebar (#app-sidebar) */}
       <Sidebar
         currentView={currentView}
@@ -189,8 +190,10 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <TaskProvider>
-      <MainLayout />
-    </TaskProvider>
+    <ErrorBoundary>
+      <TaskProvider>
+        <MainLayout />
+      </TaskProvider>
+    </ErrorBoundary>
   );
 }

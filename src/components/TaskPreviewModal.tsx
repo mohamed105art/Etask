@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTasks } from '../context/TaskContext';
 import { Task } from '../types/tasks';
-import { X, Calendar, MapPin, Tag, Check, Edit3, Trash2 } from 'lucide-react';
+import { X, Calendar, MapPin, Tag, Check, Edit3, Trash2, CheckSquare } from 'lucide-react';
 
 interface TaskPreviewModalProps {
   task: Task | null;
@@ -43,9 +43,15 @@ export const TaskPreviewModal: React.FC<TaskPreviewModalProps> = ({ task, onClos
               <span>{task.destination}</span>
             </span>
             <span>·</span>
-            <span>📍 {task.city || 'سطات'} ({task.scope || 'محلي'})</span>
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-[#D4A72C]" />
+              <span>{task.city || 'سطات'} - {task.scope || 'محلي'}</span>
+            </span>
             <span>·</span>
-            <span>🏷️ {task.category}</span>
+            <span className="flex items-center gap-1">
+              <Tag className="w-3.5 h-3.5 text-[#8FA68F]" />
+              <span>{task.category}</span>
+            </span>
           </div>
 
           <h2 className="text-base font-extrabold text-white leading-relaxed">
@@ -56,8 +62,8 @@ export const TaskPreviewModal: React.FC<TaskPreviewModalProps> = ({ task, onClos
           <div className="p-3 bg-[#12131C] border border-white/10 rounded-xl space-y-1.5 text-xs">
             <div className="flex justify-between">
               <span className="text-[#8E91A0]">تاريخ المهمة:</span>
-              <span className="font-mono font-bold text-white">
-                {task.taskDate ? task.taskDate : '📌 مفتوحة بدون تاريخ'}
+              <span className="font-sans font-bold text-white">
+                {task.taskDate ? task.taskDate : 'مفتوحة بدون تاريخ'}
               </span>
             </div>
             <div className="flex justify-between">
@@ -74,7 +80,7 @@ export const TaskPreviewModal: React.FC<TaskPreviewModalProps> = ({ task, onClos
             </div>
             <div className="flex justify-between">
               <span className="text-[#8E91A0]">نسبة التقدم:</span>
-              <span className="font-mono font-bold text-[#59718A]">{task.progress}%</span>
+              <span className="font-sans font-bold text-[#59718A] tabular-nums">{task.progress}%</span>
             </div>
           </div>
 
@@ -91,8 +97,9 @@ export const TaskPreviewModal: React.FC<TaskPreviewModalProps> = ({ task, onClos
           {/* Subtasks */}
           {task.subtasks && task.subtasks.length > 0 && (
             <div className="space-y-1.5 pt-1">
-              <span className="font-bold text-white">
-                ☑️ العمليات والمهام الفرعية المنجزة ({task.subtasks.length}):
+              <span className="font-bold text-white flex items-center gap-1.5">
+                <CheckSquare className="w-4 h-4 text-[#8FA68F]" />
+                <span>العمليات والمهام الفرعية ({task.subtasks.length}):</span>
               </span>
               <div className="space-y-1">
                 {task.subtasks.map((st, i) => (

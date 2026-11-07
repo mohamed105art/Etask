@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, MicOff, AlertCircle, Sparkles, Volume2, Globe } from 'lucide-react';
+import { Mic, MicOff, AlertCircle, Sparkles, Volume2, Globe, Calendar, Tag, MapPin, CheckSquare } from 'lucide-react';
 import { 
   createSpeechRecognitionInstance, 
   isSpeechRecognitionSupported, 
@@ -130,7 +130,7 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
             ) : (
               <>
                 <Mic className="w-4 h-4" />
-                <span>إملاء صوتي ذكي 🎙️</span>
+                <span>إملاء صوتي ذكي</span>
               </>
             )}
           </button>
@@ -153,9 +153,9 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
               disabled={isListening}
               className="bg-transparent font-semibold text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
             >
-              <option value="ar-MA" className="dark:bg-slate-800">العربية (المغرب) 🇲🇦</option>
-              <option value="ar-SA" className="dark:bg-slate-800">العربية الفصحى 🇸🇦</option>
-              <option value="fr-FR" className="dark:bg-slate-800">Français (Admin) 🇫🇷</option>
+              <option value="ar-MA" className="dark:bg-slate-800">العربية (المغرب)</option>
+              <option value="ar-SA" className="dark:bg-slate-800">العربية الفصحى</option>
+              <option value="fr-FR" className="dark:bg-slate-800">الفرنسية (Français)</option>
             </select>
           </div>
         </div>
@@ -172,9 +172,9 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
             <button
               type="button"
               onClick={() => handleProcessTranscript(transcript)}
-              className="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[10px] hover:bg-blue-700 shrink-0"
+              className="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[10px] hover:bg-blue-700 shrink-0 cursor-pointer"
             >
-              إعادة التحليل ⚡
+              إعادة التحليل
             </button>
           )}
         </div>
@@ -187,21 +187,25 @@ export const VoiceDictationBar: React.FC<VoiceDictationBarProps> = ({
             <Sparkles className="w-3 h-3 text-amber-500" />
             <span>تم استخراج المعطيات تلقائياً:</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold">
-            📅 {lastParsedSummary.dateDetected}
+          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+            <Calendar className="w-3 h-3 text-[#59718A]" />
+            <span>{lastParsedSummary.dateDetected}</span>
+          </span>
+          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+            <Tag className="w-3 h-3 text-[#8FA68F]" />
+            <span>{lastParsedSummary.domainDetected}</span>
+          </span>
+          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1">
+            <MapPin className="w-3 h-3 text-[#D4A72C]" />
+            <span>{lastParsedSummary.facilityDetected}</span>
           </span>
           <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold">
-            🏷️ {lastParsedSummary.domainDetected}
-          </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold">
-            📍 {lastParsedSummary.facilityDetected}
-          </span>
-          <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold">
-            ⚡ {lastParsedSummary.priorityDetected}
+            {lastParsedSummary.priorityDetected}
           </span>
           {lastParsedSummary.subtasksDetectedCount > 0 && (
-            <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-bold">
-              ☑️ {lastParsedSummary.subtasksDetectedCount} عمليات فرعية مستخرجة
+            <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1">
+              <CheckSquare className="w-3 h-3" />
+              <span>{lastParsedSummary.subtasksDetectedCount} عمليات فرعية مستخرجة</span>
             </span>
           )}
         </div>

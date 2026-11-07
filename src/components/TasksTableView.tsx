@@ -11,7 +11,8 @@ import {
   Trash2, 
   Eye, 
   ChevronRight, 
-  ChevronLeft 
+  ChevronLeft,
+  MapPin 
 } from 'lucide-react';
 
 interface TasksTableViewProps {
@@ -58,16 +59,16 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
     switch (status) {
       case 'منجزة':
       case 'مكتملة':
-        return <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">✓ منجزة</span>;
+        return <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#8FA68F]/20 text-[#8FA68F]">منجزة</span>;
       case 'قيد الإنجاز':
-        return <span className="text-xs font-bold text-blue-600 dark:text-blue-400">⚙️ قيد الإنجاز</span>;
+        return <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#59718A]/20 text-[#59718A]">قيد الإنجاز</span>;
       case 'قيد المتابعة':
-        return <span className="text-xs font-bold text-amber-600 dark:text-amber-400">🔄 قيد المتابعة</span>;
+        return <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#D4A72C]/20 text-[#D4A72C]">قيد المتابعة</span>;
       case 'متأخرة':
       case 'معلقة':
-        return <span className="text-xs font-bold text-red-600 dark:text-red-400">⚠️ {status}</span>;
+        return <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#E07A47]/20 text-[#E07A47]">{status}</span>;
       default:
-        return <span className="text-xs font-semibold text-purple-600 dark:text-purple-400">📅 مبرمجة</span>;
+        return <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#5B3A62]/20 text-[#c084fc]">مبرمجة</span>;
     }
   };
 
@@ -103,21 +104,19 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
             <button
               type="button"
               onClick={resetFilters}
-              title="إعادة تعيين الفلاتر"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center gap-1.5 transition-colors"
+              title="إعادة تعيين ومسح الفلاتر"
+              className="w-8 h-8 rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center justify-center transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>مسح الفلاتر</span>
             </button>
 
             <button
               type="button"
               onClick={handlePrintSummary}
               title="طباعة كشف المهام الحالية بصيغة A4"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#59718A] text-white hover:bg-[#4d6379] flex items-center gap-1.5 shadow-sm transition-colors"
+              className="w-8 h-8 rounded-lg bg-[#59718A] hover:bg-[#4d6379] text-white flex items-center justify-center shadow-sm transition-colors cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>طباعة كشف A4</span>
             </button>
           </div>
         </div>
@@ -235,7 +234,7 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
                       className="hover:bg-white/[0.03] transition-colors"
                     >
                       {/* Date */}
-                      <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
+                      <td className="py-3 px-4 text-center font-sans text-xs text-[#8E91A0] whitespace-nowrap">
                         {task.taskDate ? task.taskDate : <span className="text-[#C47C8A] font-bold">مفتوحة</span>}
                       </td>
 
@@ -255,11 +254,11 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
                         )}
                         {subtasksTotal > 0 && (
                           <div className="mt-1 flex items-center gap-1.5 text-[10px] text-[#8E91A0]">
-                            <span className="font-semibold text-[#8FA68F]">
-                              ☑️ {subtasksDone}/{subtasksTotal} عمليات
+                            <span className="font-semibold text-[#8FA68F] font-sans tabular-nums">
+                              {subtasksDone}/{subtasksTotal} عمليات
                             </span>
                             <span>·</span>
-                            <span>{task.progress}%</span>
+                            <span className="font-sans tabular-nums">{task.progress}%</span>
                           </div>
                         )}
                       </td>
@@ -278,8 +277,9 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
 
                       {/* Destination & Scope */}
                       <td className="py-3 px-4">
-                        <div className="font-semibold text-white truncate">
-                          📍 {task.destination}
+                        <div className="font-semibold text-white truncate flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-[#D4A72C] shrink-0" />
+                          <span>{task.destination}</span>
                         </div>
                         <span className="text-[10px] text-[#8E91A0]">
                           {task.city || 'سطات'} · {task.scope}
@@ -370,7 +370,7 @@ export const TasksTableView: React.FC<TasksTableViewProps> = ({
             >
               <ChevronRight className="w-4 h-4" />
             </button>
-            <span className="px-2 font-mono font-bold text-white">
+            <span className="px-2 font-sans font-bold text-white tabular-nums">
               {currentPage} / {totalPages}
             </span>
             <button

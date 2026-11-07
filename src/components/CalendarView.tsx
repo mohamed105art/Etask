@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTasks } from '../context/TaskContext';
 import { Task } from '../types/tasks';
-import { ChevronRight, ChevronLeft, Plus, Check, Edit3, X } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Plus, Check, Edit3, X, Calendar, MapPin, Tag } from 'lucide-react';
 
 interface CalendarViewProps {
   onOpenNewTaskModal: (date?: string) => void;
@@ -204,10 +204,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           <div className="w-full max-w-lg bg-[#1B1D2A] border border-white/10 rounded-2xl shadow-2xl p-5 space-y-4 max-h-[85vh] flex flex-col">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
               <div>
-                <h3 className="font-bold text-sm text-white">
-                  📅 مهام تاريخ: {selectedDayTasks.date}
+                <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-[#59718A]" />
+                  <span>مهام تاريخ: {selectedDayTasks.date}</span>
                 </h3>
-                <span className="text-xs text-[#8E91A0]">
+                <span className="text-xs text-[#8E91A0] font-sans tabular-nums">
                   {selectedDayTasks.tasks.length} مهام مسجلة
                 </span>
               </div>
@@ -228,7 +229,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   setSelectedDayTasks(null);
                   onOpenNewTaskModal(targetDate);
                 }}
-                className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-1.5 transition-colors"
+                className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>إضافة مهمة لهذا التاريخ</span>
@@ -247,10 +248,16 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                     className="p-3.5 rounded-xl border border-white/5 bg-[#12131C] flex items-center justify-between gap-3 hover:border-white/15 transition-all"
                   >
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5 text-[10px] text-[#8E91A0] mb-1">
-                        <span>📍 {t.destination}</span>
+                      <div className="flex items-center gap-2 text-[10px] text-[#8E91A0] mb-1">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-[#D4A72C] shrink-0" />
+                          <span>{t.destination}</span>
+                        </span>
                         <span>•</span>
-                        <span>🏷️ {t.category}</span>
+                        <span className="flex items-center gap-1">
+                          <Tag className="w-3 h-3 text-[#8FA68F] shrink-0" />
+                          <span>{t.category}</span>
+                        </span>
                       </div>
                       <div 
                         onClick={() => { setSelectedDayTasks(null); onViewTask(t); }}

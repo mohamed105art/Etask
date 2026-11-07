@@ -36,7 +36,7 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
       status: 'قيد الإنجاز',
       priority: 'عادية',
       progress: 25,
-      description: 'تم تسجيل هذا التدخل فجائياً عبر نافذة الإدخال السريع (Saisie Rapide).'
+      description: 'تم تسجيل هذا التدخل فجائياً عبر نافذة الإدخال السريع المباشر.'
     });
 
     onClose();
@@ -51,7 +51,7 @@ export const FastCaptureModal: React.FC<FastCaptureModalProps> = ({ isOpen, onCl
               <Zap className="w-4 h-4" />
             </div>
             <h3 className="font-extrabold text-sm text-white">
-              إدخال فوري وسريع لمهمة (Saisie Rapide)
+              إدخال فوري وسريع لمهمة
             </h3>
           </div>
           <button 

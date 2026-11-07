@@ -52,19 +52,19 @@ export const MissionReportView: React.FC = () => {
           <button
             type="button"
             onClick={() => handleTaskSelect('__manual__')}
-            className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center gap-1.5 transition-colors"
+            title="تفريغ الحقول وبدء إدخال يدوي جديد"
+            className="w-8 h-8 rounded-lg border border-white/10 text-[#8E91A0] hover:text-white hover:bg-white/5 flex items-center justify-center transition-colors cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>إدخال يدوي جديد</span>
           </button>
 
           <button
             type="button"
             onClick={handlePrint}
-            className="px-4 py-1.5 text-xs font-bold rounded-lg bg-[#59718A] text-white hover:bg-[#4d6379] flex items-center gap-1.5 transition-colors"
+            title="طباعة التقرير بصيغة A4"
+            className="w-8 h-8 rounded-lg bg-[#59718A] hover:bg-[#4d6379] text-white flex items-center justify-center shadow-sm transition-colors cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5" />
-            <span>🖨️ طباعة التقرير (A4)</span>
           </button>
         </div>
       </div>
@@ -136,7 +136,7 @@ export const MissionReportView: React.FC = () => {
               type="date"
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-mono font-bold focus:outline-none focus:border-[#59718A]"
+              className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white font-sans font-bold focus:outline-none focus:border-[#59718A]"
             />
           </div>
         </div>
@@ -199,7 +199,7 @@ export const MissionReportView: React.FC = () => {
             <div>• <strong>الشخص القائم بالمهمة:</strong> <u>{profile.fullName || settings.userName || 'محمد ايت حمادي'}</u> ({profile.jobTitle || settings.userRole})</div>
             <div>• <strong>المصلحة / الإدارة:</strong> {profile.organization || settings.department}</div>
             <div>• <strong>مكان التدخل / الوجهة:</strong> <strong>{destination}</strong></div>
-            <div>• <strong>تاريخ المهمة:</strong> <span className="font-mono font-bold">{date || '(غير محدد)'}</span></div>
+            <div>• <strong>تاريخ المهمة:</strong> <span className="font-sans font-bold">{date || '(غير محدد)'}</span></div>
           </div>
         </div>
 

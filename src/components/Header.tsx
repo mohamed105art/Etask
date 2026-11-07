@@ -110,43 +110,43 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* LEFT SECTION: 4 Square Buttons (36x36px each, border white/10) */}
       <div className="flex items-center gap-[8px] shrink-0">
-        {/* 1. Save / Backup Button 💾 */}
+        {/* 1. Save / Backup Button */}
         <button
           type="button"
           onClick={() => {
             exportBackupJSON();
           }}
-          title="حفظ وتصدير نسخة احتياطية (JSON)"
+          title="حفظ وتصدير نسخة احتياطية"
           className="w-[36px] h-[36px] rounded-[8px] bg-[#12131C] border border-white/10 flex justify-center items-center text-white hover:border-[#59718A] hover:text-[#59718A] transition-colors shrink-0 cursor-pointer shadow-xs"
         >
           <Save className="w-[16px] h-[16px]" />
         </button>
 
-        {/* 2. Global Search Button 🔍 */}
+        {/* 2. Global Search Button */}
         <button
           type="button"
           onClick={() => {
             window.dispatchEvent(new CustomEvent('open-global-search'));
           }}
-          title="بحث شامل في المهام (Ctrl+K)"
+          title="بحث شامل في المهام"
           className="w-[36px] h-[36px] rounded-[8px] bg-[#12131C] border border-white/10 flex justify-center items-center text-white hover:border-[#2F6F6D] hover:text-[#2F6F6D] transition-colors shrink-0 cursor-pointer shadow-xs"
         >
           <Search className="w-[16px] h-[16px]" />
         </button>
 
-        {/* 3. Theme Toggle / Dark Mode Icon 🌙 */}
+        {/* 3. Theme Toggle / Dark Mode Icon */}
         <button
           type="button"
           onClick={() => {
             // Dark mode is permanently enforced in the new design system
           }}
-          title="الوضع الداكن المعتمد (Dark Mode)"
+          title="الوضع الداكن المعتمد"
           className="w-[36px] h-[36px] rounded-[8px] bg-[#12131C] border border-white/10 flex justify-center items-center text-white hover:border-[#D4A72C] transition-colors shrink-0 cursor-pointer shadow-xs"
         >
           <Moon className="w-[16px] h-[16px]" />
         </button>
 
-        {/* 4. Profile Button 👤 */}
+        {/* 4. Profile Button */}
         <div className="relative" ref={profileMenuRef}>
           <button
             type="button"
@@ -181,11 +181,11 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 <div className="flex justify-between items-center text-[11px]">
                   <span className="text-[#8E91A0]">إجمالي المهام:</span>
-                  <span className="text-[#59718A] font-bold">{kpiStats.totalTasks} مهمة</span>
+                  <span className="text-[#59718A] font-bold font-sans tabular-nums">{kpiStats.totalTasks} مهمة</span>
                 </div>
                 <div className="flex justify-between items-center text-[11px]">
-                  <span className="text-[#8E91A0]">رمز الطوارئ PIN:</span>
-                  <span className="text-[#8FA68F] font-semibold flex items-center gap-1">
+                  <span className="text-[#8E91A0]">رمز الطوارئ السري:</span>
+                  <span className="text-[#8FA68F] font-semibold flex items-center gap-1 font-sans">
                     <Lock className="w-3 h-3" /> 105 / 7080
                   </span>
                 </div>
@@ -198,25 +198,25 @@ export const Header: React.FC<HeaderProps> = ({
                     exportBackupJSON();
                     setIsProfileMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-white/5 text-gray-200 font-semibold transition-colors"
+                  className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-white/5 text-gray-200 font-semibold transition-colors cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
                     <Download className="w-3.5 h-3.5 text-[#59718A]" />
                     <span>تصدير نسخة احتياطية</span>
                   </span>
-                  <span className="text-[10px] text-gray-500 font-mono">.json</span>
+                  <span className="text-[10px] text-gray-500 font-sans">ملف بيانات</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-white/5 text-gray-200 font-semibold transition-colors"
+                  className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-white/5 text-gray-200 font-semibold transition-colors cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
                     <Upload className="w-3.5 h-3.5 text-[#E07A47]" />
                     <span>استيراد بيانات</span>
                   </span>
-                  <span className="text-[10px] text-gray-500 font-mono">استرجاع</span>
+                  <span className="text-[10px] text-gray-500 font-sans">استرجاع</span>
                 </button>
               </div>
             </div>

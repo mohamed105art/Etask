@@ -193,35 +193,35 @@ export const SettingsView: React.FC = () => {
             onClick={() => setActiveTab('dictionaries')}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'dictionaries' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
-            📚 القواميس والتعلم الذاتي
+            القواميس والتعلم الذاتي
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('profile')}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'profile' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
-            👤 البطاقة المهنية
+            البطاقة المهنية
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('appearance')}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'appearance' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
-            🎨 المظهر والواجهة
+            المظهر والواجهة
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('workflow')}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'workflow' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
-            ⚙️ سير العمل والافتراضات
+            سير العمل والافتراضات
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('backup')}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'backup' ? 'bg-[#59718A] text-white shadow-sm' : 'text-[#8E91A0] hover:text-white'}`}
           >
-            💾 البيانات وفاحص الذاكرة
+            البيانات وفاحص الذاكرة
           </button>
         </div>
       </div>
@@ -353,7 +353,10 @@ export const SettingsView: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {courts.map(c => (
                     <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                      <td className="py-2 px-3 font-bold text-white">📍 {c.name}</td>
+                      <td className="py-2 px-3 font-bold text-white flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#D4A72C] shrink-0" />
+                        <span>{c.name}</span>
+                      </td>
                       <td className="py-2 px-3 text-slate-600 dark:text-slate-300">{c.city || 'سطات'}</td>
                       <td className="py-2 px-3">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${c.scope === 'محلي' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' : 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300'}`}>
@@ -528,9 +531,9 @@ export const SettingsView: React.FC = () => {
               </span>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-sm"
+                className="px-5 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-sm cursor-pointer"
               >
-                💾 حفظ البطاقة المهنية
+                حفظ البطاقة المهنية
               </button>
             </div>
           </form>
@@ -618,11 +621,11 @@ export const SettingsView: React.FC = () => {
               onChange={e => updateSettings({ defaultStartupView: e.target.value as any })}
               className="px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
             >
-              <option value="dashboard">لوحة القيادة والمؤشرات (Dashboard)</option>
-              <option value="today">لوحة إدارة اليوم (Today Board)</option>
-              <option value="tasks">سجل المهام والعمليات (Tasks Registry)</option>
-              <option value="calendar">التقويم الزمني (Calendar)</option>
-              <option value="backlog">برمجة المهام (Backlog)</option>
+              <option value="dashboard">لوحة القيادة والمؤشرات</option>
+              <option value="today">لوحة إدارة اليوم</option>
+              <option value="tasks">سجل المهام والعمليات</option>
+              <option value="calendar">التقويم الزمني</option>
+              <option value="backlog">برمجة المهام</option>
             </select>
           </div>
         </div>
@@ -669,10 +672,10 @@ export const SettingsView: React.FC = () => {
                 onChange={e => updateSettings({ defaultPriority: e.target.value as any })}
                 className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
               >
-                <option value="عادية">🟢 عادية (عمل يومي روتيني)</option>
-                <option value="متوسطة">🔵 متوسطة (مأمورية / متابعة)</option>
-                <option value="عالية">🟠 عالية / مهمة</option>
-                <option value="عاجلة">🔴 عاجلة وطارئة</option>
+                <option value="عادية">عادية (عمل يومي روتيني)</option>
+                <option value="متوسطة">متوسطة (مأمورية / متابعة)</option>
+                <option value="عالية">عالية / مهمة</option>
+                <option value="عاجلة">عاجلة وطارئة</option>
               </select>
             </div>
 
@@ -686,9 +689,9 @@ export const SettingsView: React.FC = () => {
                 onChange={e => updateSettings({ defaultStatus: e.target.value as any })}
                 className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#12131C] text-white text-white font-bold focus:outline-none"
               >
-                <option value="قيد الإنجاز">⚙️ قيد الإنجاز</option>
-                <option value="مبرمجة">📅 مبرمجة</option>
-                <option value="جديدة">🆕 جديدة</option>
+                <option value="قيد الإنجاز">قيد الإنجاز</option>
+                <option value="مبرمجة">مبرمجة</option>
+                <option value="جديدة">جديدة</option>
               </select>
             </div>
           </div>
@@ -706,11 +709,11 @@ export const SettingsView: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Database className="w-4 h-4 text-blue-500" />
                 <h3 className="font-extrabold text-xs text-white">
-                  فاحص سلامة الذاكرة المحلية (LocalStorage Health Inspector)
+                  فاحص سلامة الذاكرة وسعة التخزين المحلية
                 </h3>
               </div>
-              <span className="font-mono font-bold text-blue-600 bg-blue-50 dark:bg-blue-950 px-2 py-0.5 rounded-full text-[11px]">
-                {storageKB} KB مستخدمة
+              <span className="font-sans font-bold text-blue-400 bg-blue-950/40 border border-blue-800/40 px-2 py-0.5 rounded-lg text-[11px] tabular-nums">
+                {storageKB} كيلوبايت مستخدمة
               </span>
             </div>
 
@@ -788,28 +791,28 @@ export const SettingsView: React.FC = () => {
           <div className="bg-[#1B1D2A] border border-white/10 rounded-[20px] p-5 shadow-sm space-y-4">
             <h3 className="font-extrabold text-xs text-white flex items-center gap-2">
               <Download className="w-4 h-4 text-emerald-500" />
-              <span>النسخ الاحتياطي وتصدير واسترجاع ملف JSON الشامل</span>
+              <span>النسخ الاحتياطي وتصدير واسترجاع ملف البيانات الشامل</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-2">
+              <div className="p-4 rounded-xl border border-white/10 bg-[#12131C] space-y-2">
                 <span className="font-bold text-white block">تصدير ملف النسخة الاحتياطية:</span>
-                <p className="text-[11px] text-slate-500">
-                  تحميل ملف JSON كامل ومطابق يحتوي على كافة المهام (75+)، الوجهات، التصنيفات، القوالب، وسجل العمليات.
+                <p className="text-[11px] text-[#8E91A0]">
+                  تحميل ملف بيانات كامل ومطابق يحتوي على كافة المهام والوجهات والتصنيفات والقوالب وسجل العمليات.
                 </p>
                 <button
                   type="button"
                   onClick={exportBackupJSON}
-                  className="w-full py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 flex items-center justify-center gap-1.5 shadow-sm"
+                  className="w-full py-2 bg-[#59718A] hover:bg-[#4d6379] text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
-                  <span>تصدير نسخة احتياطية كاملة (JSON)</span>
+                  <span>تصدير نسخة احتياطية كاملة</span>
                 </button>
               </div>
 
-              <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-2">
-                <span className="font-bold text-white block">استرجاع بيانات من ملف JSON:</span>
-                <p className="text-[11px] text-slate-500">
+              <div className="p-4 rounded-xl border border-white/10 bg-[#12131C] space-y-2">
+                <span className="font-bold text-white block">استرجاع بيانات من ملف محفوظ:</span>
+                <p className="text-[11px] text-[#8E91A0]">
                   اختر ملف نسخة احتياطية سابقة لاستعادة حالتك دون فقدان التوافق.
                 </p>
                 <label className="w-full py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">

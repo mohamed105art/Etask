@@ -96,8 +96,8 @@ export const AuditLogView: React.FC = () => {
                   </td>
                 </tr>
               ) : (
-                filteredLogs.map(log => (
-                  <tr key={log.id} className="hover:bg-white/[0.03] transition-colors">
+                filteredLogs.map((log, index) => (
+                  <tr key={log.id || `audit-log-${index}-${log.timestamp || ''}`} className="hover:bg-white/[0.03] transition-colors">
                     <td className="py-3 px-4 text-center font-mono text-[11px] text-[#8E91A0] whitespace-nowrap">
                       {log.timestamp ? log.timestamp.replace('T', ' ').slice(0, 19) : '-'}
                     </td>

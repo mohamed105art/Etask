@@ -89,7 +89,10 @@ export function loadSystemData(): SystemData {
       profile: parsed.profile || INITIAL_SYSTEM_DATA.profile,
       missionLibrary: Array.isArray(parsed.missionLibrary) && parsed.missionLibrary.length > 0 ? parsed.missionLibrary : INITIAL_SYSTEM_DATA.missionLibrary,
       trash: Array.isArray(parsed.trash) ? parsed.trash : [],
-      auditLog: Array.isArray(parsed.auditLog) ? parsed.auditLog : INITIAL_SYSTEM_DATA.auditLog,
+      auditLog: (Array.isArray(parsed.auditLog) ? parsed.auditLog : INITIAL_SYSTEM_DATA.auditLog).map((log: any, idx: number) => ({
+        ...log,
+        id: log.id || `alog-entry-${idx}-${log.timestamp || Date.now()}`
+      })),
       savedTitles: Array.isArray(parsed.savedTitles) ? parsed.savedTitles : INITIAL_SYSTEM_DATA.savedTitles
     };
   } catch (err) {

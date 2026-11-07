@@ -5776,7 +5776,7 @@ export const INITIAL_SYSTEM_DATA: SystemData = {
       ]
     },
     {
-      "id": "cat_signage",
+      "id": "cat_signage_admin",
       "name": "التشوير والتنظيم الإداري",
       "icon": "🪧",
       "color": "#14b8a6",
@@ -5789,7 +5789,7 @@ export const INITIAL_SYSTEM_DATA: SystemData = {
       ]
     },
     {
-      "id": "cat_events",
+      "id": "cat_events_reports",
       "name": "التقارير والمناسبات الرسمية",
       "icon": "🎖️",
       "color": "#eab308",
@@ -7939,7 +7939,9 @@ export const INITIAL_SYSTEM_DATA: SystemData = {
       "taskId": "task-2026-01"
     },
     {
+      "id": "alog_seed_system_init",
       "timestamp": "2026-09-30T10:00:00",
+      "type": "system",
       "action": "تهيئة النظام",
       "details": "إطلاق الإصدار المؤسساتي المطور V3.0 بنجاح"
     }

@@ -106,7 +106,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -220,7 +220,7 @@
     .font-bold { font-weight: 700; }
     .font-extrabold { font-weight: 800; }
     .font-medium { font-weight: 500; }
-    .font-sans { font-family: 'Cairo', sans-serif; }
+    .font-sans { font-family: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif; }
     .font-semibold { font-weight: 600; }
     .gap-0\.5 { gap: 0.125rem; }
     .gap-1 { gap: 0.25rem; }
@@ -230,8 +230,6 @@
     .gap-3 { gap: 0.75rem; }
     .gap-3\.5 { gap: 0.875rem; }
     .gap-4 { gap: 1rem; }
-    .gap-\[12px\] { gap: 12px; }
-    .gap-\[6px\] { gap: 6px; }
     .gap-\[8px\] { gap: 8px; }
     .grid { display: grid; }
     .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -318,7 +316,6 @@
     .max-w-4xl { max-width: 56rem; }
     .max-w-6xl { max-width: 72rem; }
     .max-w-7xl { max-width: 80rem; }
-    .max-w-\[120px\] { max-width: 120px; }
     .max-w-\[130px\] { max-width: 130px; }
     .max-w-\[140px\] { max-width: 140px; }
     .max-w-\[150px\] { max-width: 150px; }
@@ -333,6 +330,7 @@
     .mb-2 { margin-bottom: 0.5rem; }
     .mb-2\.5 { margin-bottom: 0.625rem; }
     .mb-3 { margin-bottom: 0.75rem; }
+    .mb-3\.5 { margin-bottom: 0.875rem; }
     .mb-4 { margin-bottom: 1rem; }
     .mb-5 { margin-bottom: 1.25rem; }
     .mb-6 { margin-bottom: 1.5rem; }
@@ -342,7 +340,6 @@
     .min-h-\[120px\] { min-height: 120px; }
     .min-h-\[220px\] { min-height: 220px; }
     .min-h-\[36px\] { min-height: 36px; }
-    .min-h-\[92px\] { min-height: 92px; }
     .min-h-screen { min-height: 100vh; }
     .min-w-0 { min-width: 0px; }
     .min-w-\[180px\] { min-width: 180px; }
@@ -359,6 +356,7 @@
     .mt-1\.5 { margin-top: 0.375rem; }
     .mt-2 { margin-top: 0.5rem; }
     .mt-3 { margin-top: 0.75rem; }
+    .mt-3\.5 { margin-top: 0.875rem; }
     .mt-4 { margin-top: 1rem; }
     .mt-6 { margin-top: 1.5rem; }
     .mt-auto { margin-top: auto; }
@@ -370,10 +368,8 @@
     .object-contain { object-fit: contain; }
     .opacity-0 { opacity: 0; }
     .opacity-30 { opacity: 0.3; }
-    .opacity-75 { opacity: 0.75; }
     .opacity-80 { opacity: 0.8; }
     .opacity-85 { opacity: 0.85; }
-    .opacity-90 { opacity: 0.9; }
     .overflow-hidden { overflow: hidden; }
     .overflow-x-auto { overflow-x: auto; }
     .overflow-y-auto { overflow-y: auto; }
@@ -396,7 +392,6 @@
     .pl-3 { padding-left: 0.75rem; }
     .pointer-events-none { pointer-events: none; }
     .pr-1 { padding-right: 0.25rem; }
-    .pr-2 { padding-right: 0.5rem; }
     .pr-3 { padding-right: 0.75rem; }
     .pr-8 { padding-right: 2rem; }
     .pt-0\.5 { padding-top: 0.125rem; }
@@ -435,7 +430,7 @@
     .rounded { border-radius: 0.25rem; }
     .rounded-2xl { border-radius: 1rem; }
     .rounded-\[12px\] { border-radius: 12px; }
-    .rounded-\[14px\] { border-radius: 14px; }
+    .rounded-\[16px\] { border-radius: 16px; }
     .rounded-\[20px\] { border-radius: 20px; }
     .rounded-\[6px\] { border-radius: 6px; }
     .rounded-\[8px\] { border-radius: 8px; }
@@ -477,11 +472,10 @@
     .text-\[\#c084fc\] { color: #c084fc; }
     .text-\[10px\] { font-size: 10px; }
     .text-\[11px\] { font-size: 11px; }
+    .text-\[12px\] { font-size: 12px; }
     .text-\[13px\] { font-size: 13px; }
-    .text-\[14px\] { font-size: 14px; }
     .text-\[15px\] { font-size: 15px; }
     .text-\[16px\] { font-size: 16px; }
-    .text-\[32px\] { font-size: 32px; }
     .text-\[7px\] { font-size: 7px; }
     .text-\[9px\] { font-size: 9px; }
     .text-amber-200 { color: #fde68a; }
@@ -556,14 +550,12 @@
     .z-30 { z-index: 30; }
     .z-40 { z-index: 40; }
     .z-50 { z-index: 50; }
-    @media (min-width: 420px) {
-      .xs\:inline-block { display: inline-block; }
-    }
     @media (min-width: 640px) {
       .sm\:block { display: block; }
       .sm\:col-span-2 { grid-column: span 2 / span 2; }
       .sm\:flex-row { flex-direction: row; }
       .sm\:gap-2 { gap: 0.5rem; }
+      .sm\:gap-3 { gap: 0.75rem; }
       .sm\:gap-5 { gap: 1.25rem; }
       .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -580,9 +572,12 @@
       .sm\:p-6 { padding: 1.5rem; }
       .sm\:p-8 { padding: 2rem; }
       .sm\:pt-16 { padding-top: 4rem; }
+      .sm\:px-4 { padding-left: 1rem; padding-right: 1rem; }
       .sm\:px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
       .sm\:self-auto { align-self: auto; }
       .sm\:self-center { align-self: center; }
+      .sm\:text-\[16px\] { font-size: 16px; }
+      .sm\:text-\[17px\] { font-size: 17px; }
       .sm\:text-\[8px\] { font-size: 8px; }
       .sm\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
       .sm\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
@@ -607,6 +602,46 @@
     }
 
 
+/* =====================================================================
+   DIN NEXT LT ARABIC & KUFIC-CURVED GEOMETRIC ARABIC TYPOGRAPHY SYSTEM
+   ===================================================================== */
+@font-face {
+  font-family: 'DIN Next LT Arabic';
+  src: local('DIN Next LT Arabic'),
+       local('DIN Next Arabic'),
+       local('DINNextLTArabic-Regular'),
+       url('https://cdn.jsdelivr.net/gh/AhmadAlfy/DIN-Next-Arabic@master/fonts/DINNextLTArabic-Regular.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/518d71c2627b61621e0a31c9a5e63f67.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN Next LT Arabic';
+  src: local('DIN Next LT Arabic Medium'),
+       local('DIN Next Arabic Medium'),
+       local('DINNextLTArabic-Medium'),
+       url('https://cdn.jsdelivr.net/gh/AhmadAlfy/DIN-Next-Arabic@master/fonts/DINNextLTArabic-Medium.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/7661f615d2290c11b088606d38126026.woff2') format('woff2');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DIN Next LT Arabic';
+  src: local('DIN Next LT Arabic Bold'),
+       local('DIN Next Arabic Bold'),
+       local('DINNextLTArabic-Bold'),
+       url('https://cdn.jsdelivr.net/gh/AhmadAlfy/DIN-Next-Arabic@master/fonts/DINNextLTArabic-Bold.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/d78f5d2c7618550798d72617e58420c4.woff2') format('woff2');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 
 
 
@@ -615,7 +650,7 @@
   :root,
   html[data-theme="dark"],
   body[data-theme="dark"] {
-    --font-sans: 'Cairo', sans-serif;
+    --font-sans: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
     --bg-app: #12131C;
@@ -674,7 +709,7 @@
   html {
     direction: rtl;
     text-align: right;
-    font-family: 'Cairo', sans-serif;
+    font-family: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif;
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
     background-color: var(--bg-app);
@@ -688,7 +723,7 @@
     padding: 0;
     background-color: var(--bg-app);
     color: var(--text-main);
-    font-family: 'Cairo', sans-serif;
+    font-family: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif;
     overflow-x: hidden;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
@@ -792,7 +827,7 @@
 
   /* 4. Preserve White Text & Icons ONLY inside Solid Colored KPI Cards, Semantic Buttons, and Active Colored Bubbles */
   html[data-theme="light"] .kpi-card,
-  html[data-theme="light"] .kpi-card *,
+  html[data-theme="light"] .kpi-card *:not(.kpi-number-box):not(.kpi-number-value),
   html[data-theme="light"] .semantic-btn,
   html[data-theme="light"] .semantic-btn *,
   html[data-theme="light"] .semantic-bubble,
@@ -1037,7 +1072,7 @@ button.h-\[36px\]:not(.w-\[36px\]) {
     background: #ffffff !important;
     color: #000000 !important;
     font-size: 11pt;
-    font-family: 'Cairo', sans-serif !important;
+    font-family: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif !important;
     min-height: 100% !important;
   }
   main {
@@ -1082,6 +1117,131 @@ button.h-\[36px\]:not(.w-\[36px\]) {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
+}
+
+
+/* =====================================================================
+   SUBTLE 3D CURVED / BEVELED KPI INDICATOR CARDS & WHITE SQUARE NUMBER BOX
+   - Keeps moderately rounded corners (16px), never pill-shaped
+   - White rounded-square number box (76x76px, 12px radius) at exact 12px from top, bottom, and left borders
+   - Number colored with the exact same color as its parent KPI card
+   ===================================================================== */
+.font-sans,
+body,
+html,
+button,
+input,
+select,
+textarea,
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DIN Next LT Arabic', 'DIN Next Arabic', 'Readex Pro', 'Alexandria', 'Noto Kufi Arabic', 'Tajawal', sans-serif !important;
+}
+
+.kpi-card-3d {
+  position: relative !important;
+  height: 100px !important;
+  min-height: 100px !important;
+  border-radius: 16px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  padding-left: 12px !important;
+  padding-right: 16px !important;
+  border: 0px solid transparent !important;
+  box-sizing: border-box !important;
+  background-image: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.03) 46%,
+    rgba(0, 0, 0, 0.05) 74%,
+    rgba(0, 0, 0, 0.20) 100%
+  ) !important;
+  box-shadow:
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.26),
+    inset 0 10px 18px -8px rgba(255, 255, 255, 0.10),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.26),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 8px 18px -4px rgba(0, 0, 0, 0.38),
+    0 3px 7px -2px rgba(0, 0, 0, 0.24) !important;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease !important;
+}
+
+.kpi-card-3d:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.32),
+    inset 0 12px 20px -8px rgba(255, 255, 255, 0.14),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.20),
+    0 12px 22px -4px rgba(0, 0, 0, 0.44),
+    0 5px 10px -2px rgba(0, 0, 0, 0.28) !important;
+}
+
+.kpi-card-title {
+  font-size: 16.5px !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.01em !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.kpi-card-subtitle {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+}
+
+.kpi-card-divider {
+  width: 1.5px !important;
+  height: 54px !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.06) 100%
+  ) !important;
+  margin-left: 12px !important;
+  margin-right: 12px !important;
+  border-radius: 999px !important;
+  flex-shrink: 0 !important;
+}
+
+.kpi-number-box {
+  width: 76px !important;
+  height: 76px !important;
+  min-width: 76px !important;
+  min-height: 76px !important;
+  max-width: 76px !important;
+  max-height: 76px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, #FFFFFF 0%, #F4F7FB 100%) !important;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.22),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.98),
+    inset 0 -2px 4px rgba(15, 23, 42, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.kpi-number-value {
+  font-size: 27px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  font-variant-numeric: tabular-nums !important;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
+}
+
+.surface-card-3d,
+.bg-\[\#1B1D2A\] {
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.07),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.20),
+    0 8px 20px -6px rgba(0, 0, 0, 0.34) !important;
 }
 
   </style>
@@ -2370,7 +2530,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "min-w-0"
   }, _react.default.createElement("h2", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2 truncate"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2 truncate"
   }, _react.default.createElement(_lucideReact.Calendar, {
     className: "w-4 h-4 text-[#59718A] shrink-0"
   }), _react.default.createElement("span", null, "\u0627\u0644\u062A\u0642\u0648\u064A\u0645 \u0627\u0644\u0632\u0645\u0646\u064A \u0644\u0644\u0645\u0647\u0627\u0645")), _react.default.createElement("p", {
@@ -2603,7 +2763,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "min-w-0"
   }, _react.default.createElement("h3", {
-    className: "text-xs sm:text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-xs sm:text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Calendar, {
     className: "w-4 h-4 shrink-0",
     style: {
@@ -2727,7 +2887,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "flex items-center justify-between pb-3 border-b border-white/10 shrink-0"
   }, _react.default.createElement("div", null, _react.default.createElement("h3", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.HelpCircle, {
     className: "w-4 h-4",
     style: {
@@ -2871,7 +3031,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "flex items-center justify-between pb-3 border-b border-white/10 shrink-0"
   }, _react.default.createElement("div", null, _react.default.createElement("h3", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Sparkles, {
     className: "w-4 h-4 text-[#C47C8A]"
   }), _react.default.createElement("span", null, "\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0639\u0637\u0644 \u0627\u0644\u0631\u0633\u0645\u064A\u0629 \u0648\u0627\u0644\u062F\u064A\u0646\u064A\u0629")), _react.default.createElement("p", {
@@ -2937,7 +3097,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "flex items-center justify-between pb-3 border-b border-white/10 shrink-0"
   }, _react.default.createElement("div", null, _react.default.createElement("h3", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Sun, {
     className: "w-4 h-4 text-[#2F6F6D]"
   }), _react.default.createElement("span", null, "\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0631\u062E\u0635 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629 \u0648\u0627\u0644\u0633\u0646\u0648\u064A\u0629 \u0648\u0623\u0630\u0648\u0646 \u0627\u0644\u062A\u063A\u064A\u0628")), _react.default.createElement("p", {
@@ -3027,7 +3187,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "flex items-center justify-between pb-3 border-b border-white/10 shrink-0"
   }, _react.default.createElement("div", null, _react.default.createElement("h3", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Bookmark, {
     className: "w-4 h-4 text-[#D4A72C]"
   }), _react.default.createElement("span", null, "\u0627\u0644\u0645\u0648\u0627\u0639\u064A\u062F \u0648\u0627\u0644\u062A\u0630\u0643\u064A\u0631\u0627\u062A \u0627\u0644\u062E\u0627\u0635\u0629")), _react.default.createElement("p", {
@@ -3082,7 +3242,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "min-w-0"
   }, _react.default.createElement("h3", {
-    className: "text-sm font-extrabold text-white flex items-center gap-2"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.FileText, {
     className: "w-4 h-4 text-[#59718A] shrink-0"
   }), _react.default.createElement("span", {
@@ -3170,7 +3330,7 @@ const CalendarView = ({
   }, _react.default.createElement("div", {
     className: "text-[9px] text-[#8E91A0]"
   }, "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0645\u0647\u0627\u0645"), _react.default.createElement("div", {
-    className: "text-sm font-extrabold text-white font-sans"
+    className: "text-[16px] sm:text-[17px] font-extrabold text-white font-sans"
   }, chronologicalReportItems.reduce((acc, r) => acc + r.tasks.length, 0))), _react.default.createElement("div", {
     className: "p-2 rounded-lg bg-[#12131C] border border-white/10"
   }, _react.default.createElement("div", {
@@ -3465,7 +3625,7 @@ const DashboardView = ({
   return _react.default.createElement("div", {
     className: "w-full space-y-5"
   }, _react.default.createElement("div", {
-    className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full"
+    className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 w-full"
   }, _react.default.createElement("div", {
     id: "kpi-card-total",
     onClick: () => {
@@ -3475,82 +3635,109 @@ const DashboardView = ({
     style: {
       backgroundColor: activeColors[0]
     },
-    className: "kpi-card bg-[#59718A] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#59718A] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u0633\u062C\u0644 \u0627\u0644\u0645\u0647\u0627\u0645"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.ClipboardList, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0645\u0647\u0627\u0645")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0645\u0647\u0627\u0645")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, periodStats.localCount, " \u0645\u062D\u0644\u064A \u2022 ", periodStats.externalCount, " \u062A\u0646\u0642\u0644 \u062E\u0627\u0631\u062C\u064A"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, totalTrend.isUp ? _react.default.createElement(_lucideReact.TrendingUp, {
     className: "w-3 h-3 text-emerald-300"
   }) : _react.default.createElement(_lucideReact.TrendingDown, {
     className: "w-3 h-3 text-rose-300"
   }), _react.default.createElement("span", null, totalTrend.isUp ? `+${totalTrend.percent}%` : `-${totalTrend.percent}%`)), _react.default.createElement("span", {
-    className: "text-[10px] opacity-75"
+    className: "text-[11px] opacity-85 font-medium"
   }, "\u062D\u0635\u064A\u0644\u0629 \u0627\u0644\u0641\u062A\u0631\u0629"))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-total"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[0]
+    }
   }, periodStats.totalTasks))), _react.default.createElement("div", {
     id: "kpi-card-today",
     onClick: () => onNavigate('today'),
     style: {
       backgroundColor: activeColors[1]
     },
-    className: "kpi-card bg-[#D4A72C] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#D4A72C] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u0645\u0647\u0627\u0645 \u0627\u0644\u064A\u0648\u0645"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Sun, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u0645\u0647\u0627\u0645 \u0627\u0644\u064A\u0648\u0645")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u0645\u0647\u0627\u0645 \u0627\u0644\u064A\u0648\u0645")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, "\u0628\u0631\u0646\u0627\u0645\u062C \u0648\u062C\u062F\u0648\u0644\u0629 \u0627\u0644\u064A\u0648\u0645"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, _react.default.createElement(_lucideReact.Sun, {
     className: "w-3 h-3 text-amber-200"
   }), _react.default.createElement("span", null, "\u0646\u0634\u0637\u0629 \u0627\u0644\u0622\u0646")))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-today"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[1]
+    }
   }, periodStats.todayTasks))), _react.default.createElement("div", {
     id: "kpi-card-backlog",
     onClick: () => onNavigate('backlog'),
     style: {
       backgroundColor: activeColors[2]
     },
-    className: "kpi-card bg-[#5B3A62] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#5B3A62] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u0628\u0631\u0645\u062C\u0629 \u0627\u0644\u0645\u0647\u0627\u0645"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Calendar, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u0645\u0647\u0627\u0645 \u0645\u0628\u0631\u0645\u062C\u0629 \u0648\u0645\u0641\u062A\u0648\u062D\u0629")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u0645\u0647\u0627\u0645 \u0645\u0628\u0631\u0645\u062C\u0629 \u0648\u0645\u0641\u062A\u0648\u062D\u0629")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, "\u0645\u062C\u062F\u0648\u0644\u0629 \u0648\u0642\u064A\u062F \u0627\u0644\u062A\u062D\u0636\u064A\u0631"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, _react.default.createElement(_lucideReact.Clock, {
     className: "w-3 h-3 text-purple-200"
   }), _react.default.createElement("span", null, "\u0627\u0633\u062A\u0634\u0631\u0627\u0641 \u0642\u0627\u062F\u0645")))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-backlog"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[2]
+    }
   }, periodStats.futureTasks))), _react.default.createElement("div", {
     id: "kpi-card-pending",
     onClick: () => {
@@ -3563,26 +3750,35 @@ const DashboardView = ({
     style: {
       backgroundColor: activeColors[3]
     },
-    className: "kpi-card bg-[#E07A47] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#E07A47] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u0645\u0647\u0627\u0645 \u0642\u064A\u062F \u0627\u0644\u0645\u062A\u0627\u0628\u0639\u0629"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.AlertTriangle, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u0642\u064A\u062F \u0627\u0644\u0645\u062A\u0627\u0628\u0639\u0629 \u0648\u0627\u0644\u062A\u0633\u0648\u064A\u0629")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u0642\u064A\u062F \u0627\u0644\u0645\u062A\u0627\u0628\u0639\u0629 \u0648\u0627\u0644\u062A\u0633\u0648\u064A\u0629")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, "\u0642\u064A\u062F \u0627\u0644\u062A\u062A\u0628\u0639 \u0648\u0627\u0644\u0645\u0637\u0627\u0628\u0642\u0629"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, _react.default.createElement(_lucideReact.AlertTriangle, {
     className: "w-3 h-3 text-amber-200"
   }), _react.default.createElement("span", null, "\u0623\u0648\u0644\u0648\u064A\u0629 \u0627\u0644\u0645\u0639\u0627\u0644\u062C\u0629")))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-pending"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[3]
+    }
   }, periodStats.pendingTasks))), _react.default.createElement("div", {
     id: "kpi-card-external",
     onClick: () => {
@@ -3595,28 +3791,37 @@ const DashboardView = ({
     style: {
       backgroundColor: activeColors[4]
     },
-    className: "kpi-card bg-[#2F6F6D] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#2F6F6D] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u062A\u0646\u0642\u0644\u0627\u062A \u0627\u0644\u062F\u0627\u0626\u0631\u0629 \u0627\u0644\u0642\u0636\u0627\u0626\u064A\u0629"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.MapPin, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u062A\u0646\u0642\u0644\u0627\u062A \u0627\u0644\u062F\u0627\u0626\u0631\u0629 \u0627\u0644\u0642\u0636\u0627\u0626\u064A\u0629")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u062A\u0646\u0642\u0644\u0627\u062A \u0627\u0644\u062F\u0627\u0626\u0631\u0629 \u0627\u0644\u0642\u0636\u0627\u0626\u064A\u0629")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, "\u0627\u0644\u0631\u0628\u0627\u0637 \u2022 \u0627\u0628\u0646 \u0623\u062D\u0645\u062F \u2022 \u0628\u0631\u0634\u064A\u062F"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, externalTrend.isUp ? _react.default.createElement(_lucideReact.TrendingUp, {
     className: "w-3 h-3 text-teal-200"
   }) : _react.default.createElement(_lucideReact.TrendingDown, {
     className: "w-3 h-3 text-rose-200"
   }), _react.default.createElement("span", null, externalTrend.isUp ? `+${externalTrend.percent}%` : `-${externalTrend.percent}%`)))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-external"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[4]
+    }
   }, periodStats.externalCount))), _react.default.createElement("div", {
     id: "kpi-card-done",
     onClick: () => {
@@ -3629,34 +3834,43 @@ const DashboardView = ({
     style: {
       backgroundColor: activeColors[5]
     },
-    className: "kpi-card bg-[#8FA68F] rounded-[12px] p-4 min-h-[92px] shadow-lg flex justify-between items-center text-white cursor-pointer hover:scale-[1.01] transition-transform select-none",
+    className: "kpi-card kpi-card-3d bg-[#8FA68F] rounded-[16px] flex justify-between items-center text-white cursor-pointer select-none",
     title: "\u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0645\u0646\u062C\u0632\u0629"
   }, _react.default.createElement("div", {
-    className: "flex flex-col justify-center items-start"
+    className: "flex-1 min-w-0 flex flex-col justify-center items-start"
   }, _react.default.createElement("div", {
-    className: "text-[13px] font-semibold flex items-center gap-[6px]"
+    className: "kpi-card-title text-[16px] sm:text-[17px] font-extrabold tracking-tight leading-snug flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.CheckCircle2, {
-    className: "w-4 h-4 shrink-0"
-  }), _react.default.createElement("span", null, "\u0645\u0647\u0627\u0645 \u0645\u0646\u062C\u0632\u0629")), _react.default.createElement("div", {
-    className: "text-[11px] opacity-90 mt-1 font-medium"
+    className: "w-[18px] h-[18px] shrink-0 opacity-95"
+  }), _react.default.createElement("span", {
+    className: "truncate"
+  }, "\u0645\u0647\u0627\u0645 \u0645\u0646\u062C\u0632\u0629")), _react.default.createElement("div", {
+    className: "kpi-card-subtitle text-[12px] sm:text-[12.5px] opacity-95 mt-1 font-semibold truncate w-full"
   }, "\u0646\u0633\u0628\u0629 \u0627\u0644\u0625\u0646\u062C\u0627\u0632: ", periodStats.completionRate, "%"), _react.default.createElement("div", {
     className: "mt-2 flex items-center gap-1.5"
   }, _react.default.createElement("span", {
-    className: "inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/25 text-white"
+    className: "inline-flex items-center gap-1 text-[10.5px] font-bold px-2 py-0.5 rounded-[6px] bg-black/25 text-white border border-white/10"
   }, _react.default.createElement(_lucideReact.TrendingUp, {
     className: "w-3 h-3 text-emerald-200"
   }), _react.default.createElement("span", null, "+", doneTrend.percent, "% \u0625\u0646\u062C\u0627\u0632")))), _react.default.createElement("div", {
-    className: "flex items-center justify-end pr-2"
+    className: "kpi-card-divider",
+    "aria-hidden": "true"
+  }), _react.default.createElement("div", {
+    className: "kpi-number-box",
+    "data-testid": "kpi-num-box-done"
   }, _react.default.createElement("span", {
-    className: "text-[32px] font-bold leading-none font-sans tabular-nums"
+    className: "kpi-number-value font-sans tabular-nums",
+    style: {
+      color: activeColors[5]
+    }
   }, periodStats.doneTasks)))), _react.default.createElement("div", {
-    className: "w-full bg-[#1B1D2A] border-2 border-[#D4A72C]/70 rounded-[14px] p-4 shadow-lg mb-5"
+    className: "surface-card-3d w-full bg-[#1B1D2A] border-2 border-[#D4A72C]/70 rounded-[16px] p-4 sm:p-5 shadow-lg mb-5"
   }, _react.default.createElement("div", {
     className: "flex justify-between items-center pb-3 border-b border-white/10"
   }, _react.default.createElement("div", {
-    className: "text-[14px] font-bold text-[#D4A72C] flex items-center gap-2"
+    className: "text-[15px] sm:text-[16px] font-extrabold text-[#D4A72C] flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Sun, {
-    className: "w-4 h-4"
+    className: "w-[18px] h-[18px]"
   }), _react.default.createElement("span", null, "\u0628\u0631\u0646\u0627\u0645\u062C \u0645\u0647\u0627\u0645 \u0627\u0644\u064A\u0648\u0645 (", todayTasks.length, ")")), _react.default.createElement("div", {
     className: "flex items-center gap-2"
   }, _react.default.createElement("button", {
@@ -3676,7 +3890,7 @@ const DashboardView = ({
   }) : _react.default.createElement(_lucideReact.ChevronUp, {
     className: "w-4 h-4"
   })))), !isTodaySectionFolded && _react.default.createElement("div", {
-    className: "mt-3 space-y-2"
+    className: "mt-3.5 space-y-2.5"
   }, todayTasks.length === 0 ? _react.default.createElement("div", {
     className: "border-2 border-dashed border-white/15 rounded-xl py-8 flex flex-col items-center justify-center text-center"
   }, _react.default.createElement("div", {
@@ -3684,29 +3898,29 @@ const DashboardView = ({
   }, _react.default.createElement(_lucideReact.Clock, {
     className: "w-5 h-5 text-[#8E91A0]"
   })), _react.default.createElement("h4", {
-    className: "font-bold text-gray-200 text-xs mb-1"
+    className: "font-bold text-gray-200 text-sm mb-1"
   }, "\u0644\u0627 \u062A\u0648\u062C\u062F \u0645\u0647\u0627\u0645 \u0645\u0628\u0631\u0645\u062C\u0629 \u0644\u0644\u064A\u0648\u0645 \u062D\u0627\u0644\u064A\u0627\u064B."), _react.default.createElement("p", {
-    className: "text-[11px] text-[#8E91A0] max-w-xs"
+    className: "text-xs text-[#8E91A0] max-w-xs"
   }, "\u064A\u0645\u0643\u0646\u0643 \u0625\u0636\u0627\u0641\u0629 \u0645\u0647\u0645\u0629 \u062C\u062F\u064A\u062F\u0629 \u0628\u0627\u0644\u0636\u063A\u0637 \u0639\u0644\u0649 (+) \u0623\u0648 \u062A\u0639\u064A\u064A\u0646 \u0645\u0647\u0645\u0629 \u0645\u0646 \u0627\u0644\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0645\u0628\u0631\u0645\u062C\u0629 \u0623\u062F\u0646\u0627\u0647.")) : todayTasks.slice(0, 5).map(t => _react.default.createElement("div", {
     key: t.id,
-    className: "flex items-center justify-between p-3 rounded-xl border border-white/15 bg-[#12131C] hover:border-[#D4A72C] transition-all gap-3"
+    className: "flex items-center justify-between p-3.5 rounded-xl border border-white/15 bg-[#12131C] hover:border-[#D4A72C] transition-all gap-3"
   }, _react.default.createElement("div", {
     className: "min-w-0 flex-1"
   }, _react.default.createElement("div", {
-    className: "flex items-center gap-2 text-[11px] text-[#8E91A0] mb-1"
+    className: "flex items-center gap-2 text-xs text-[#8E91A0] mb-1"
   }, _react.default.createElement("span", {
     className: "font-bold text-[#D4A72C]"
   }, "\u0627\u0644\u064A\u0648\u0645"), _react.default.createElement("span", null, "\u2022"), _react.default.createElement("span", {
     className: "truncate flex items-center gap-1"
   }, _react.default.createElement(_lucideReact.MapPin, {
-    className: "w-3 h-3 text-[#D4A72C] shrink-0"
+    className: "w-3.5 h-3.5 text-[#D4A72C] shrink-0"
   }), _react.default.createElement("span", null, t.destination)), _react.default.createElement("span", null, "\u2022"), _react.default.createElement("span", {
     className: "truncate text-gray-300 flex items-center gap-1"
   }, _react.default.createElement(_lucideReact.Tag, {
-    className: "w-3 h-3 text-[#59718A] shrink-0"
+    className: "w-3.5 h-3.5 text-[#59718A] shrink-0"
   }), _react.default.createElement("span", null, t.category))), _react.default.createElement("div", {
     onClick: () => onViewTask(t),
-    className: "font-bold text-xs text-white truncate cursor-pointer hover:text-[#D4A72C]"
+    className: "font-bold text-[13.5px] text-white truncate cursor-pointer hover:text-[#D4A72C]"
   }, t.title)), _react.default.createElement("div", {
     className: "flex items-center gap-1.5 shrink-0"
   }, _react.default.createElement("button", {
@@ -3731,13 +3945,13 @@ const DashboardView = ({
   }, _react.default.createElement(_lucideReact.Trash2, {
     className: "w-3.5 h-3.5"
   }))))))), _react.default.createElement("div", {
-    className: "w-full bg-[#1B1D2A] border-2 border-[#5B3A62]/70 rounded-[14px] p-4 shadow-lg mb-5"
+    className: "surface-card-3d w-full bg-[#1B1D2A] border-2 border-[#5B3A62]/70 rounded-[16px] p-4 sm:p-5 shadow-lg mb-5"
   }, _react.default.createElement("div", {
-    className: "flex justify-between items-center pb-3 border-b border-white/10 mb-3"
+    className: "flex justify-between items-center pb-3 border-b border-white/10 mb-3.5"
   }, _react.default.createElement("div", {
-    className: "text-[14px] font-bold text-[#59718A] flex items-center gap-2"
+    className: "text-[15px] sm:text-[16px] font-extrabold text-[#59718A] flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.Calendar, {
-    className: "w-4 h-4"
+    className: "w-[18px] h-[18px]"
   }), _react.default.createElement("span", null, "\u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0645\u0633\u062A\u0642\u0628\u0644\u064A\u0629 \u0648\u0627\u0644\u0645\u0628\u0631\u0645\u062C\u0629 (", futureTasks.length, ")")), _react.default.createElement("button", {
     type: "button",
     onClick: () => onNavigate('backlog'),
@@ -3755,30 +3969,30 @@ const DashboardView = ({
   }, _react.default.createElement("span", {
     className: "text-[11px] font-bold text-[#D4A72C] bg-[#D4A72C]/15 px-2 py-0.5 rounded-md font-sans"
   }, t.taskDate || 'مفتوحة'), _react.default.createElement("span", {
-    className: "text-[10px] text-gray-300 bg-white/5 px-2 py-0.5 rounded-md truncate max-w-[120px] font-semibold"
+    className: "text-[11px] text-gray-300 bg-white/5 px-2 py-0.5 rounded-md truncate max-w-[130px] font-semibold"
   }, t.category)), _react.default.createElement("p", {
     onClick: () => onViewTask(t),
-    className: "font-bold text-xs text-white mb-3 line-clamp-2 leading-relaxed cursor-pointer hover:text-[#59718A]"
+    className: "font-bold text-[13px] text-white mb-3 line-clamp-2 leading-relaxed cursor-pointer hover:text-[#59718A]"
   }, t.title), _react.default.createElement("div", {
-    className: "mt-auto flex justify-between items-center pt-2.5 border-t border-white/10 text-[11px]"
+    className: "mt-auto flex justify-between items-center pt-2.5 border-t border-white/10 text-[11.5px]"
   }, _react.default.createElement("span", {
-    className: "text-gray-300 truncate max-w-[130px] flex items-center gap-1 font-medium"
+    className: "text-gray-300 truncate max-w-[140px] flex items-center gap-1 font-medium"
   }, _react.default.createElement(_lucideReact.MapPin, {
-    className: "w-3 h-3 text-[#2F6F6D] shrink-0"
+    className: "w-3.5 h-3.5 text-[#2F6F6D] shrink-0"
   }), _react.default.createElement("span", null, t.destination)), _react.default.createElement("button", {
     type: "button",
     onClick: () => scheduleTaskForToday(t.id),
-    className: "bg-[#59718A] hover:opacity-90 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition-opacity cursor-pointer semantic-btn"
+    className: "bg-[#59718A] hover:opacity-90 text-white px-3 py-1 rounded-lg text-[11px] font-bold transition-opacity cursor-pointer semantic-btn"
   }, "\u062A\u0639\u064A\u064A\u0646 \u0644\u0644\u064A\u0648\u0645")))))), _react.default.createElement("div", {
-    className: "w-full bg-[#1B1D2A] border-2 border-[#8FA68F]/75 rounded-[14px] p-4 shadow-lg mb-5"
+    className: "surface-card-3d w-full bg-[#1B1D2A] border-2 border-[#8FA68F]/75 rounded-[16px] p-4 sm:p-5 shadow-lg mb-5"
   }, _react.default.createElement("div", {
-    className: "flex justify-between items-center pb-3 border-b border-white/10 mb-3"
+    className: "flex justify-between items-center pb-3 border-b border-white/10 mb-3.5"
   }, _react.default.createElement("div", {
-    className: "text-[14px] font-bold text-[#2F6F6D] flex items-center gap-2"
+    className: "text-[15px] sm:text-[16px] font-extrabold text-[#2F6F6D] flex items-center gap-2"
   }, _react.default.createElement(_lucideReact.MapPin, {
-    className: "w-4 h-4"
+    className: "w-[18px] h-[18px]"
   }), _react.default.createElement("span", null, "\u062A\u0648\u0632\u064A\u0639 \u0627\u0644\u0645\u0647\u0627\u0645 \u062D\u0633\u0628 \u0627\u0644\u0648\u062C\u0647\u0627\u062A \u0648\u0627\u0644\u0645\u062D\u0627\u0643\u0645")), _react.default.createElement("span", {
-    className: "text-[11px] text-[#8E91A0] hidden sm:block font-semibold"
+    className: "text-xs text-[#8E91A0] hidden sm:block font-semibold"
   }, "\u062D\u0633\u0628 \u0645\u0642\u0631\u0627\u062A \u0627\u0644\u062F\u0627\u0626\u0631\u0629 \u0627\u0644\u0642\u0636\u0627\u0626\u064A\u0629")), _react.default.createElement("div", {
     className: "grid grid-cols-1 md:grid-cols-2 gap-3"
   }, geoBreakdown.map(geo => _react.default.createElement("div", {
@@ -3790,34 +4004,34 @@ const DashboardView = ({
       });
       onNavigate('tasks');
     },
-    className: "bg-[#12131C] border border-white/15 rounded-xl p-3 flex justify-between items-center hover:border-[#59718A] transition-colors cursor-pointer"
+    className: "bg-[#12131C] border border-white/15 rounded-xl p-3.5 flex justify-between items-center hover:border-[#59718A] transition-colors cursor-pointer"
   }, _react.default.createElement("div", {
     className: "flex items-center gap-2.5"
   }, _react.default.createElement("span", {
-    className: `w-2.5 h-2.5 rounded-full ${geo.color}`
+    className: `w-3 h-3 rounded-full ${geo.color}`
   }), _react.default.createElement("span", {
-    className: "font-bold text-xs text-gray-200"
+    className: "font-bold text-[13px] text-gray-200"
   }, geo.name)), _react.default.createElement("span", {
-    className: "text-xs font-bold text-white bg-white/10 px-2.5 py-0.5 rounded-lg font-sans tabular-nums"
+    className: "text-xs font-bold text-white bg-white/10 px-3 py-1 rounded-lg font-sans tabular-nums"
   }, geo.count, " \u0645\u0647\u0645\u0629"))))), templates.length > 0 && _react.default.createElement("div", {
-    className: "w-full bg-[#1B1D2A] border-2 border-[#2F6F6D]/70 rounded-[14px] p-4 shadow-lg mb-5"
+    className: "surface-card-3d w-full bg-[#1B1D2A] border-2 border-[#2F6F6D]/70 rounded-[16px] p-4 sm:p-5 shadow-lg mb-5"
   }, _react.default.createElement("div", {
-    className: "text-[14px] font-bold text-[#2F6F6D] flex items-center gap-2 mb-3"
+    className: "text-[15px] sm:text-[16px] font-extrabold text-[#2F6F6D] flex items-center gap-2 mb-3.5"
   }, _react.default.createElement(_lucideReact.Sparkles, {
-    className: "w-4 h-4"
+    className: "w-[18px] h-[18px]"
   }), _react.default.createElement("span", null, "\u0642\u0648\u0627\u0644\u0628 \u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0633\u0631\u064A\u0639\u0629:")), _react.default.createElement("div", {
     className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"
   }, templates.map(tpl => _react.default.createElement("button", {
     key: tpl.id,
     type: "button",
     onClick: () => onOpenNewTaskModal(todayStr),
-    className: "bg-[#12131C] border border-white/15 rounded-xl p-3 flex items-center gap-2.5 text-right hover:bg-white/5 hover:border-[#2F6F6D] transition-colors group cursor-pointer"
+    className: "bg-[#12131C] border border-white/15 rounded-xl p-3.5 flex items-center gap-2.5 text-right hover:bg-white/5 hover:border-[#2F6F6D] transition-colors group cursor-pointer"
   }, _react.default.createElement("div", {
     className: "w-[36px] h-[36px] min-w-[36px] min-h-[36px] aspect-square rounded-[8px] shrink-0 bg-[#D4A72C]/15 text-[#D4A72C] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform"
   }, _react.default.createElement(_lucideReact.Sparkles, {
-    className: "w-3.5 h-3.5"
+    className: "w-4 h-4"
   })), _react.default.createElement("span", {
-    className: "text-xs font-bold text-gray-200 truncate"
+    className: "text-[13px] font-bold text-gray-200 truncate"
   }, tpl.title))))));
 };
 exports.DashboardView = DashboardView;
@@ -4464,7 +4678,7 @@ const Header = ({
   const formattedLastSync = lastCloudSyncAt ? lastCloudSyncAt.replace('T', ' ').slice(0, 16) : 'متزامن تلقائياً';
   return _react.default.createElement("header", {
     id: "app-header",
-    className: "w-full bg-[#1B1D2A] border-b border-white/10 sticky top-0 z-30 px-4 py-3 flex justify-between items-center select-none no-print"
+    className: "w-full bg-[#1B1D2A] border-b border-white/10 sticky top-0 z-30 px-3.5 sm:px-4 py-3 flex justify-between items-center gap-2 select-none no-print"
   }, _react.default.createElement("input", {
     ref: fileInputRef,
     type: "file",
@@ -4472,7 +4686,7 @@ const Header = ({
     onChange: handleFileUpload,
     className: "hidden"
   }), _react.default.createElement("div", {
-    className: "flex items-center gap-[12px] min-w-0"
+    className: "flex items-center gap-2 sm:gap-3 min-w-0 flex-1"
   }, _react.default.createElement("button", {
     id: "btn-sidebar-toggle",
     type: "button",
@@ -4487,7 +4701,7 @@ const Header = ({
     type: "button",
     onClick: handleLogoNavigateHome,
     title: "\u0644\u0648\u062D\u0629 \u0627\u0644\u0642\u064A\u0627\u062F\u0629",
-    className: `flex items-center gap-[12px] transition-all duration-300 cursor-pointer group focus:outline-none ${isSidebarOpen ? 'opacity-0 pointer-events-none -translate-x-2 invisible' : 'opacity-100 visible'}`
+    className: `flex items-center gap-2 sm:gap-3 min-w-0 transition-all duration-300 cursor-pointer group focus:outline-none ${isSidebarOpen ? 'opacity-0 pointer-events-none -translate-x-2 invisible' : 'opacity-100 visible'}`
   }, _react.default.createElement("div", {
     className: "w-[36px] h-[36px] min-w-[36px] min-h-[36px] aspect-square rounded-[8px] bg-[#12131C] border border-[#59718A] group-hover:border-[#D4A72C] flex justify-center items-center shrink-0 shadow-xs transition-colors overflow-hidden"
   }, settings?.logoImg ? _react.default.createElement("img", {
@@ -4497,7 +4711,7 @@ const Header = ({
   }) : _react.default.createElement(_CalendarAppLogo.CalendarAppLogo, {
     size: 20
   })), _react.default.createElement("span", {
-    className: "text-[16px] font-bold text-white group-hover:text-[#D4A72C] transition-colors truncate hidden xs:inline-block"
+    className: "text-[12.5px] sm:text-[15.5px] font-bold text-white group-hover:text-[#D4A72C] transition-colors truncate"
   }, settings?.systemName || 'نظام تدبير المهام اليومية'))), _react.default.createElement("div", {
     className: "flex items-center gap-[8px] shrink-0"
   }, isDashboard && _react.default.createElement("div", {

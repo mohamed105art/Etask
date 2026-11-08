@@ -233,6 +233,7 @@
     .grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
     .h-1\.5 { height: 0.375rem; }
     .h-10 { height: 2.5rem; }
+    .h-11 { height: 2.75rem; }
     .h-12 { height: 3rem; }
     .h-2 { height: 0.5rem; }
     .h-2\.5 { height: 0.625rem; }
@@ -248,7 +249,6 @@
     .h-\[16px\] { height: 16px; }
     .h-\[18px\] { height: 18px; }
     .h-\[196px\] { height: 196px; }
-    .h-\[32px\] { height: 32px; }
     .h-\[36px\] { height: 36px; }
     .h-\[82px\] { height: 82px; }
     .h-\[96px\] { height: 96px; }
@@ -302,7 +302,6 @@
     .max-h-24 { max-height: 6rem; }
     .max-h-32 { max-height: 8rem; }
     .max-h-48 { max-height: 12rem; }
-    .max-h-\[220px\] { max-height: 220px; }
     .max-h-\[85vh\] { max-height: 85vh; }
     .max-h-\[90vh\] { max-height: 90vh; }
     .max-w-2xl { max-width: 42rem; }
@@ -349,6 +348,7 @@
     .mt-1 { margin-top: 0.25rem; }
     .mt-1\.5 { margin-top: 0.375rem; }
     .mt-2 { margin-top: 0.5rem; }
+    .mt-2\.5 { margin-top: 0.625rem; }
     .mt-3 { margin-top: 0.75rem; }
     .mt-3\.5 { margin-top: 0.875rem; }
     .mt-4 { margin-top: 1rem; }
@@ -359,7 +359,6 @@
     .my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
     .my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
     .my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
-    .my-auto { margin-top: auto; margin-bottom: auto; }
     .object-contain { object-fit: contain; }
     .opacity-0 { opacity: 0; }
     .opacity-30 { opacity: 0.3; }
@@ -513,6 +512,7 @@
     .underline { text-decoration: underline; }
     .w-1\.5 { width: 0.375rem; }
     .w-10 { width: 2.5rem; }
+    .w-11 { width: 2.75rem; }
     .w-12 { width: 3rem; }
     .w-2 { width: 0.5rem; }
     .w-2\.5 { width: 0.625rem; }
@@ -3676,10 +3676,19 @@ const DashboardView = ({
   }, [periodStats.externalCount, prevPeriodTasksList]);
   const todayTasks = tasks.filter(t => !t.isBacklog && t.taskDate === todayStr && t.status !== 'منجزة' && t.status !== 'مكتملة');
   const futureTasks = tasks.filter(t => (t.isBacklog || !t.taskDate || t.taskDate && t.taskDate > todayStr) && t.status !== 'منجزة' && t.status !== 'مكتملة');
+  const normalizeCategoryName = raw => {
+    const c = (raw || '').trim();
+    if (!c) return 'التقارير والأعمال الإدارية';
+    if (c === 'عتاد وشبكات المعلوماتية') return 'الأنظمة والشبكات المعلوماتية';
+    if (c === 'مستهلكات الطباعة والطونير') return 'تدبير المخزون والتوزيع';
+    if (c === 'لافتات وتشوير') return 'التصميم والمنشورات والطباعة';
+    if (c === 'التدبير الإداري والممتلكات') return 'التقارير والأعمال الإدارية';
+    return c;
+  };
   const categoryDonutSlices = (0, _react.useMemo)(() => {
     const countsMap = new Map();
     filteredTasksList.forEach(t => {
-      const catName = (t.category || 'التقارير والأعمال الإدارية').trim();
+      const catName = normalizeCategoryName(t.category);
       countsMap.set(catName, (countsMap.get(catName) || 0) + 1);
     });
     categories.filter(c => !c.archived).forEach(c => {
@@ -3760,10 +3769,18 @@ const DashboardView = ({
   }, [filteredTasksList, chartColorPool]);
   const activeCategorySlice = (0, _react.useMemo)(() => categoryDonutSlices.find(s => s.id === selectedCategorySliceId) || null, [categoryDonutSlices, selectedCategorySliceId]);
   const activeDestinationSlice = (0, _react.useMemo)(() => destinationDonutSlices.find(s => s.id === selectedDestinationSliceId) || null, [destinationDonutSlices, selectedDestinationSliceId]);
+  const isLightMode = settings?.theme === 'light';
   const renderInteractiveDonutCard = config => {
     const totalVal = Math.max(1, config.slices.reduce((acc, s) => acc + s.count, 0));
     let currentAngle = 0;
     const gapDeg = config.slices.length > 1 ? 1.6 : 0;
+    const handleSliceOrItemActivate = slice => {
+      if (config.selectedId === slice.id) {
+        config.onFilterNavigate(slice);
+      } else {
+        config.onSelectId(slice.id);
+      }
+    };
     return _react.default.createElement("div", {
       id: config.cardId,
       style: {
@@ -3771,27 +3788,12 @@ const DashboardView = ({
       },
       className: "surface-card-3d w-full bg-[#1B1D2A] border-2 rounded-[18px] p-4 sm:p-5 shadow-lg flex flex-col justify-between"
     }, _react.default.createElement("div", {
-      className: "flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/10 mb-4"
-    }, _react.default.createElement("div", {
-      className: "min-w-0"
+      className: "flex items-center justify-center pb-3 border-b border-white/10 mb-3 text-center"
     }, _react.default.createElement("h3", {
-      className: "text-[15px] sm:text-[16px] font-extrabold text-white flex items-center gap-2"
+      className: "text-[15px] sm:text-[16px] font-extrabold text-white flex items-center justify-center gap-2"
     }, config.icon, _react.default.createElement("span", {
       className: "truncate"
-    }, config.title)), _react.default.createElement("p", {
-      className: "text-[11px] text-[#8E91A0] mt-0.5"
-    }, config.subtitle)), config.activeSlice ? _react.default.createElement("button", {
-      type: "button",
-      onClick: () => config.onFilterNavigate(config.activeSlice),
-      style: {
-        backgroundColor: config.activeSlice.color
-      },
-      className: "h-[32px] px-3 rounded-[8px] text-white text-[11px] font-bold flex items-center gap-1.5 cursor-pointer semantic-btn shadow-xs shrink-0"
-    }, _react.default.createElement("span", null, "\u0639\u0631\u0636 \u0641\u064A \u0627\u0644\u0633\u062C\u0644 (", config.activeSlice.count, ")"), _react.default.createElement(_lucideReact.ArrowLeft, {
-      className: "w-3.5 h-3.5"
-    })) : _react.default.createElement("span", {
-      className: "text-[11px] text-[#8E91A0] font-semibold"
-    }, "\u0627\u0636\u063A\u0637 \u0639\u0644\u0649 \u0627\u0644\u0645\u0628\u064A\u0627\u0646 \u0623\u0648 \u0627\u0644\u0642\u0627\u0626\u0645\u0629 \u0644\u0644\u062A\u062D\u062F\u064A\u062F")), _react.default.createElement("div", {
+    }, config.title))), _react.default.createElement("div", {
       className: "grid grid-cols-1 sm:grid-cols-12 gap-4 items-center"
     }, _react.default.createElement("div", {
       className: "sm:col-span-5 h-full flex flex-col items-center justify-center py-1"
@@ -3815,19 +3817,23 @@ const DashboardView = ({
         "data-slice-id": slice.id,
         d: dPath,
         fill: slice.color,
-        stroke: "#1B1D2A",
+        stroke: isLightMode ? '#FFFFFF' : '#1B1D2A',
         strokeWidth: isSelected ? '2.5' : '1',
         style: {
           opacity: isDimmed ? 0.55 : 1,
           transition: 'd 0.22s ease, opacity 0.2s ease'
         },
-        onClick: () => config.onSelectId(isSelected ? null : slice.id),
+        onClick: () => handleSliceOrItemActivate(slice),
         className: "cursor-pointer"
       }, _react.default.createElement("title", null, `${slice.name}: ${slice.count} مهمة (${slice.percent}%)`));
     })), _react.default.createElement("div", {
-      onClick: () => config.onSelectId(null),
+      onClick: () => {
+        if (config.activeSlice) {
+          config.onSelectId(null);
+        }
+      },
       className: "absolute w-[96px] h-[96px] rounded-full bg-[#12131C] border border-white/10 flex flex-col items-center justify-center text-center p-2 cursor-pointer select-none shadow-inner",
-      title: "\u0627\u0636\u063A\u0637 \u0644\u0625\u0644\u063A\u0627\u0621 \u0627\u0644\u062A\u062D\u062F\u064A\u062F \u0648\u0639\u0631\u0636 \u0627\u0644\u0625\u062C\u0645\u0627\u0644\u064A"
+      title: config.activeSlice ? 'اضغط لإلغاء التحديد وعرض الإجمالي' : config.totalCenterLabel
     }, config.activeSlice ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("span", {
       style: {
         color: config.activeSlice.color
@@ -3842,35 +3848,46 @@ const DashboardView = ({
     }, config.totalCenterNumber), _react.default.createElement("span", {
       className: "text-[10px] font-bold text-[#8E91A0] mt-1"
     }, config.totalCenterLabel))))), _react.default.createElement("div", {
-      className: "sm:col-span-7 space-y-2 max-h-[220px] overflow-y-auto pr-1 my-auto"
+      className: "sm:col-span-7 space-y-2 py-1 px-0.5"
     }, config.slices.map(slice => {
       const isSelected = config.selectedId === slice.id;
+      const rowBg = isSelected ? isLightMode ? `${slice.color}1C` : `${slice.color}22` : isLightMode ? '#F1F5F9' : '#12131C';
+      const rowBorder = isSelected ? slice.color : isLightMode ? 'rgba(15, 23, 42, 0.10)' : 'rgba(255, 255, 255, 0.10)';
+      const rowTextColor = isLightMode ? '#0F172A' : isSelected ? '#FFFFFF' : '#E2E8F0';
+      const badgeBg = isSelected ? slice.color : isLightMode ? '#E2E8F0' : 'rgba(255,255,255,0.08)';
+      const badgeTextColor = isSelected ? '#FFFFFF' : isLightMode ? '#0F172A' : '#FFFFFF';
       return _react.default.createElement("div", {
         key: slice.id,
         "data-list-item-id": slice.id,
-        onClick: () => config.onSelectId(isSelected ? null : slice.id),
+        onClick: () => handleSliceOrItemActivate(slice),
         style: {
-          borderColor: isSelected ? slice.color : 'rgba(255, 255, 255, 0.10)',
-          backgroundColor: isSelected ? `${slice.color}1F` : '#12131C'
+          borderColor: rowBorder,
+          backgroundColor: rowBg
         },
-        className: `p-2.5 rounded-xl flex items-center justify-between gap-2.5 cursor-pointer transition-all select-none ${isSelected ? 'border-2 shadow-sm scale-[1.01]' : 'border hover:border-white/25'}`
+        className: `p-2.5 rounded-xl flex items-center justify-between gap-2.5 cursor-pointer transition-all select-none ${isSelected ? 'border-2 shadow-sm' : 'border'}`
       }, _react.default.createElement("div", {
         className: "flex items-center gap-2.5 min-w-0 flex-1"
       }, _react.default.createElement("span", {
         style: {
           backgroundColor: slice.color
         },
-        className: ` rounded-md shrink-0 transition-transform ${isSelected ? 'w-4 h-4 scale-110' : 'w-3 h-3'}`
+        className: `rounded-md shrink-0 transition-transform ${isSelected ? 'w-4 h-4 scale-110' : 'w-3 h-3'}`
       }), _react.default.createElement("span", {
-        className: `text-xs truncate ${isSelected ? 'font-extrabold text-white' : 'font-bold text-gray-200'}`
+        style: {
+          color: rowTextColor
+        },
+        className: `text-xs truncate ${isSelected ? 'font-extrabold' : 'font-bold'}`
       }, slice.name)), _react.default.createElement("div", {
         className: "flex items-center gap-1.5 shrink-0"
       }, _react.default.createElement("span", {
-        className: "text-[11px] font-bold text-[#8E91A0] font-sans tabular-nums"
+        style: {
+          color: isLightMode ? '#475569' : '#8E91A0'
+        },
+        className: "text-[11px] font-bold font-sans tabular-nums"
       }, slice.percent, "%"), _react.default.createElement("span", {
         style: {
-          backgroundColor: isSelected ? slice.color : 'rgba(255,255,255,0.08)',
-          color: '#FFFFFF'
+          backgroundColor: badgeBg,
+          color: badgeTextColor
         },
         className: `px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-sans tabular-nums ${isSelected ? 'semantic-bubble' : ''}`
       }, slice.count, " \u0645\u0647\u0645\u0629")));
@@ -7298,67 +7315,71 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 const SplashScreen = () => {
   const {
-    tasks,
+    kpiStats,
+    cloudSyncStatus,
     isInitialLoading,
     finishInitialLoading,
     settings
   } = (0, _TaskContext.useTasks)();
   const [stepIndex, setStepIndex] = (0, _react.useState)(0);
+  const [stepsVisitedCount, setStepsVisitedCount] = (0, _react.useState)(1);
   const [shouldRender, setShouldRender] = (0, _react.useState)(true);
   const activeColors = Array.isArray(settings?.customPaletteColors) && settings.customPaletteColors.length === 6 ? settings.customPaletteColors : ['#59718A', '#D4A72C', '#5B3A62', '#E07A47', '#2F6F6D', '#8FA68F'];
-  const {
-    currentYearCount,
-    lastCompletedTaskLabel
-  } = (0, _react.useMemo)(() => {
-    const currentYear = new Date().getFullYear().toString();
-    const yearTasks = tasks.filter(t => t.taskDate && t.taskDate.startsWith(currentYear) || t.createdAt && t.createdAt.startsWith(currentYear));
-    const totalCount = yearTasks.length > 0 ? yearTasks.length : tasks.length;
-    const completedTasks = tasks.filter(t => t.status === 'منجزة' || t.status === 'مكتملة').sort((a, b) => {
-      const dA = a.completedAt || a.taskDate || a.createdAt || '';
-      const dB = b.completedAt || b.taskDate || b.createdAt || '';
-      return dB.localeCompare(dA);
-    });
-    const latestDone = completedTasks[0] || tasks[0];
-    const latestLabel = latestDone ? `${latestDone.title.slice(0, 38)}${latestDone.title.length > 38 ? '...' : ''} (${latestDone.taskDate || 'مؤخراً'})` : 'لا توجد مهام مسجلة بعد';
-    return {
-      currentYearCount: totalCount,
-      lastCompletedTaskLabel: latestLabel
-    };
-  }, [tasks]);
   const rotatingMessages = (0, _react.useMemo)(() => [{
-    text: 'جاري مزامنة البيانات...',
-    icon: _lucideReact.Database,
-    color: activeColors[0]
-  }, {
-    text: `إجمالي المهام المسجلة هذا العام: ${currentYearCount} مهمة`,
-    icon: _lucideReact.Sparkles,
+    title: 'مهام اليوم الجارية والمبرمجة',
+    text: `عدد مهام اليوم: ${kpiStats.todayTasks} مهمة`,
+    icon: _lucideReact.Sun,
     color: activeColors[1]
   }, {
-    text: `آخر مهمة تم إنجازها: ${lastCompletedTaskLabel}`,
+    title: 'إجمالي المهام المسجلة بالنظام',
+    text: `${kpiStats.totalTasks} مهمة مسجلة (${kpiStats.localCount} محلي • ${kpiStats.externalCount} تنقل خارجي)`,
+    icon: _lucideReact.ClipboardList,
+    color: activeColors[0]
+  }, {
+    title: 'المهام المبرمجة وقيد المتابعة',
+    text: `${kpiStats.futureTasks} مهام مبرمجة • ${kpiStats.pendingTasks} قيد المتابعة والتسوية`,
+    icon: _lucideReact.Calendar,
+    color: activeColors[3]
+  }, {
+    title: 'حصيلة الإنجاز والتنقلات القضائية',
+    text: `${kpiStats.doneTasks} مهمة منجزة (نسبة الإنجاز: ${kpiStats.completionRate}%)`,
     icon: _lucideReact.CheckCircle2,
     color: activeColors[5]
   }, {
-    text: 'جاري تجهيز بيئة العمل...',
-    icon: _lucideReact.Cpu,
+    title: 'حالة المزامنة وجاهزية النظام',
+    text: cloudSyncStatus === 'syncing' ? 'جاري مزامنة البيانات وتحديث السجلات...' : 'اكتمل تحميل الإحصائيات — جاري الدخول للتطبيق...',
+    icon: _lucideReact.Database,
     color: activeColors[4]
-  }], [currentYearCount, lastCompletedTaskLabel, activeColors]);
+  }], [kpiStats, cloudSyncStatus, activeColors]);
   (0, _react.useEffect)(() => {
-    if (!shouldRender) return;
+    if (!shouldRender || !isInitialLoading) return;
     const interval = setInterval(() => {
       setStepIndex(prev => (prev + 1) % rotatingMessages.length);
-    }, 2000);
+      setStepsVisitedCount(prev => prev + 1);
+    }, 1150);
     return () => clearInterval(interval);
-  }, [shouldRender, rotatingMessages.length]);
+  }, [shouldRender, isInitialLoading, rotatingMessages.length]);
+  (0, _react.useEffect)(() => {
+    if (!isInitialLoading) return;
+    const hasShownAllStats = stepsVisitedCount >= rotatingMessages.length;
+    const isSyncStillRunning = cloudSyncStatus === 'syncing' && stepsVisitedCount < rotatingMessages.length * 2;
+    if (hasShownAllStats && !isSyncStillRunning) {
+      const enterTimer = setTimeout(() => {
+        finishInitialLoading();
+      }, 950);
+      return () => clearTimeout(enterTimer);
+    }
+  }, [isInitialLoading, stepsVisitedCount, rotatingMessages.length, cloudSyncStatus, finishInitialLoading]);
   (0, _react.useEffect)(() => {
     if (!isInitialLoading) {
       const timer = setTimeout(() => {
         setShouldRender(false);
-      }, 650);
+      }, 550);
       return () => clearTimeout(timer);
     }
   }, [isInitialLoading]);
   if (!shouldRender) return null;
-  const activeMessage = rotatingMessages[stepIndex];
+  const activeMessage = rotatingMessages[stepIndex] || rotatingMessages[0];
   const ActiveIcon = activeMessage.icon;
   return _react.default.createElement("div", {
     id: "splash-screen-overlay",
@@ -7366,7 +7387,7 @@ const SplashScreen = () => {
     style: {
       zIndex: 9999
     },
-    className: `fixed inset-0 bg-[#12131C] flex flex-col items-center justify-center px-6 select-none transition-opacity duration-600 ${isInitialLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}`
+    className: `fixed inset-0 bg-[#12131C] flex flex-col items-center justify-center px-6 select-none cursor-pointer transition-opacity duration-500 ${isInitialLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}`
   }, _react.default.createElement("div", {
     className: "relative w-28 h-28 flex items-center justify-center mb-7"
   }, _react.default.createElement("svg", {
@@ -7389,7 +7410,7 @@ const SplashScreen = () => {
     width: "104",
     height: "104",
     rx: "24",
-    stroke: activeColors[1],
+    stroke: activeMessage.color,
     strokeWidth: "3",
     strokeLinecap: "round",
     strokeDasharray: "95 290",
@@ -7410,13 +7431,13 @@ const SplashScreen = () => {
   }, settings?.systemName || 'نظام تدبير المهام اليومية'), _react.default.createElement("p", {
     className: "text-xs text-[#8E91A0] font-semibold text-center mb-7"
   }, settings?.department || 'المديرية الإقليمية للعدل بسطات'), _react.default.createElement("div", {
-    className: "w-full max-w-md bg-[#1B1D2A] border border-white/10 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 transition-all duration-300"
+    className: "w-full max-w-md bg-[#1B1D2A] border border-white/15 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 transition-all duration-300"
   }, _react.default.createElement("div", {
     style: {
       backgroundColor: `${activeMessage.color}22`,
-      borderColor: `${activeMessage.color}55`
+      borderColor: `${activeMessage.color}66`
     },
-    className: "w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-colors duration-300"
+    className: "w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 transition-colors duration-300"
   }, _react.default.createElement(ActiveIcon, {
     className: "w-5 h-5",
     style: {
@@ -7425,13 +7446,18 @@ const SplashScreen = () => {
   })), _react.default.createElement("div", {
     className: "flex-1 min-w-0"
   }, _react.default.createElement("div", {
+    style: {
+      color: activeMessage.color
+    },
+    className: "text-[11px] font-extrabold truncate mb-0.5"
+  }, activeMessage.title), _react.default.createElement("div", {
     className: "text-xs sm:text-sm font-bold text-white leading-snug break-words"
   }, activeMessage.text), _react.default.createElement("div", {
-    className: "flex items-center gap-1.5 mt-2"
-  }, rotatingMessages.map((_, idx) => _react.default.createElement("span", {
+    className: "flex items-center gap-1.5 mt-2.5"
+  }, rotatingMessages.map((msg, idx) => _react.default.createElement("span", {
     key: idx,
     style: {
-      backgroundColor: idx === stepIndex ? activeMessage.color : 'rgba(255,255,255,0.15)'
+      backgroundColor: idx === stepIndex ? msg.color : 'rgba(255,255,255,0.15)'
     },
     className: `h-1.5 rounded-full transition-all duration-300 ${idx === stepIndex ? 'w-6' : 'w-2'}`
   }))))), _react.default.createElement("button", {
@@ -10079,7 +10105,7 @@ const TaskProvider = ({
     let isMounted = true;
     const minSplashTime = setTimeout(() => {
       if (isMounted) setIsInitialLoading(false);
-    }, 1800);
+    }, 5200);
     if (!(0, _firebaseService.isNetworkOnline)()) {
       setCloudSyncStatus('offline');
       return () => {
@@ -21421,7 +21447,10 @@ function mergeSystemSnapshots(local, remote) {
       }
     });
   }
-  const mergedTasks = Array.from(taskMap.values()).sort((a, b) => (b.taskDate || '').localeCompare(a.taskDate || '') || (b.createdAt || '').localeCompare(a.createdAt || ''));
+  const mergedTasks = Array.from(taskMap.values()).map(t => ({
+    ...t,
+    category: (0, _storageService.mapToCanonicalCategoryName)(t.category)
+  })).sort((a, b) => (b.taskDate || '').localeCompare(a.taskDate || '') || (b.createdAt || '').localeCompare(a.createdAt || ''));
   const catMap = new Map();
   (local.categories || []).forEach(c => {
     if (!c || !c.id) return;
@@ -21430,9 +21459,14 @@ function mergeSystemSnapshots(local, remote) {
     }
   });
   if (Array.isArray(remote.categories)) {
-    remote.categories.forEach(rCat => {
-      if (!rCat || !rCat.id) return;
-      if (isDeletedAfter(rCat.id, rCat.updatedAt)) return;
+    remote.categories.forEach(rawRCat => {
+      if (!rawRCat || !rawRCat.id) return;
+      if (isDeletedAfter(rawRCat.id, rawRCat.updatedAt)) return;
+      const canonicalCatName = (0, _storageService.mapToCanonicalCategoryName)(rawRCat.name);
+      const rCat = {
+        ...rawRCat,
+        name: canonicalCatName
+      };
       const existingById = catMap.get(rCat.id);
       const existingByName = !existingById ? Array.from(catMap.values()).find(c => c.name.trim().toLowerCase() === rCat.name.trim().toLowerCase()) : undefined;
       const target = existingById || existingByName;
@@ -22502,6 +22536,11 @@ function stripEmojisAndFieldWording(text) {
   return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').replace(/المهام الميدانية والتنقلات/g, 'التنقلات والمهام الخارجية').replace(/مهام ميدانية وتنقلات/g, 'التنقلات والمهام الخارجية').replace(/مهمة ميدانية/g, 'مهمة').replace(/تدخل ميداني/g, 'مهمة تقنية').replace(/التنفيذ الميداني/g, 'التنفيذ الفعلي').replace(/الانتقال الميداني/g, 'الانتقال').replace(/التنقل الميداني/g, 'التنقل').replace(/معاينة ميدانية/g, 'معاينة تقنية').replace(/المعاينة الميدانية/g, 'المعاينة التقنية').replace(/\s{2,}/g, ' ').trim();
 }
 const LEGACY_TO_CANONICAL_CATEGORY = {
+  'عتاد وشبكات المعلوماتية': 'تدبير حظيرة المعلوميات',
+  'مستهلكات الطباعة والطونير': 'تدبير المخزون والتوزيع',
+  'لافتات وتشوير': 'التصميم والمنشورات والطباعة',
+  'التدبير الإداري والممتلكات': 'التقارير والأعمال الإدارية',
+  'مهام إدارية ومالية': 'التقارير والأعمال الإدارية',
   'المعدات والعتاد المعلوماتي': 'تدبير حظيرة المعلوميات',
   'تطوير التطبيقات والرقمنة': 'الأنظمة والشبكات المعلوماتية',
   'الشبكات والأنظمة والدعم التقني': 'الأنظمة والشبكات المعلوماتية',

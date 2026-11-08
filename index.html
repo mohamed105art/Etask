@@ -419,7 +419,6 @@
     .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
     .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
     .relative { position: relative; }
-    .right-0 { right: 0; }
     .right-2\.5 { right: 0.625rem; }
     .rounded { border-radius: 0.25rem; }
     .rounded-2xl { border-radius: 1rem; }
@@ -530,7 +529,6 @@
     .w-5 { width: 1.25rem; }
     .w-52 { width: 13rem; }
     .w-6 { width: 1.5rem; }
-    .w-60 { width: 15rem; }
     .w-7 { width: 1.75rem; }
     .w-72 { width: 18rem; }
     .w-8 { width: 2rem; }
@@ -1292,6 +1290,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .splash-squircle-dash {
   animation: splashSquircleTravel 2.2s linear infinite;
+}
+
+
+/* ==========================================================================
+   Strict Mobile & iOS WebKit Date Input & Container Containment Rules
+   Prevents <input type="date"> from exceeding parent container width on iPhone/Android
+   ========================================================================== */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: center;
+  margin: 0 auto;
+  min-width: 0 !important;
 }
 
   </style>
@@ -2533,16 +2555,23 @@ const CalendarView = ({
   const handleAddLeaveRange = () => {
     if (!leaveStart || !leaveEnd || leaveEnd < leaveStart) return;
     const workingDays = computeWorkingDays(leaveStart, leaveEnd);
+    const leaveTypeTitles = {
+      annual: 'رخصة إدارية سنوية',
+      sick: 'رخصة مرضية',
+      exceptional: 'رخصة استثنائية',
+      permission: 'إذن بالتغيب'
+    };
+    const resolvedTitle = leaveTypeTitles[leaveType] || 'رخصة إدارية سنوية';
     const created = {
       id: `leave-${Date.now()}`,
-      title: leaveTitle.trim() || 'رخصة إدارية سنوية',
+      title: resolvedTitle,
       startDate: leaveStart,
       endDate: leaveEnd,
       type: leaveType,
-      workingDaysCount: workingDays
+      workingDaysCount: workingDays,
+      updatedAt: new Date().toISOString()
     };
     updateAnnualLeaves([...annualLeaves, created]);
-    setLeaveTitle('رخصة إدارية سنوية');
   };
   const handleDeleteLeaveRange = id => {
     updateAnnualLeaves(annualLeaves.filter(l => l.id !== id));
@@ -3173,50 +3202,54 @@ const CalendarView = ({
   }, "\u0627\u0644\u0631\u0635\u064A\u062F \u0627\u0644\u0645\u062A\u0628\u0642\u064A"), _react.default.createElement("div", {
     className: "text-base font-extrabold text-[#8FA68F] font-sans mt-0.5"
   }, Math.max(0, leaveQuota - totalLeaveDaysUsed), " \u064A\u0648\u0645"))), _react.default.createElement("div", {
-    className: "p-3.5 rounded-xl bg-[#12131C] border border-white/15 space-y-2.5"
+    className: "p-3.5 rounded-xl bg-[#12131C] border border-white/15 space-y-2.5 w-full max-w-full overflow-hidden box-border"
   }, _react.default.createElement("div", {
     className: "font-bold text-white"
   }, "\u062A\u0633\u062C\u064A\u0644 \u0641\u062A\u0631\u0629 \u0631\u062E\u0635\u0629 \u0623\u0648 \u0625\u0630\u0646 \u0628\u0627\u0644\u062A\u063A\u064A\u0628:"), _react.default.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-2 gap-2"
-  }, _react.default.createElement("input", {
-    type: "text",
-    value: leaveTitle,
-    onChange: e => setLeaveTitle(e.target.value),
-    placeholder: "\u0628\u064A\u0627\u0646 \u0627\u0644\u0631\u062E\u0635\u0629...",
-    className: "px-3 py-2 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-bold"
-  }), _react.default.createElement("select", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("select", {
+    id: "select-leave-type",
     value: leaveType,
     onChange: e => setLeaveType(e.target.value),
-    className: "px-3 py-2 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-bold"
+    className: "w-full max-w-full min-w-0 px-3 py-2 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-bold box-border"
   }, _react.default.createElement("option", {
     value: "annual"
   }, "\u0631\u062E\u0635\u0629 \u0625\u062F\u0627\u0631\u064A\u0629 \u0633\u0646\u0648\u064A\u0629"), _react.default.createElement("option", {
+    value: "sick"
+  }, "\u0631\u062E\u0635\u0629 \u0645\u0631\u0636\u064A\u0629"), _react.default.createElement("option", {
     value: "exceptional"
   }, "\u0631\u062E\u0635\u0629 \u0627\u0633\u062A\u062B\u0646\u0627\u0626\u064A\u0629"), _react.default.createElement("option", {
     value: "permission"
   }, "\u0625\u0630\u0646 \u0628\u0627\u0644\u062A\u063A\u064A\u0628"))), _react.default.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-3 gap-2 items-end"
-  }, _react.default.createElement("div", null, _react.default.createElement("label", {
+    className: "grid grid-cols-1 sm:grid-cols-3 gap-2 items-end w-full max-w-full min-w-0"
+  }, _react.default.createElement("div", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("label", {
     className: "text-[10px] text-[#8E91A0] block mb-1"
   }, "\u0645\u0646 \u062A\u0627\u0631\u064A\u062E:"), _react.default.createElement("input", {
+    id: "input-leave-start",
     type: "date",
     value: leaveStart,
     onChange: e => setLeaveStart(e.target.value),
-    className: "w-full px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans"
-  })), _react.default.createElement("div", null, _react.default.createElement("label", {
+    className: "w-full max-w-full min-w-0 px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans box-border block"
+  })), _react.default.createElement("div", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("label", {
     className: "text-[10px] text-[#8E91A0] block mb-1"
   }, "\u0625\u0644\u0649 \u062A\u0627\u0631\u064A\u062E:"), _react.default.createElement("input", {
+    id: "input-leave-end",
     type: "date",
     value: leaveEnd,
     onChange: e => setLeaveEnd(e.target.value),
-    className: "w-full px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans"
+    className: "w-full max-w-full min-w-0 px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans box-border block"
   })), _react.default.createElement("button", {
+    id: "btn-add-leave",
     type: "button",
     onClick: handleAddLeaveRange,
-    className: "h-[36px] min-h-[36px] px-3 rounded-[8px] bg-[#2F6F6D] text-white font-bold flex items-center justify-center gap-1.5 cursor-pointer semantic-btn"
+    className: "w-full h-[36px] min-h-[36px] px-3 rounded-[8px] bg-[#2F6F6D] text-white font-bold flex items-center justify-center gap-1.5 cursor-pointer semantic-btn"
   }, _react.default.createElement(_lucideReact.Plus, {
     className: "w-3.5 h-3.5"
-  }), _react.default.createElement("span", null, "\u0625\u0636\u0627\u0641\u0629 (", computeWorkingDays(leaveStart, leaveEnd), " \u0623\u064A\u0627\u0645)")))), _react.default.createElement("div", {
+  }), _react.default.createElement("span", null, "\u0625\u0636\u0627\u0641\u0629")))), _react.default.createElement("div", {
     className: "space-y-2"
   }, annualLeaves.map(l => _react.default.createElement("div", {
     key: l.id,
@@ -3350,8 +3383,10 @@ const CalendarView = ({
     onClick: () => applyQuickReportPreset(p.id),
     className: `px-2 py-1 rounded text-[10px] font-bold cursor-pointer transition-colors ${p.id === 'this_month' && reportRangeMode === 'month' || p.id === 'this_year' && reportRangeMode === 'custom' && customStartDate === `${year}-01-01` && customEndDate === `${year}-12-31` ? 'bg-[#59718A] text-white semantic-btn' : 'bg-[#1B1D2A] border border-white/15 text-[#8E91A0] hover:text-white'}`
   }, p.label)))), _react.default.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-2 gap-2 items-end"
-  }, _react.default.createElement("div", null, _react.default.createElement("label", {
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-2 items-end w-full max-w-full min-w-0"
+  }, _react.default.createElement("div", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("label", {
     className: "text-[10px] text-[#8E91A0] block mb-1"
   }, "\u0645\u0646 \u062A\u0627\u0631\u064A\u062E:"), _react.default.createElement("input", {
     id: "input-report-start-date",
@@ -3361,8 +3396,10 @@ const CalendarView = ({
       setCustomStartDate(e.target.value);
       setReportRangeMode('custom');
     },
-    className: "w-full px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans text-xs"
-  })), _react.default.createElement("div", null, _react.default.createElement("label", {
+    className: "w-full max-w-full min-w-0 px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans text-xs box-border block"
+  })), _react.default.createElement("div", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("label", {
     className: "text-[10px] text-[#8E91A0] block mb-1"
   }, "\u0625\u0644\u0649 \u062A\u0627\u0631\u064A\u062E:"), _react.default.createElement("input", {
     id: "input-report-end-date",
@@ -3372,7 +3409,7 @@ const CalendarView = ({
       setCustomEndDate(e.target.value);
       setReportRangeMode('custom');
     },
-    className: "w-full px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans text-xs"
+    className: "w-full max-w-full min-w-0 px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#1B1D2A] text-white font-sans text-xs box-border block"
   })))), _react.default.createElement("div", {
     className: "grid grid-cols-4 gap-2 mt-3 shrink-0 text-center"
   }, _react.default.createElement("div", {
@@ -3683,6 +3720,7 @@ const DashboardView = ({
     if (c === 'مستهلكات الطباعة والطونير') return 'تدبير المخزون والتوزيع';
     if (c === 'لافتات وتشوير') return 'التصميم والمنشورات والطباعة';
     if (c === 'التدبير الإداري والممتلكات') return 'التقارير والأعمال الإدارية';
+    if (c === 'التوزيع والتسليم') return 'تدبير المخزون والتوزيع';
     return c;
   };
   const categoryDonutSlices = (0, _react.useMemo)(() => {
@@ -4175,7 +4213,7 @@ const DashboardView = ({
     selectedId: selectedDestinationSliceId,
     onSelectId: setSelectedDestinationSliceId,
     activeSlice: activeDestinationSlice,
-    totalCenterNumber: periodStats.totalTasks,
+    totalCenterNumber: destinationDonutSlices.length,
     totalCenterLabel: 'إجمالي الوجهات',
     onFilterNavigate: slice => {
       resetFilters();
@@ -4970,7 +5008,7 @@ const Header = ({
   }, _react.default.createElement("input", {
     ref: fileInputRef,
     type: "file",
-    accept: ".json",
+    accept: ".json,.xls,.xlsx",
     onChange: handleFileUpload,
     className: "hidden"
   }), _react.default.createElement("div", {
@@ -5192,23 +5230,35 @@ const Header = ({
   }))), syncFeedback && _react.default.createElement("div", {
     className: "p-1.5 rounded-[8px] bg-[#8FA68F]/20 text-[#8FA68F] text-[10px] font-bold text-center"
   }, syncFeedback)), _react.default.createElement("div", {
-    className: "grid grid-cols-2 gap-1.5 pt-2 border-t border-white/10"
+    className: "grid grid-cols-3 gap-1.5 pt-2 border-t border-white/10"
   }, _react.default.createElement("button", {
+    id: "btn-header-export-json",
     type: "button",
     onClick: () => {
       exportBackupJSON();
       setIsProfileMenuOpen(false);
     },
-    className: "h-[36px] min-h-[36px] px-3 rounded-[8px] bg-[#12131C] hover:bg-white/5 text-gray-200 font-bold border border-white/15 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+    className: "h-[36px] min-h-[36px] px-2 rounded-[8px] bg-[#12131C] hover:bg-white/5 text-gray-200 font-bold border border-white/15 flex items-center justify-center gap-1 transition-colors cursor-pointer text-[11px]"
   }, _react.default.createElement(_lucideReact.Download, {
     className: "w-3.5 h-3.5 text-[#59718A] shrink-0"
-  }), _react.default.createElement("span", null, "\u062A\u0635\u062F\u064A\u0631 JSON")), _react.default.createElement("button", {
+  }), _react.default.createElement("span", null, "\u062D\u0641\u0638 JSON")), _react.default.createElement("button", {
+    id: "btn-header-export-excel",
+    type: "button",
+    onClick: () => {
+      exportBackupExcel();
+      setIsProfileMenuOpen(false);
+    },
+    className: "h-[36px] min-h-[36px] px-2 rounded-[8px] bg-[#12131C] hover:bg-white/5 text-gray-200 font-bold border border-white/15 flex items-center justify-center gap-1 transition-colors cursor-pointer text-[11px]"
+  }, _react.default.createElement(_lucideReact.Download, {
+    className: "w-3.5 h-3.5 text-[#2F6F6D] shrink-0"
+  }), _react.default.createElement("span", null, "\u062D\u0641\u0638 Excel")), _react.default.createElement("button", {
+    id: "btn-header-import-backup",
     type: "button",
     onClick: () => fileInputRef.current?.click(),
-    className: "h-[36px] min-h-[36px] px-3 rounded-[8px] bg-[#12131C] hover:bg-white/5 text-gray-200 font-bold border border-white/15 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+    className: "h-[36px] min-h-[36px] px-2 rounded-[8px] bg-[#12131C] hover:bg-white/5 text-gray-200 font-bold border border-white/15 flex items-center justify-center gap-1 transition-colors cursor-pointer text-[11px]"
   }, _react.default.createElement(_lucideReact.Upload, {
     className: "w-3.5 h-3.5 text-[#E07A47] shrink-0"
-  }), _react.default.createElement("span", null, "\u0627\u0633\u062A\u064A\u0631\u0627\u062F JSON")))))));
+  }), _react.default.createElement("span", null, "\u0627\u0633\u062A\u064A\u0631\u0627\u062F")))))));
 };
 exports.Header = Header;
 },
@@ -5501,6 +5551,8 @@ const SettingsView = ({
     clearCompletedTasks,
     factoryResetSystem,
     exportBackupJSON,
+    exportBackupExcel,
+    syncNowWithCloud,
     importBackupJSON,
     addMainTaskCategory,
     addSubTaskToCategory,
@@ -7052,28 +7104,55 @@ const SettingsView = ({
   }, _react.default.createElement(_lucideReact.Download, {
     className: "w-4 h-4 text-[#8FA68F]"
   }), _react.default.createElement("span", null, "\u0627\u0644\u0646\u0633\u062E \u0627\u0644\u0627\u062D\u062A\u064A\u0627\u0637\u064A \u0648\u062A\u0635\u062F\u064A\u0631 \u0648\u0627\u0633\u062A\u0631\u062C\u0627\u0639 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A")), _react.default.createElement("div", {
-    className: "grid grid-cols-1 md:grid-cols-2 gap-4"
+    className: "grid grid-cols-1 md:grid-cols-3 gap-4"
   }, _react.default.createElement("div", {
     className: "p-4 rounded-xl border border-white/15 bg-[#12131C] space-y-2"
   }, _react.default.createElement("span", {
     className: "font-bold text-white block"
-  }, "\u062A\u0635\u062F\u064A\u0631 \u0646\u0633\u062E\u0629 \u0627\u062D\u062A\u064A\u0627\u0637\u064A\u0629:"), _react.default.createElement("button", {
+  }, "\u062D\u0641\u0638 \u0648\u062A\u0635\u062F\u064A\u0631 \u0634\u0627\u0645\u0644 (JSON / \u0633\u062D\u0627\u0628\u064A):"), _react.default.createElement("div", {
+    className: "flex flex-col gap-2"
+  }, _react.default.createElement("button", {
+    id: "btn-settings-export-json",
     type: "button",
     onClick: exportBackupJSON,
     className: "w-full py-2 bg-[#59718A] hover:opacity-90 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-opacity cursor-pointer semantic-btn"
   }, _react.default.createElement(_lucideReact.Download, {
     className: "w-4 h-4"
-  }), _react.default.createElement("span", null, "\u062A\u0635\u062F\u064A\u0631 JSON"))), _react.default.createElement("div", {
+  }), _react.default.createElement("span", null, "\u062A\u0635\u062F\u064A\u0631 \u0645\u0644\u0641 JSON \u0634\u0627\u0645\u0644")), _react.default.createElement("button", {
+    id: "btn-settings-sync-cloud",
+    type: "button",
+    onClick: () => {
+      syncNowWithCloud('both').then(res => {
+        showToast(res.message, res.success ? '#2F6F6D' : '#D4A72C');
+      });
+    },
+    className: "w-full py-2 bg-[#D4A72C] hover:opacity-90 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-opacity cursor-pointer semantic-btn"
+  }, _react.default.createElement(_lucideReact.Database, {
+    className: "w-4 h-4"
+  }), _react.default.createElement("span", null, "\u062D\u0641\u0638 \u0648\u0645\u0632\u0627\u0645\u0646\u0629 \u0633\u062D\u0627\u0628\u064A\u0629 (Firebase)")))), _react.default.createElement("div", {
     className: "p-4 rounded-xl border border-white/15 bg-[#12131C] space-y-2"
   }, _react.default.createElement("span", {
     className: "font-bold text-white block"
-  }, "\u0627\u0633\u062A\u0631\u062C\u0627\u0639 \u0628\u064A\u0627\u0646\u0627\u062A:"), _react.default.createElement("label", {
-    className: "w-full py-2 bg-[#2F6F6D] hover:opacity-90 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm cursor-pointer transition-opacity semantic-btn"
+  }, "\u062D\u0641\u0638 \u0641\u064A \u062C\u062F\u0648\u0644 \u0625\u0643\u0633\u064A\u0644 (Excel):"), _react.default.createElement("button", {
+    id: "btn-settings-export-excel",
+    type: "button",
+    onClick: exportBackupExcel,
+    className: "w-full py-2 bg-[#2F6F6D] hover:opacity-90 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-opacity cursor-pointer semantic-btn"
+  }, _react.default.createElement(_lucideReact.Download, {
+    className: "w-4 h-4"
+  }), _react.default.createElement("span", null, "\u062A\u0635\u062F\u064A\u0631 \u062C\u062F\u0648\u0644 Excel \u0634\u0627\u0645\u0644 (.xls)")), _react.default.createElement("p", {
+    className: "text-[10px] text-[#8E91A0] leading-relaxed"
+  }, "\u064A\u0636\u0645 \u0633\u062C\u0644 \u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0643\u0627\u0645\u0644\u060C \u0643\u0627\u0641\u0629 \u0627\u0644\u0628\u0627\u0631\u0627\u0645\u062A\u0631\u0627\u062A \u0648\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A \u0648\u0627\u0644\u0623\u0644\u0648\u0627\u0646 \u0627\u0644\u0642\u064A\u0627\u0633\u064A\u0629\u060C \u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629 \u0648\u0627\u0644\u0641\u0631\u0639\u064A\u0629\u060C \u0627\u0644\u0648\u062C\u0647\u0627\u062A\u060C \u0648\u0627\u0644\u0631\u062E\u0635 \u0641\u064A \u062C\u062F\u0648\u0644 \u0625\u0643\u0633\u064A\u0644 \u0645\u0646\u0633\u0642 \u0648\u0642\u0627\u0628\u0644 \u0644\u0644\u0627\u0633\u062A\u0631\u062C\u0627\u0639.")), _react.default.createElement("div", {
+    className: "p-4 rounded-xl border border-white/15 bg-[#12131C] space-y-2"
+  }, _react.default.createElement("span", {
+    className: "font-bold text-white block"
+  }, "\u0627\u0633\u062A\u0631\u062C\u0627\u0639 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A \u0648\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A:"), _react.default.createElement("label", {
+    className: "w-full py-2 bg-[#5B3A62] hover:opacity-90 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-sm cursor-pointer transition-opacity semantic-btn"
   }, _react.default.createElement(_lucideReact.Upload, {
     className: "w-4 h-4"
-  }), _react.default.createElement("span", null, "\u0627\u0633\u062A\u064A\u0631\u0627\u062F JSON"), _react.default.createElement("input", {
+  }), _react.default.createElement("span", null, "\u0627\u0633\u062A\u064A\u0631\u0627\u062F \u0645\u0644\u0641 (JSON \u0623\u0648 Excel)"), _react.default.createElement("input", {
     type: "file",
-    accept: ".json",
+    accept: ".json,.xls,.xlsx",
     onChange: handleFileRestore,
     className: "hidden"
   })), importFeedback && _react.default.createElement("div", {
@@ -7824,7 +7903,9 @@ const TaskModal = ({
     onClick: () => setPendingOrphanSubTask(null),
     className: "py-2 px-4 rounded-xl bg-[#C47C8A] text-white font-bold text-xs cursor-pointer semantic-btn"
   }, "\u0625\u0644\u063A\u0627\u0621")))), _react.default.createElement("div", {
-    className: "px-4 sm:px-5 py-3 border-b border-white/15 flex flex-wrap items-center justify-between gap-2 shrink-0 bg-[#12131C]/60"
+    className: "px-4 sm:px-5 py-3 border-b border-white/15 flex flex-col gap-2 shrink-0 bg-[#12131C]/60 w-full max-w-full overflow-hidden"
+  }, _react.default.createElement("div", {
+    className: "flex flex-wrap items-center justify-between gap-2 w-full"
   }, _react.default.createElement("div", {
     className: "flex items-center gap-2"
   }, taskToEdit ? _react.default.createElement(_lucideReact.Edit3, {
@@ -7835,9 +7916,8 @@ const TaskModal = ({
     className: "font-extrabold text-[15px] sm:text-[16px] text-white whitespace-nowrap"
   }, taskToEdit ? 'تعديل المهمة' : 'مهمة جديدة')), _react.default.createElement("div", {
     className: "flex items-center gap-1.5 flex-wrap"
-  }, _react.default.createElement("div", {
-    className: "relative"
-  }, _react.default.createElement("button", {
+  }, _react.default.createElement("div", null, _react.default.createElement("button", {
+    id: "task-modal-date-trigger",
     type: "button",
     onClick: () => setIsDateMenuOpen(prev => !prev),
     className: `px-2.5 py-1 rounded-xl border text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${isBacklog ? 'bg-[#D4A72C] border-[#D4A72C] text-white semantic-btn' : 'bg-[#59718A] border-[#59718A] text-white semantic-btn'}`
@@ -7845,34 +7925,6 @@ const TaskModal = ({
     className: "w-3.5 h-3.5"
   }), _react.default.createElement("span", null, dateBadgeLabel), _react.default.createElement(_lucideReact.ChevronDown, {
     className: "w-3.5 h-3.5"
-  })), isDateMenuOpen && _react.default.createElement("div", {
-    className: "absolute right-0 mt-2 w-60 rounded-2xl bg-[#1B1D2A] border border-white/15 shadow-2xl p-3 z-30 space-y-2 text-xs"
-  }, _react.default.createElement("div", {
-    className: "grid grid-cols-2 gap-1.5"
-  }, _react.default.createElement("button", {
-    type: "button",
-    onClick: () => {
-      setIsBacklog(false);
-      setTaskDate(todayStr);
-      setIsDateMenuOpen(false);
-    },
-    className: `py-1.5 px-2 rounded-lg font-bold text-xs cursor-pointer ${!isBacklog && taskDate === todayStr ? 'bg-[#59718A] text-white semantic-btn' : 'bg-[#12131C] text-white border border-white/10'}`
-  }, "\u0627\u0644\u064A\u0648\u0645"), _react.default.createElement("button", {
-    type: "button",
-    onClick: () => {
-      setIsBacklog(true);
-      setIsDateMenuOpen(false);
-    },
-    className: `py-1.5 px-2 rounded-lg font-bold text-xs cursor-pointer ${isBacklog ? 'bg-[#D4A72C] text-white semantic-btn' : 'bg-[#12131C] text-white border border-white/10'}`
-  }, "\u0645\u0641\u062A\u0648\u062D\u0629")), _react.default.createElement("input", {
-    type: "date",
-    value: taskDate,
-    onChange: e => {
-      setIsBacklog(false);
-      setTaskDate(e.target.value);
-      setIsDateMenuOpen(false);
-    },
-    className: "w-full px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#12131C] text-white font-sans text-xs focus:outline-none focus:border-[#59718A]"
   }))), _react.default.createElement("div", {
     className: "flex items-center bg-[#12131C] p-0.5 rounded-xl border border-white/10 text-[11px]"
   }, _react.default.createElement("button", {
@@ -7890,7 +7942,39 @@ const TaskModal = ({
       }
     },
     className: `px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-colors ${entryKind === 'communication' ? 'bg-[#D4A72C] text-white semantic-btn' : 'text-[#8E91A0] hover:text-white'}`
-  }, "\u0646\u0634\u0627\u0637 / \u0627\u062A\u0635\u0627\u0644")))), _react.default.createElement("form", {
+  }, "\u0646\u0634\u0627\u0637 / \u0627\u062A\u0635\u0627\u0644")))), isDateMenuOpen && _react.default.createElement("div", {
+    id: "task-modal-date-popover",
+    className: "w-full max-w-full min-w-0 rounded-xl bg-[#1B1D2A] border border-white/15 p-2.5 space-y-2 text-xs overflow-hidden box-border"
+  }, _react.default.createElement("div", {
+    className: "grid grid-cols-2 gap-1.5 w-full"
+  }, _react.default.createElement("button", {
+    type: "button",
+    onClick: () => {
+      setIsBacklog(false);
+      setTaskDate(todayStr);
+      setIsDateMenuOpen(false);
+    },
+    className: `py-1.5 px-2 rounded-lg font-bold text-xs cursor-pointer ${!isBacklog && taskDate === todayStr ? 'bg-[#59718A] text-white semantic-btn' : 'bg-[#12131C] text-white border border-white/10'}`
+  }, "\u0627\u0644\u064A\u0648\u0645"), _react.default.createElement("button", {
+    type: "button",
+    onClick: () => {
+      setIsBacklog(true);
+      setIsDateMenuOpen(false);
+    },
+    className: `py-1.5 px-2 rounded-lg font-bold text-xs cursor-pointer ${isBacklog ? 'bg-[#D4A72C] text-white semantic-btn' : 'bg-[#12131C] text-white border border-white/10'}`
+  }, "\u0645\u0641\u062A\u0648\u062D\u0629")), _react.default.createElement("div", {
+    className: "w-full max-w-full min-w-0 overflow-hidden"
+  }, _react.default.createElement("input", {
+    id: "task-modal-date-input",
+    type: "date",
+    value: taskDate,
+    onChange: e => {
+      setIsBacklog(false);
+      setTaskDate(e.target.value);
+      setIsDateMenuOpen(false);
+    },
+    className: "w-full max-w-full min-w-0 px-2.5 py-1.5 rounded-lg border border-white/15 bg-[#12131C] text-white font-sans text-xs focus:outline-none focus:border-[#59718A] box-border block"
+  })))), _react.default.createElement("form", {
     onSubmit: handleSubmit,
     className: "app-modal-body flex-1 min-h-0 overflow-y-auto p-3.5 sm:p-5 space-y-4 text-xs"
   }, validationError && _react.default.createElement("div", {
@@ -9695,7 +9779,8 @@ function taskReducer(state, action) {
           ...state,
           settings: {
             ...state.settings,
-            ...action.payload
+            ...action.payload,
+            updatedAt: nowISO
           }
         };
         break;
@@ -9897,25 +9982,64 @@ function taskReducer(state, action) {
       }
     case 'UPDATE_HOLIDAYS':
       {
+        const nextIds = new Set(action.payload.map(h => h.id));
+        const nextDeletedIds = {
+          ...(state.deletedIds || {})
+        };
+        (state.holidays || []).forEach(prevH => {
+          if (prevH.id && !nextIds.has(prevH.id)) {
+            nextDeletedIds[prevH.id] = nowISO;
+          }
+        });
         newState = {
           ...state,
-          holidays: action.payload
+          holidays: action.payload.map(h => ({
+            ...h,
+            updatedAt: h.updatedAt || nowISO
+          })),
+          deletedIds: nextDeletedIds
         };
         break;
       }
     case 'UPDATE_ANNUAL_LEAVES':
       {
+        const nextIds = new Set(action.payload.map(l => l.id));
+        const nextDeletedIds = {
+          ...(state.deletedIds || {})
+        };
+        (state.annualLeaves || []).forEach(prevL => {
+          if (prevL.id && !nextIds.has(prevL.id)) {
+            nextDeletedIds[prevL.id] = nowISO;
+          }
+        });
         newState = {
           ...state,
-          annualLeaves: action.payload
+          annualLeaves: action.payload.map(l => ({
+            ...l,
+            updatedAt: l.updatedAt || nowISO
+          })),
+          deletedIds: nextDeletedIds
         };
         break;
       }
     case 'UPDATE_SPECIAL_EVENTS':
       {
+        const nextIds = new Set(action.payload.map(e => e.id));
+        const nextDeletedIds = {
+          ...(state.deletedIds || {})
+        };
+        (state.specialEvents || []).forEach(prevE => {
+          if (prevE.id && !nextIds.has(prevE.id)) {
+            nextDeletedIds[prevE.id] = nowISO;
+          }
+        });
         newState = {
           ...state,
-          specialEvents: action.payload
+          specialEvents: action.payload.map(e => ({
+            ...e,
+            updatedAt: e.updatedAt || nowISO
+          })),
+          deletedIds: nextDeletedIds
         };
         break;
       }
@@ -10164,9 +10288,38 @@ const TaskProvider = ({
       }).catch(() => {
         setCloudSyncStatus((0, _firebaseService.isNetworkOnline)() ? 'pending' : 'offline');
       });
-    }, 1000);
+    }, 350);
     return () => clearTimeout(timer);
   }, [state, pendingChangesCount, isInitialLoading]);
+  (0, _react.useEffect)(() => {
+    const handleVisibilityOrFocus = () => {
+      if (document.visibilityState === 'visible' && (0, _firebaseService.isNetworkOnline)() && pendingChangesCount === 0) {
+        (0, _firebaseService.pullFullSystemSnapshotFromCloud)().then(pulled => {
+          if (pulled.snapshot || pulled.branding) {
+            const combinedRemote = {
+              ...(pulled.snapshot || {}),
+              settings: {
+                ...(pulled.snapshot?.settings || {}),
+                ...(pulled.branding || {})
+              }
+            };
+            dispatch({
+              type: 'MERGE_CLOUD_SNAPSHOT',
+              payload: combinedRemote
+            });
+            setLastCloudSyncAt(new Date().toISOString());
+            setCloudSyncStatus('synced');
+          }
+        }).catch(() => {});
+      }
+    };
+    window.addEventListener('focus', handleVisibilityOrFocus);
+    document.addEventListener('visibilitychange', handleVisibilityOrFocus);
+    return () => {
+      window.removeEventListener('focus', handleVisibilityOrFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
+    };
+  }, [pendingChangesCount]);
   const finishInitialLoading = (0, _react.useCallback)(() => {
     setIsInitialLoading(false);
   }, []);
@@ -10663,18 +10816,21 @@ const TaskProvider = ({
     markLocalMutation();
   }, [markLocalMutation]);
   const updateSettings = (0, _react.useCallback)(settings => {
+    const nowISO = new Date().toISOString();
     dispatch({
       type: 'UPDATE_SETTINGS',
-      payload: settings
+      payload: {
+        ...settings,
+        updatedAt: nowISO
+      }
     });
     markLocalMutation();
-    if (settings.colorPaletteId || settings.customPaletteColors) {
-      (0, _firebaseService.syncBrandingSettingsToFirestore)({
-        colorPaletteId: settings.colorPaletteId,
-        customPaletteColors: settings.customPaletteColors
-      }).catch(() => {});
-    }
-  }, [markLocalMutation]);
+    (0, _firebaseService.syncBrandingSettingsToFirestore)({
+      ...state.settings,
+      ...settings,
+      updatedAt: nowISO
+    }).catch(() => {});
+  }, [state.settings, markLocalMutation]);
   const addMainTaskCategory = (0, _react.useCallback)((name, color, icon) => {
     const cleanName = name.trim();
     const existing = state.categories.find(c => c.name === cleanName);
@@ -10855,9 +11011,95 @@ const TaskProvider = ({
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }, [state]);
-  const importBackupJSON = (0, _react.useCallback)(jsonString => {
+  const exportBackupExcel = (0, _react.useCallback)(() => {
+    const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const tasksRowsHtml = (state.tasks || []).map((t, idx) => `
+        <tr>
+          <td>${idx + 1}</td>
+          <td>${esc(t.taskDate || 'مفتوحة')}</td>
+          <td>${esc(t.title)}</td>
+          <td>${esc(t.category)}</td>
+          <td>${esc((t.subtasks || []).map(s => s.title).join(' ، ') || t.subcategory || '')}</td>
+          <td>${esc(t.destination || t.court)}</td>
+          <td>${esc(t.scope)}</td>
+          <td>${esc(t.status)}</td>
+          <td>${esc(t.progress ?? 0)}%</td>
+          <td>${esc(t.description || t.notes || '')}</td>
+        </tr>`).join('');
+    const settingsEntries = [['اسم النظام', state.settings?.systemName || 'نظام تدبير المهام اليومية'], ['الموظف المسؤول', state.profile?.fullName || state.settings?.userName || 'محمد ايت حمادي'], ['الصفة / الإطار', state.profile?.grade || state.settings?.userRole || ''], ['المديرية / المصلحة', state.profile?.organization || state.settings?.department || 'المديرية الإقليمية للعدل بسطات'], ['نظام الألوان القياسي (Palette ID)', state.settings?.colorPaletteId || 'nordic-judicial'], ['الألوان القياسية الستة (HEX)', (state.settings?.customPaletteColors || []).join(' , ')], ['لون خلفية العطل الرسمية', state.settings?.holidayBgColor || '#9E4B5A'], ['لون خلفية الرخص الإدارية', state.settings?.leaveBgColor || '#2F6F6D'], ['لون إطار اليوم المحدد', state.settings?.selectedDayColor || '#38BDF8'], ['رصيد الرخصة السنوية (أيام عمل)', String(state.settings?.annualLeaveQuota ?? 22)], ['تاريخ آخر تحديث للإعدادات', state.settings?.updatedAt || new Date().toISOString()]];
+    const settingsRowsHtml = settingsEntries.map(([k, v]) => `<tr><td><b>${esc(k)}</b></td><td>${esc(v)}</td></tr>`).join('');
+    const categoriesRowsHtml = (state.categories || []).map((c, idx) => `<tr><td>${idx + 1}</td><td>${esc(c.name)}</td><td>${esc(c.color)}</td><td>${esc((0, _storageService.getUnifiedCategorySubs)(c).join(' ، '))}</td></tr>`).join('');
+    const courtsRowsHtml = (state.courts || []).map((c, idx) => `<tr><td>${idx + 1}</td><td>${esc(c.name)}</td><td>${esc(c.shortName || '')}</td><td>${esc(c.city || '')}</td><td>${esc(c.scope || '')}</td></tr>`).join('');
+    const leavesRowsHtml = (state.annualLeaves || []).map((l, idx) => `<tr><td>${idx + 1}</td><td>${esc(l.title)}</td><td>${esc(l.type)}</td><td>${esc(l.startDate)}</td><td>${esc(l.endDate)}</td><td>${esc(l.workingDaysCount)}</td></tr>`).join('');
+    const embeddedJsonBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+    const workbookHtml = `﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40" dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8" />
+<!-- ETASKS_EXCEL_BACKUP_B64_START:${embeddedJsonBase64}:ETASKS_EXCEL_BACKUP_B64_END -->
+<style>
+  body { font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif; direction: rtl; }
+  h2 { background: #1B1D2A; color: #FFFFFF; padding: 8px 12px; margin-top: 20px; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 18px; direction: rtl; }
+  th { background: #59718A; color: #FFFFFF; font-weight: bold; border: 1px solid #CBD5E1; padding: 8px; text-align: right; }
+  td { border: 1px solid #CBD5E1; padding: 6px 8px; text-align: right; vertical-align: top; }
+</style>
+</head>
+<body>
+  <h2>1. سجل المهام والأنشطة الكامل (${state.tasks.length} مهمة)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ر.ت</th><th>التاريخ</th><th>بيان المهمة</th><th>المهمة الرئيسية</th><th>المهام الفرعية</th><th>الوجهة / المحكمة</th><th>النطاق</th><th>الحالة</th><th>الإنجاز</th><th>تفاصيل وملاحظات</th>
+      </tr>
+    </thead>
+    <tbody>${tasksRowsHtml}</tbody>
+  </table>
+
+  <h2>2. الإعدادات والبارامترات والألوان القياسية</h2>
+  <table>
+    <thead><tr><th>البارامتر / الإعداد</th><th>القيمة المعتمدة</th></tr></thead>
+    <tbody>${settingsRowsHtml}</tbody>
+  </table>
+
+  <h2>3. قاموس المهام الرئيسية والفرعية (${state.categories.length})</h2>
+  <table>
+    <thead><tr><th>ر.ت</th><th>المهمة الرئيسية</th><th>اللون</th><th>المهام الفرعية المرتبطة</th></tr></thead>
+    <tbody>${categoriesRowsHtml}</tbody>
+  </table>
+
+  <h2>4. قاموس الوجهات والمحاكم (${state.courts.length})</h2>
+  <table>
+    <thead><tr><th>ر.ت</th><th>اسم الوجهة / المحكمة</th><th>الاسم المختصر</th><th>المدينة</th><th>النطاق الجغرافي</th></tr></thead>
+    <tbody>${courtsRowsHtml}</tbody>
+  </table>
+
+  <h2>5. سجل الرخص الإدارية وأذون التغيب (${(state.annualLeaves || []).length})</h2>
+  <table>
+    <thead><tr><th>ر.ت</th><th>نوع الرخصة</th><th>الرمز</th><th>من تاريخ</th><th>إلى تاريخ</th><th>أيام العمل الفعلية</th></tr></thead>
+    <tbody>${leavesRowsHtml}</tbody>
+  </table>
+</body>
+</html>`;
+    const blob = new Blob([workbookHtml], {
+      type: 'application/vnd.ms-excel;charset=utf-8;'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `E-Tasks-Full-System-Excel-${new Date().toISOString().split('T')[0]}.xls`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [state]);
+  const importBackupJSON = (0, _react.useCallback)(rawContent => {
     try {
-      const parsed = JSON.parse(jsonString);
+      let jsonToParse = rawContent.trim();
+      const b64Match = rawContent.match(/ETASKS_EXCEL_BACKUP_B64_START:([A-Za-z0-9+/=]+):ETASKS_EXCEL_BACKUP_B64_END/);
+      if (b64Match && b64Match[1]) {
+        jsonToParse = decodeURIComponent(escape(atob(b64Match[1])));
+      }
+      const parsed = JSON.parse(jsonToParse);
       if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.tasks)) {
         return {
           success: false,
@@ -10872,7 +11114,7 @@ const TaskProvider = ({
       markLocalMutation();
       return {
         success: true,
-        message: 'تم استرجاع البيانات بنجاح',
+        message: 'تم استرجاع المهام والإعدادات بنجاح',
         count: parsed.tasks.length
       };
     } catch (err) {
@@ -18937,244 +19179,6 @@ const INITIAL_SYSTEM_DATA = {
     "createdAt": "2026-01-28T09:00:00.000Z",
     "mainCategories": ["التقارير والأعمال الإدارية"]
   }, {
-    "updatedAt": "2026-10-28T15:00:00.000Z",
-    "ownerUid": "owner_mohamed_ait_hammadi",
-    "migratedAt": "2026-10-23T17:41:14.930Z",
-    "createdAt": "2026-09-29T11:30:00Z",
-    "missionId": "lib_m_digital",
-    "subtasks": [],
-    "description": "معاينة ميدانية لمستودع الخوادم وقاعات الأرشيف وتثبيت التحديثات الأمنية للمنظومة بالمحكمة الابتدائية ببرشيد. — [ملاحظة مرجعية: شطر مفصول من مهمة البرمجة المشتركة (task-backlog-3) لفحص الخوادم (ابن أحمد / البروج / برشيد)]",
-    "taskDate": "",
-    "court": "المحكمة الابتدائية ببرشيد",
-    "destination": "المحكمة الابتدائية ببرشيد",
-    "status": "قيد الإنجاز",
-    "id": "task-1793250000100",
-    "priority": "عادية",
-    "title": "برمجة تنقل لمصالح كتابة الضبط والنيابة العامة لإحصاء العتاد المعلوماتي وفحص الخوادم — المحكمة الابتدائية ببرشيد",
-    "progress": 10,
-    "recordedContext": {
-      "ownerId": "owner_mohamed_ait_hammadi",
-      "userEmail": "mohamed105@gmail.com",
-      "userName": "محمد أيت حمادي",
-      "userRole": "إطار إداري وتقني",
-      "grade": "منتدب قضائي / تقني متخصص",
-      "organization": "المديرية الإقليمية بسطات",
-      "service": "مصلحة التجهيز وتدبير الممتلكات والشؤون الإدارية والتقنية",
-      "workplace": "المديرية الإقليمية بسطات",
-      "interlocutor": "رئيس كتابة النيابة العامة"
-    },
-    "isDeleted": false,
-    "lastActivityTs": 1793250000100,
-    "subcategory": "تنقل رسمي",
-    "scope": "تنقل خارجي",
-    "city": "برشيد",
-    "destinations": ["المحكمة الابتدائية ببرشيد"],
-    "category": "المعدات والعتاد المعلوماتي",
-    "isBacklog": true,
-    "location": "المحكمة الابتدائية ببرشيد",
-    "interlocutor": "رئيس كتابة النيابة العامة",
-    "officialContact": "رئيس كتابة النيابة العامة",
-    "contactRole": "رئيس كتابة النيابة العامة",
-    "ownerId": "owner_mohamed_ait_hammadi",
-    "ownerEmail": "mohamed105@gmail.com",
-    "person": "محمد أيت حمادي",
-    "responsible": "إطار إداري وتقني",
-    "isDecoupled": true,
-    "decoupledFromId": "task-backlog-3",
-    "originalTaskId": "task-backlog-3-c",
-    "isUserCreated": true,
-    "isV82MigratedTask": true,
-    "mainCategories": ["المعدات والعتاد المعلوماتي"]
-  }, {
-    "updatedAt": "2026-10-28T15:00:00.000Z",
-    "ownerUid": "owner_mohamed_ait_hammadi",
-    "migratedAt": "2026-10-23T17:41:14.930Z",
-    "createdAt": "2026-09-29T11:30:00Z",
-    "missionId": "lib_m_digital",
-    "subtasks": [],
-    "description": "معاينة ميدانية لمستودع الخوادم وقاعات الأرشيف وتثبيت التحديثات الأمنية للمنظومة بالمركز القضائي بالبروج. — [ملاحظة مرجعية: شطر مفصول من مهمة البرمجة المشتركة (task-backlog-3) لفحص الخوادم (ابن أحمد / البروج / برشيد)]",
-    "taskDate": "",
-    "court": "المركز القضائي بالبروج",
-    "destination": "المركز القضائي بالبروج",
-    "status": "قيد الإنجاز",
-    "id": "task-1793250000101",
-    "priority": "عادية",
-    "title": "برمجة تنقل لمصالح كتابة الضبط والنيابة العامة لإحصاء العتاد المعلوماتي وفحص الخوادم — المركز القضائي بالبروج",
-    "progress": 10,
-    "recordedContext": {
-      "ownerId": "owner_mohamed_ait_hammadi",
-      "userEmail": "mohamed105@gmail.com",
-      "userName": "محمد أيت حمادي",
-      "userRole": "إطار إداري وتقني",
-      "grade": "منتدب قضائي / تقني متخصص",
-      "organization": "المديرية الإقليمية بسطات",
-      "service": "مصلحة التجهيز وتدبير الممتلكات والشؤون الإدارية والتقنية",
-      "workplace": "المديرية الإقليمية بسطات",
-      "interlocutor": "رئيس مصلحة كتابة النيابة العامة"
-    },
-    "isDeleted": false,
-    "lastActivityTs": 1793250000101,
-    "subcategory": "تنقل رسمي",
-    "scope": "تنقل خارجي",
-    "city": "البروج",
-    "destinations": ["المركز القضائي بالبروج"],
-    "category": "المعدات والعتاد المعلوماتي",
-    "isBacklog": true,
-    "location": "المركز القضائي بالبروج",
-    "interlocutor": "رئيس مصلحة كتابة النيابة العامة",
-    "officialContact": "رئيس مصلحة كتابة النيابة العامة",
-    "contactRole": "رئيس مصلحة كتابة النيابة العامة",
-    "ownerId": "owner_mohamed_ait_hammadi",
-    "ownerEmail": "mohamed105@gmail.com",
-    "person": "محمد أيت حمادي",
-    "responsible": "إطار إداري وتقني",
-    "isDecoupled": true,
-    "decoupledFromId": "task-backlog-3",
-    "originalTaskId": "task-backlog-3-b",
-    "isUserCreated": true,
-    "isV82MigratedTask": true,
-    "mainCategories": ["المعدات والعتاد المعلوماتي"]
-  }, {
-    "updatedAt": "2026-10-28T15:00:00.000Z",
-    "ownerUid": "owner_mohamed_ait_hammadi",
-    "migratedAt": "2026-10-23T17:41:14.930Z",
-    "createdAt": "2026-09-29T11:30:00Z",
-    "missionId": "lib_m_digital",
-    "subtasks": [],
-    "description": "معاينة ميدانية لمستودع الخوادم وقاعات الأرشيف وتثبيت التحديثات الأمنية للمنظومة بالمحكمة الابتدائية بابن أحمد. — [ملاحظة مرجعية: شطر مفصول من مهمة البرمجة المشتركة (task-backlog-3) لفحص الخوادم (ابن أحمد / البروج / برشيد)]",
-    "taskDate": "",
-    "court": "المحكمة الابتدائية بابن أحمد",
-    "destination": "المحكمة الابتدائية بابن أحمد",
-    "status": "قيد الإنجاز",
-    "id": "task-1793250000102",
-    "priority": "عادية",
-    "title": "برمجة تنقل لمصالح كتابة الضبط والنيابة العامة لإحصاء العتاد المعلوماتي وفحص الخوادم — المحكمة الابتدائية بابن أحمد",
-    "progress": 10,
-    "recordedContext": {
-      "ownerId": "owner_mohamed_ait_hammadi",
-      "userEmail": "mohamed105@gmail.com",
-      "userName": "محمد أيت حمادي",
-      "userRole": "إطار إداري وتقني",
-      "grade": "منتدب قضائي / تقني متخصص",
-      "organization": "المديرية الإقليمية بسطات",
-      "service": "مصلحة التجهيز وتدبير الممتلكات والشؤون الإدارية والتقنية",
-      "workplace": "المديرية الإقليمية بسطات",
-      "interlocutor": "رئيس كتابة النيابة العامة"
-    },
-    "isDeleted": false,
-    "lastActivityTs": 1793250000102,
-    "subcategory": "تنقل رسمي",
-    "scope": "تنقل خارجي",
-    "city": "ابن أحمد",
-    "destinations": ["المحكمة الابتدائية بابن أحمد"],
-    "category": "المعدات والعتاد المعلوماتي",
-    "isBacklog": true,
-    "location": "المحكمة الابتدائية بابن أحمد",
-    "interlocutor": "رئيس كتابة النيابة العامة",
-    "officialContact": "رئيس كتابة النيابة العامة",
-    "contactRole": "رئيس كتابة النيابة العامة",
-    "ownerId": "owner_mohamed_ait_hammadi",
-    "ownerEmail": "mohamed105@gmail.com",
-    "person": "محمد أيت حمادي",
-    "responsible": "إطار إداري وتقني",
-    "isDecoupled": true,
-    "decoupledFromId": "task-backlog-3",
-    "originalTaskId": "task-backlog-3-a",
-    "isUserCreated": true,
-    "isV82MigratedTask": true,
-    "mainCategories": ["المعدات والعتاد المعلوماتي"]
-  }, {
-    "taskDate": "",
-    "title": "إحصاء شامل لمتطلبات صيانة الشبكة المحلية بالمحاكم التابعة للدائرة",
-    "id": "task-1793250000103",
-    "scope": "تنقل خارجي",
-    "description": "جرد نقاط الربط الشبكي والخوادم الفرعية وكابلات الألياف البصرية لتأمين استمرارية العمل بالنظام المعلوماتي.",
-    "isDeleted": false,
-    "isBacklog": true,
-    "destination": "المحكمة الابتدائية ببرشيد",
-    "city": "برشيد",
-    "missionId": "",
-    "createdAt": "2026-09-29T11:00:00Z",
-    "category": "المعدات والعتاد المعلوماتي",
-    "recordedContext": {
-      "ownerId": "owner_mohamed_ait_hammadi",
-      "userEmail": "mohamed105@gmail.com",
-      "userName": "محمد أيت حمادي",
-      "userRole": "إطار إداري وتقني",
-      "grade": "منتدب قضائي / تقني متخصص",
-      "organization": "المديرية الإقليمية بسطات",
-      "service": "مصلحة التجهيز وتدبير الممتلكات والشؤون الإدارية والتقنية",
-      "workplace": "المديرية الإقليمية بسطات",
-      "interlocutor": "رئيس كتابة الضبط"
-    },
-    "status": "مبرمجة",
-    "priority": "عادية",
-    "subcategory": "الشبكات والربط",
-    "court": "المحكمة الابتدائية ببرشيد",
-    "progress": 0,
-    "location": "المحكمة الابتدائية ببرشيد",
-    "destinations": ["المحكمة الابتدائية ببرشيد"],
-    "interlocutor": "رئيس كتابة الضبط",
-    "officialContact": "رئيس كتابة الضبط",
-    "contactRole": "رئيس كتابة الضبط",
-    "ownerId": "owner_mohamed_ait_hammadi",
-    "ownerEmail": "mohamed105@gmail.com",
-    "person": "محمد أيت حمادي",
-    "responsible": "إطار إداري وتقني",
-    "originalTaskId": "task-backlog-2",
-    "isUserCreated": true,
-    "isV82MigratedTask": true,
-    "updatedAt": "2026-10-28T15:00:00.000Z",
-    "lastActivityTs": 1793250000103,
-    "mainCategories": ["المعدات والعتاد المعلوماتي"]
-  }, {
-    "destination": "المديرية الإقليمية للعدل بسطات",
-    "status": "قيد الإنجاز",
-    "ownerUid": "owner_mohamed_ait_hammadi",
-    "description": "إعداد دفاتر الشروط الخاصة والتحديدات التقنية لاقتناء التجهيزات ومستهلكات الطباعة الخاصة بمحاكم الدائرة القضائية.",
-    "subtasks": [],
-    "court": "المديرية الإقليمية للعدل بسطات",
-    "lastActivityTs": 1793250000104,
-    "migratedAt": "2026-10-23T17:41:14.930Z",
-    "taskDate": "",
-    "updatedAt": "2026-10-28T15:00:00.000Z",
-    "missionId": "lib_m_procurement",
-    "createdAt": "2026-09-29T10:00:00Z",
-    "isDeleted": false,
-    "city": "سطات",
-    "priority": "عالية",
-    "isBacklog": true,
-    "progress": 15,
-    "recordedContext": {
-      "ownerId": "owner_mohamed_ait_hammadi",
-      "userEmail": "mohamed105@gmail.com",
-      "userName": "محمد أيت حمادي",
-      "userRole": "إطار إداري وتقني",
-      "grade": "منتدب قضائي / تقني متخصص",
-      "organization": "المديرية الإقليمية بسطات",
-      "service": "مصلحة التجهيز وتدبير الممتلكات والشؤون الإدارية والتقنية",
-      "workplace": "المديرية الإقليمية بسطات",
-      "interlocutor": "المدير الإقليمي"
-    },
-    "scope": "محلي",
-    "subcategory": "صفقات وطلبات عروض",
-    "category": "الطونير ومستهلكات الطباعة",
-    "destinations": ["المديرية الإقليمية للعدل بسطات"],
-    "title": "إعداد صفقة اقتناء عتاد المعلوميات ومستهلكات الطباعة لسنة 2027",
-    "id": "task-1793250000104",
-    "location": "المديرية الإقليمية بسطات",
-    "interlocutor": "المدير الإقليمي",
-    "officialContact": "المدير الإقليمي",
-    "contactRole": "المدير الإقليمي",
-    "ownerId": "owner_mohamed_ait_hammadi",
-    "ownerEmail": "mohamed105@gmail.com",
-    "person": "محمد أيت حمادي",
-    "responsible": "إطار إداري وتقني",
-    "originalTaskId": "task-backlog-1",
-    "isUserCreated": true,
-    "isV82MigratedTask": true,
-    "mainCategories": ["الطونير ومستهلكات الطباعة"]
-  }, {
     "person": "محمد أيت حمادي",
     "missionId": "",
     "status": "مبرمجة",
@@ -19930,7 +19934,8 @@ const INITIAL_SYSTEM_DATA = {
     "userFramework": "منتدب قضائي من الدرجة الأولى",
     "selectedDayColor": "#38BDF8",
     "colorPaletteId": "nordic-judicial",
-    "customPaletteColors": ["#59718A", "#D4A72C", "#5B3A62", "#E07A47", "#2F6F6D", "#8FA68F"]
+    "customPaletteColors": ["#59718A", "#D4A72C", "#5B3A62", "#E07A47", "#2F6F6D", "#8FA68F"],
+    "updatedAt": "2026-10-01T00:00:00.000Z"
   },
   "profile": {
     "id": "prof_default",
@@ -21292,7 +21297,9 @@ const INITIAL_SYSTEM_DATA = {
     "action": "تهيئة النظام",
     "details": "إطلاق الإصدار المؤسساتي المطور V3.0 بنجاح"
   }],
-  "savedTitles": ["إعداد وتتبع تنفيذ الصفقات العمومية وسندات الطلب الخاصة بالأدوات المعلوماتية", "إعداد وتتبع تنفيذ الصفقات العمومية وسندات الطلب الخاصة بالعتاد المعلوماتي", "إعداد لافتات وعروض غرافيك  الاحداث  والتشوير بمحاكم الدائرة القضائية", "الصفقات وسندات الطلب — إعداد سند طلب", "توثيق — تصوير", "التنظيم اللوجستي والتقني للمباريات والامتحانات المهنية", "تسلم عتاد معلوماتي", "توثيق واعداد تقرير خاص بعملية فرز المتلاشي", "تطوير وبرمجة وحدة تتبع الصفقات وسندات الطلب لعام 2026 (Tableau de Situation)", "تنقل ومهمة إدارية رقم 39 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 38 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 37 - المركز القضائي بالبروج", "تنقل ومهمة إدارية رقم 36 - الإدارة المركزية بالرباط", "استلام وفحص دفعة طابعات HP و Epson والماسحات الضوئية الكبيرة والحواسيب", "تدخل تقني لمعاينة تعذر تشغيل مفتاح التوقيع والتنسيق مع مسؤول الإعلاميات", "تنقل ومهمة إدارية رقم 35 - المحكمة الإبتدائية ببرشيد", "إعداد وتدقيق ملف تجديد شهادة التوقيع الإلكتروني لنائب رئيس كتابة الضبط ببرشيد", "تنقل ومهمة إدارية رقم 34 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 33 - الإدارة المركزية بالرباط", "الإشراف على محضر تسليم شهادة الختم الإلكتروني وتفعيل الرمز السري", "تنقل ومهمة إدارية رقم 32 - ابتدائية ابن احمد عن طريق برشيد", "تنقل ومهمة إدارية رقم 31 - المحكمة الإبتدائية ببرشيد", "تسليم طونير Samsung و HP واسترجاع طونير Canon للموظفين", "توزيع وحصر 59 كابل شبكة و18 فأرة حاسوب ووحدات التخزين", "تنقل ومهمة إدارية رقم 30 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 29 - الإدارة المركزية بالرباط", "المشاركة في دورة تكوينية عن بُعد حول منصة Odoo لإدارة العمليات", "تنقل ومهمة إدارية رقم 28 - المحكمة الإبتدائية ببرشيد", "حصر وتحديد لوازم التشوير والعلب الشفافة لتنظيم عتاد المعلوماتية", "تنقل ومهمة إدارية رقم 27 - الإدارة المركزية بالرباط", "تنقل ومهمة إدارية رقم 26 - ابتدائية ابن احمد عن طريق برشيد", "الانتقال إلى المحكمة الابتدائية لاستيفاء توقيعات الموظفين على ملفات التوقيع", "معالجة الخطأ البرمجي لتصنيف فئات المواد وجرد الكابلات والطونير", "تنقل ومهمة إدارية رقم 25 - المحكمة الإبتدائية ببرشيد", "السهر على إعداد وطباعة التقرير السنوي للوكيل العام للملك", "تنفيذ سند الطلب BC N° 16/2026 لشراء المستلزمات المعلوماتية واستلامها", "تنقل ومهمة إدارية رقم 24 - المحكمة الإبتدائية بابن احمد", "إعداد لافتة توجيهية للمفوضين القضائيين بالمكاتب الأمامية", "تنقل ومهمة إدارية رقم 23 - المحكمة الإبتدائية بابن احمد", "تجميع وتدقيق ملفات تجديد شهادات التوقيع الإلكتروني لموظفي محكمة ابن أحمد", "بناء خزان الإحصائيات (Data Snapshot) وزر التحديث الفوري بتطبيق AppSheet", "تنقل ومهمة إدارية رقم 22 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 21 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 20 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 19 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 18 - المحكمة الإبتدائية ببرشيد", "برمجة محرك تقارير المستفيدين وزر الطباعة المباشرة في AppSheet", "متابعة وتصوير أشغال عزل الأسطح (المساكة) بمحكمة الاستئناف بسطات", "تنقل ومهمة إدارية رقم 17 - اولاد سعيد - اولاد عبو", "مهمة لتوثيق وتصوير بنايات المحاكم بالكارة وبرشيد وأولاد عبو", "تنقل ومهمة إدارية رقم 16 - الكارة - برشيد", "صياغة واعتماد إشهاد رسمي باستلام وتسليم عتاد ومستهلكات المحكمة", "تنقل ومهمة إدارية رقم 15 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 14 - المحكمة الإبتدائية بابن احمد", "تشوير مكاتب السادة مستشاري الاستئناف وقضاة ونواب برشيد الجدد", "تنقل ومهمة إدارية رقم 13 - الإدارة المركزية بالرباط", "تنقل ومهمة إدارية رقم 12 - المحكمة الإبتدائية ببرشيد", "حصر مراجع الطونير وأسطوانات الدروم (Drum) وأنواع الطابعات", "تنقل ومهمة إدارية رقم 11 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 10 - المحكمة الإبتدائية بابن احمد", "تنفيذ واستلام سند الطلب BC N° 29/2026 لمنتجات ومستهلكات الطباعة", "تنقل ومهمة إدارية رقم 9 - الإدارة المركزية بالرباط", "إرسال مرجوعات التوقيع الإلكتروني لموظفي محكمة سطات", "إرسال طلبات توقيع إلكتروني منجزة لموظفين بالمحكمة الابتدائية بسطات", "إعداد وتجهيز طلبات توقيع إلكتروني للمحكمة الابتدائية ببرشيد", "إعداد وتثبيت لافتات مكاتب القضاة الجدد بأسمائهم ببرشيد", "تنقل ومهمة إدارية رقم 8 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 7 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 6 - ابتدائية ابن احمد عن طريق برشيد", "تنقل ومهمة إدارية رقم 5 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 4 - المحكمة الإبتدائية بابن احمد", "تتبع تنفيذ سند الطلب BC N° 33/2026 لطبع اللافتات والباندورلات", "تنقل ومهمة إدارية رقم 3 - مراكش", "مهمة إدارية للتنقل إلى المصالح المركزية بالرباط وبن أحمد ومراكش", "معاينة وتوثيق حادث بناية تابعة للمحكمة الابتدائية ببن أحمد", "إعداد ملف صفقة اقتناء الأدوات المعلوماتية لعام 2026", "إعداد ملف صفقة اقتناء آلات الطباعة لعام 2026", "تنقل ومهمة إدارية رقم 2 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 1 - الإدارة المركزية بالرباط", "التنظيم اللوجستي والتقني لافتتاح السنة القضائية 2026", "برمجة تنقل لمصالح كتابة النيابة العامة بابن أحمد لفحص خوادم المحكمة", "إحصاء شامل لمتطلبات صيانة الشبكة المحلية بالمحاكم التابعة للدائرة", "إعداد صفقة اقتناء عتاد المعلوميات ومستهلكات الطباعة لسنة 2027", "تسليم خراطيش طونير واسترجاع الفارغ", "توزيع عتاد وملحقات معلوماتية", "مهمة الرباط: إيداع ملفات التوقيع الإلكتروني Barid eSign", "استيفاء توقيعات الموظفين على مطبوعات التوقيع الإلكتروني", "تدخل تقني لمعاينة عطل مفتاح التوقيع وضبط الرمز السري PIN", "معاينة تقنية وتوثيق بالصور لبنايات المحاكم والأشغال", "إعداد ملف صفقة أو سند طلب توريدات", "إعداد وتثبيت لوحات التشوير واللافتات للمكاتب القضائية", "التدخلات التقنية"]
+  "savedTitles": ["إعداد وتتبع تنفيذ الصفقات العمومية وسندات الطلب الخاصة بالأدوات المعلوماتية", "إعداد وتتبع تنفيذ الصفقات العمومية وسندات الطلب الخاصة بالعتاد المعلوماتي", "إعداد لافتات وعروض غرافيك  الاحداث  والتشوير بمحاكم الدائرة القضائية", "الصفقات وسندات الطلب — إعداد سند طلب", "توثيق — تصوير", "التنظيم اللوجستي والتقني للمباريات والامتحانات المهنية", "تسلم عتاد معلوماتي", "توثيق واعداد تقرير خاص بعملية فرز المتلاشي", "تطوير وبرمجة وحدة تتبع الصفقات وسندات الطلب لعام 2026 (Tableau de Situation)", "تنقل ومهمة إدارية رقم 39 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 38 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 37 - المركز القضائي بالبروج", "تنقل ومهمة إدارية رقم 36 - الإدارة المركزية بالرباط", "استلام وفحص دفعة طابعات HP و Epson والماسحات الضوئية الكبيرة والحواسيب", "تدخل تقني لمعاينة تعذر تشغيل مفتاح التوقيع والتنسيق مع مسؤول الإعلاميات", "تنقل ومهمة إدارية رقم 35 - المحكمة الإبتدائية ببرشيد", "إعداد وتدقيق ملف تجديد شهادة التوقيع الإلكتروني لنائب رئيس كتابة الضبط ببرشيد", "تنقل ومهمة إدارية رقم 34 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 33 - الإدارة المركزية بالرباط", "الإشراف على محضر تسليم شهادة الختم الإلكتروني وتفعيل الرمز السري", "تنقل ومهمة إدارية رقم 32 - ابتدائية ابن احمد عن طريق برشيد", "تنقل ومهمة إدارية رقم 31 - المحكمة الإبتدائية ببرشيد", "تسليم طونير Samsung و HP واسترجاع طونير Canon للموظفين", "توزيع وحصر 59 كابل شبكة و18 فأرة حاسوب ووحدات التخزين", "تنقل ومهمة إدارية رقم 30 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 29 - الإدارة المركزية بالرباط", "المشاركة في دورة تكوينية عن بُعد حول منصة Odoo لإدارة العمليات", "تنقل ومهمة إدارية رقم 28 - المحكمة الإبتدائية ببرشيد", "حصر وتحديد لوازم التشوير والعلب الشفافة لتنظيم عتاد المعلوماتية", "تنقل ومهمة إدارية رقم 27 - الإدارة المركزية بالرباط", "تنقل ومهمة إدارية رقم 26 - ابتدائية ابن احمد عن طريق برشيد", "الانتقال إلى المحكمة الابتدائية لاستيفاء توقيعات الموظفين على ملفات التوقيع", "معالجة الخطأ البرمجي لتصنيف فئات المواد وجرد الكابلات والطونير", "تنقل ومهمة إدارية رقم 25 - المحكمة الإبتدائية ببرشيد", "السهر على إعداد وطباعة التقرير السنوي للوكيل العام للملك", "تنفيذ سند الطلب BC N° 16/2026 لشراء المستلزمات المعلوماتية واستلامها", "تنقل ومهمة إدارية رقم 24 - المحكمة الإبتدائية بابن احمد", "إعداد لافتة توجيهية للمفوضين القضائيين بالمكاتب الأمامية", "تنقل ومهمة إدارية رقم 23 - المحكمة الإبتدائية بابن احمد", "تجميع وتدقيق ملفات تجديد شهادات التوقيع الإلكتروني لموظفي محكمة ابن أحمد", "بناء خزان الإحصائيات (Data Snapshot) وزر التحديث الفوري بتطبيق AppSheet", "تنقل ومهمة إدارية رقم 22 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 21 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 20 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 19 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 18 - المحكمة الإبتدائية ببرشيد", "برمجة محرك تقارير المستفيدين وزر الطباعة المباشرة في AppSheet", "متابعة وتصوير أشغال عزل الأسطح (المساكة) بمحكمة الاستئناف بسطات", "تنقل ومهمة إدارية رقم 17 - اولاد سعيد - اولاد عبو", "مهمة لتوثيق وتصوير بنايات المحاكم بالكارة وبرشيد وأولاد عبو", "تنقل ومهمة إدارية رقم 16 - الكارة - برشيد", "صياغة واعتماد إشهاد رسمي باستلام وتسليم عتاد ومستهلكات المحكمة", "تنقل ومهمة إدارية رقم 15 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 14 - المحكمة الإبتدائية بابن احمد", "تشوير مكاتب السادة مستشاري الاستئناف وقضاة ونواب برشيد الجدد", "تنقل ومهمة إدارية رقم 13 - الإدارة المركزية بالرباط", "تنقل ومهمة إدارية رقم 12 - المحكمة الإبتدائية ببرشيد", "حصر مراجع الطونير وأسطوانات الدروم (Drum) وأنواع الطابعات", "تنقل ومهمة إدارية رقم 11 - المحكمة الإبتدائية ببرشيد", "تنقل ومهمة إدارية رقم 10 - المحكمة الإبتدائية بابن احمد", "تنفيذ واستلام سند الطلب BC N° 29/2026 لمنتجات ومستهلكات الطباعة", "تنقل ومهمة إدارية رقم 9 - الإدارة المركزية بالرباط", "إرسال مرجوعات التوقيع الإلكتروني لموظفي محكمة سطات", "إرسال طلبات توقيع إلكتروني منجزة لموظفين بالمحكمة الابتدائية بسطات", "إعداد وتجهيز طلبات توقيع إلكتروني للمحكمة الابتدائية ببرشيد", "إعداد وتثبيت لافتات مكاتب القضاة الجدد بأسمائهم ببرشيد", "تنقل ومهمة إدارية رقم 8 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 7 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 6 - ابتدائية ابن احمد عن طريق برشيد", "تنقل ومهمة إدارية رقم 5 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 4 - المحكمة الإبتدائية بابن احمد", "تتبع تنفيذ سند الطلب BC N° 33/2026 لطبع اللافتات والباندورلات", "تنقل ومهمة إدارية رقم 3 - مراكش", "مهمة إدارية للتنقل إلى المصالح المركزية بالرباط وبن أحمد ومراكش", "معاينة وتوثيق حادث بناية تابعة للمحكمة الابتدائية ببن أحمد", "إعداد ملف صفقة اقتناء الأدوات المعلوماتية لعام 2026", "إعداد ملف صفقة اقتناء آلات الطباعة لعام 2026", "تنقل ومهمة إدارية رقم 2 - المحكمة الإبتدائية بابن احمد", "تنقل ومهمة إدارية رقم 1 - الإدارة المركزية بالرباط", "التنظيم اللوجستي والتقني لافتتاح السنة القضائية 2026", "برمجة تنقل لمصالح كتابة النيابة العامة بابن أحمد لفحص خوادم المحكمة", "إحصاء شامل لمتطلبات صيانة الشبكة المحلية بالمحاكم التابعة للدائرة", "إعداد صفقة اقتناء عتاد المعلوميات ومستهلكات الطباعة لسنة 2027", "تسليم خراطيش طونير واسترجاع الفارغ", "توزيع عتاد وملحقات معلوماتية", "مهمة الرباط: إيداع ملفات التوقيع الإلكتروني Barid eSign", "استيفاء توقيعات الموظفين على مطبوعات التوقيع الإلكتروني", "تدخل تقني لمعاينة عطل مفتاح التوقيع وضبط الرمز السري PIN", "معاينة تقنية وتوثيق بالصور لبنايات المحاكم والأشغال", "إعداد ملف صفقة أو سند طلب توريدات", "إعداد وتثبيت لوحات التشوير واللافتات للمكاتب القضائية", "التدخلات التقنية"],
+  "annualLeaves": [],
+  "specialEvents": []
 };
 exports.INITIAL_SYSTEM_DATA = INITIAL_SYSTEM_DATA;
 },
@@ -21418,18 +21425,19 @@ function mergeSystemSnapshots(local, remote) {
     if (!itemUpdatedAt) return true;
     return delTime >= itemUpdatedAt;
   };
+  const trashedIds = new Set([...(local.trash || []).map(t => t?.id).filter(Boolean), ...(remote.trash || []).map(t => t?.id).filter(Boolean)]);
   const taskMap = new Map();
   (local.tasks || []).forEach(t => {
-    if (!t || !t.id) return;
-    if (!isDeletedAfter(t.id, t.updatedAt || t.createdAt)) {
+    if (!t || !t.id || (0, _storageService.isAiFabricatedRecord)(t) || trashedIds.has(t.id)) return;
+    if (!isDeletedAfter(t.id, t.updatedAt || t.createdAt) && !(t.originalTaskId && isDeletedAfter(t.originalTaskId, t.updatedAt || t.createdAt))) {
       taskMap.set(t.id, t);
     }
   });
   if (Array.isArray(remote.tasks)) {
     remote.tasks.forEach(rTask => {
-      if (!rTask || !rTask.id) return;
+      if (!rTask || !rTask.id || (0, _storageService.isAiFabricatedRecord)(rTask) || trashedIds.has(rTask.id)) return;
       const rTime = rTask.updatedAt || rTask.createdAt || '';
-      if (isDeletedAfter(rTask.id, rTime)) return;
+      if (isDeletedAfter(rTask.id, rTime) || rTask.originalTaskId && isDeletedAfter(rTask.originalTaskId, rTime)) return;
       const lTask = taskMap.get(rTask.id);
       if (!lTask) {
         taskMap.set(rTask.id, rTask);
@@ -21452,10 +21460,24 @@ function mergeSystemSnapshots(local, remote) {
     category: (0, _storageService.mapToCanonicalCategoryName)(t.category)
   })).sort((a, b) => (b.taskDate || '').localeCompare(a.taskDate || '') || (b.createdAt || '').localeCompare(a.createdAt || ''));
   const catMap = new Map();
-  (local.categories || []).forEach(c => {
-    if (!c || !c.id) return;
-    if (!isDeletedAfter(c.id, c.updatedAt)) {
+  (local.categories || []).forEach(rawC => {
+    if (!rawC || !rawC.id) return;
+    if (isDeletedAfter(rawC.id, rawC.updatedAt)) return;
+    const canonicalName = (0, _storageService.mapToCanonicalCategoryName)(rawC.name);
+    const c = {
+      ...rawC,
+      name: canonicalName
+    };
+    const existingByName = Array.from(catMap.values()).find(ex => ex.name.trim().toLowerCase() === canonicalName.trim().toLowerCase());
+    if (!existingByName) {
       catMap.set(c.id, c);
+    } else {
+      const combinedSubs = Array.from(new Set([...(0, _storageService.getUnifiedCategorySubs)(existingByName), ...(0, _storageService.getUnifiedCategorySubs)(c)]));
+      catMap.set(existingByName.id, {
+        ...existingByName,
+        subs: combinedSubs,
+        subcategories: combinedSubs
+      });
     }
   });
   if (Array.isArray(remote.categories)) {
@@ -21520,43 +21542,67 @@ function mergeSystemSnapshots(local, remote) {
       }
     });
   }
-  const holMap = new Map((local.holidays || []).map(h => [h.id, h]));
+  const holMap = new Map();
+  (local.holidays || []).forEach(h => {
+    if (h && h.id && !(0, _storageService.isAiFabricatedRecord)(h) && !isDeletedAfter(h.id, h.updatedAt)) {
+      holMap.set(h.id, h);
+    }
+  });
   if (Array.isArray(remote.holidays)) {
     remote.holidays.forEach(rHol => {
-      if (rHol && rHol.id && !isDeletedAfter(rHol.id)) {
-        holMap.set(rHol.id, {
-          ...(holMap.get(rHol.id) || {}),
-          ...rHol
-        });
+      if (rHol && rHol.id && !(0, _storageService.isAiFabricatedRecord)(rHol) && !isDeletedAfter(rHol.id, rHol.updatedAt)) {
+        const lHol = holMap.get(rHol.id);
+        if (!lHol || (rHol.updatedAt || '') >= (lHol.updatedAt || '')) {
+          holMap.set(rHol.id, {
+            ...(lHol || {}),
+            ...rHol
+          });
+        }
       }
     });
   }
-  const leaveMap = new Map((local.annualLeaves || []).map(l => [l.id, l]));
+  const leaveMap = new Map();
+  (local.annualLeaves || []).forEach(l => {
+    if (l && l.id && !(0, _storageService.isAiFabricatedRecord)(l) && !isDeletedAfter(l.id, l.updatedAt)) {
+      leaveMap.set(l.id, l);
+    }
+  });
   if (Array.isArray(remote.annualLeaves)) {
     remote.annualLeaves.forEach(rLeave => {
-      if (rLeave && rLeave.id && !isDeletedAfter(rLeave.id)) {
-        leaveMap.set(rLeave.id, {
-          ...(leaveMap.get(rLeave.id) || {}),
-          ...rLeave
-        });
+      if (rLeave && rLeave.id && !(0, _storageService.isAiFabricatedRecord)(rLeave) && !isDeletedAfter(rLeave.id, rLeave.updatedAt)) {
+        const lLeave = leaveMap.get(rLeave.id);
+        if (!lLeave || (rLeave.updatedAt || '') >= (lLeave.updatedAt || '')) {
+          leaveMap.set(rLeave.id, {
+            ...(lLeave || {}),
+            ...rLeave
+          });
+        }
       }
     });
   }
-  const eventMap = new Map((local.specialEvents || []).map(e => [e.id, e]));
+  const eventMap = new Map();
+  (local.specialEvents || []).forEach(e => {
+    if (e && e.id && !(0, _storageService.isAiFabricatedRecord)(e) && !isDeletedAfter(e.id, e.updatedAt)) {
+      eventMap.set(e.id, e);
+    }
+  });
   if (Array.isArray(remote.specialEvents)) {
     remote.specialEvents.forEach(rEvt => {
-      if (rEvt && rEvt.id && !isDeletedAfter(rEvt.id)) {
-        eventMap.set(rEvt.id, {
-          ...(eventMap.get(rEvt.id) || {}),
-          ...rEvt
-        });
+      if (rEvt && rEvt.id && !(0, _storageService.isAiFabricatedRecord)(rEvt) && !isDeletedAfter(rEvt.id, rEvt.updatedAt)) {
+        const lEvt = eventMap.get(rEvt.id);
+        if (!lEvt || (rEvt.updatedAt || '') >= (lEvt.updatedAt || '')) {
+          eventMap.set(rEvt.id, {
+            ...(lEvt || {}),
+            ...rEvt
+          });
+        }
       }
     });
   }
-  const trashMap = new Map((local.trash || []).map(t => [t.id, t]));
+  const trashMap = new Map((local.trash || []).filter(t => t && !(0, _storageService.isAiFabricatedRecord)(t)).map(t => [t.id, t]));
   if (Array.isArray(remote.trash)) {
     remote.trash.forEach(rTrash => {
-      if (rTrash && rTrash.id && !taskMap.has(rTrash.id)) {
+      if (rTrash && rTrash.id && !(0, _storageService.isAiFabricatedRecord)(rTrash) && !taskMap.has(rTrash.id)) {
         trashMap.set(rTrash.id, rTrash);
       }
     });
@@ -21572,19 +21618,50 @@ function mergeSystemSnapshots(local, remote) {
     ...local.profile
   };
   const lockedCfg = (0, _storageService.loadLockedStandardConfig)();
-  const mergedSettings = {
-    ...(remote.settings || {}),
+  const lSettingsTime = local.settings?.updatedAt || lockedCfg.lockedAt || '2026-10-01T00:00:00.000Z';
+  const rSettingsTime = remote.settings?.updatedAt || remote.updatedAt || '';
+  const remoteSettingsIsNewer = Boolean(rSettingsTime && rSettingsTime > lSettingsTime);
+  const winningSettings = remoteSettingsIsNewer ? {
     ...local.settings,
-    theme: local.settings.theme,
-    colorPaletteId: lockedCfg.colorPaletteId || local.settings.colorPaletteId || remote.settings?.colorPaletteId || 'nordic-judicial',
-    customPaletteColors: Array.isArray(lockedCfg.customPaletteColors) && lockedCfg.customPaletteColors.length === 6 ? lockedCfg.customPaletteColors : Array.isArray(local.settings.customPaletteColors) && local.settings.customPaletteColors.length === 6 ? local.settings.customPaletteColors : Array.isArray(remote.settings?.customPaletteColors) && remote.settings.customPaletteColors.length === 6 ? remote.settings.customPaletteColors : [..._storageService.OFFICIAL_STANDARD_6_COLORS],
-    holidayBgColor: lockedCfg.holidayBgColor || local.settings.holidayBgColor || remote.settings?.holidayBgColor || '#9E4B5A',
-    leaveBgColor: lockedCfg.leaveBgColor || local.settings.leaveBgColor || remote.settings?.leaveBgColor || '#2F6F6D',
-    selectedDayColor: lockedCfg.selectedDayColor || (!local.settings.selectedDayColor || local.settings.selectedDayColor.toUpperCase() === '#D4A72C' ? '#38BDF8' : local.settings.selectedDayColor),
-    logoImg: lockedCfg.logoImg || local.settings.logoImg || remote.settings?.logoImg || '',
-    headerImg: lockedCfg.headerImg || local.settings.headerImg || remote.settings?.headerImg || _storageService.DEFAULT_HEADER_SVG_DATA_URI,
-    footerImg: lockedCfg.footerImg || local.settings.footerImg || remote.settings?.footerImg || _storageService.DEFAULT_FOOTER_SVG_DATA_URI
+    ...(remote.settings || {})
+  } : {
+    ...(remote.settings || {}),
+    ...local.settings
   };
+  const winningPaletteColors = remoteSettingsIsNewer && Array.isArray(remote.settings?.customPaletteColors) && remote.settings.customPaletteColors.length === 6 ? remote.settings.customPaletteColors : Array.isArray(local.settings.customPaletteColors) && local.settings.customPaletteColors.length === 6 ? local.settings.customPaletteColors : Array.isArray(lockedCfg.customPaletteColors) && lockedCfg.customPaletteColors.length === 6 ? lockedCfg.customPaletteColors : Array.isArray(remote.settings?.customPaletteColors) && remote.settings.customPaletteColors.length === 6 ? remote.settings.customPaletteColors : [..._storageService.OFFICIAL_STANDARD_6_COLORS];
+  const winningPaletteId = remoteSettingsIsNewer && remote.settings?.colorPaletteId ? remote.settings.colorPaletteId : local.settings.colorPaletteId || lockedCfg.colorPaletteId || remote.settings?.colorPaletteId || 'nordic-judicial';
+  const winningHolidayColor = remoteSettingsIsNewer && remote.settings?.holidayBgColor ? remote.settings.holidayBgColor : local.settings.holidayBgColor || lockedCfg.holidayBgColor || remote.settings?.holidayBgColor || '#9E4B5A';
+  const winningLeaveColor = remoteSettingsIsNewer && remote.settings?.leaveBgColor ? remote.settings.leaveBgColor : local.settings.leaveBgColor || lockedCfg.leaveBgColor || remote.settings?.leaveBgColor || '#2F6F6D';
+  const winningSelectedDayColor = remoteSettingsIsNewer && remote.settings?.selectedDayColor ? remote.settings.selectedDayColor : local.settings.selectedDayColor || lockedCfg.selectedDayColor || remote.settings?.selectedDayColor || '#38BDF8';
+  const finalSettingsUpdatedAt = remoteSettingsIsNewer ? rSettingsTime : lSettingsTime;
+  const mergedSettings = {
+    ...winningSettings,
+    theme: local.settings.theme,
+    colorPaletteId: winningPaletteId,
+    customPaletteColors: winningPaletteColors,
+    holidayBgColor: winningHolidayColor,
+    leaveBgColor: winningLeaveColor,
+    selectedDayColor: winningSelectedDayColor,
+    logoImg: remote.settings?.logoImg || local.settings.logoImg || lockedCfg.logoImg || '',
+    headerImg: remote.settings?.headerImg || local.settings.headerImg || lockedCfg.headerImg || _storageService.DEFAULT_HEADER_SVG_DATA_URI,
+    footerImg: remote.settings?.footerImg || local.settings.footerImg || lockedCfg.footerImg || _storageService.DEFAULT_FOOTER_SVG_DATA_URI,
+    updatedAt: finalSettingsUpdatedAt
+  };
+  if (remoteSettingsIsNewer) {
+    try {
+      (0, _storageService.saveLockedStandardConfig)({
+        colorPaletteId: mergedSettings.colorPaletteId,
+        customPaletteColors: mergedSettings.customPaletteColors,
+        holidayBgColor: mergedSettings.holidayBgColor,
+        leaveBgColor: mergedSettings.leaveBgColor,
+        selectedDayColor: mergedSettings.selectedDayColor,
+        logoImg: mergedSettings.logoImg,
+        headerImg: mergedSettings.headerImg,
+        footerImg: mergedSettings.footerImg,
+        lockedAt: finalSettingsUpdatedAt
+      });
+    } catch {}
+  }
   return {
     ...local,
     tasks: mergedTasks,
@@ -21764,12 +21841,25 @@ async function pullFullSystemSnapshotFromCloud() {
       const data = await brandingRes.value.json();
       const f = data?.fields;
       if (f) {
+        let parsedColors;
+        try {
+          if (f.customPaletteColorsJson?.stringValue) {
+            const arr = JSON.parse(f.customPaletteColorsJson.stringValue);
+            if (Array.isArray(arr) && arr.length === 6) parsedColors = arr;
+          }
+        } catch {}
         branding = {
           logoImg: f.logoImg?.stringValue || undefined,
           headerImg: f.headerImg?.stringValue || undefined,
           footerImg: f.footerImg?.stringValue || undefined,
           headerText: f.headerText?.stringValue || undefined,
-          footerText: f.footerText?.stringValue || undefined
+          footerText: f.footerText?.stringValue || undefined,
+          colorPaletteId: f.colorPaletteId?.stringValue || undefined,
+          customPaletteColors: parsedColors,
+          holidayBgColor: f.holidayBgColor?.stringValue || undefined,
+          leaveBgColor: f.leaveBgColor?.stringValue || undefined,
+          selectedDayColor: f.selectedDayColor?.stringValue || undefined,
+          updatedAt: f.updatedAt?.stringValue || undefined
         };
       }
     }
@@ -21832,7 +21922,7 @@ async function syncBrandingSettingsToFirestore(branding) {
     const merged = {
       ...existing,
       ...branding,
-      updatedAt: new Date().toISOString()
+      updatedAt: branding.updatedAt || new Date().toISOString()
     };
     localStorage.setItem(BRANDING_CACHE_KEY, JSON.stringify(merged));
     if (isNetworkOnline()) {
@@ -21863,6 +21953,15 @@ async function syncBrandingSettingsToFirestore(branding) {
             },
             customPaletteColorsJson: {
               stringValue: JSON.stringify(merged.customPaletteColors || ['#59718A', '#D4A72C', '#5B3A62', '#E07A47', '#2F6F6D', '#8FA68F'])
+            },
+            holidayBgColor: {
+              stringValue: merged.holidayBgColor || '#9E4B5A'
+            },
+            leaveBgColor: {
+              stringValue: merged.leaveBgColor || '#2F6F6D'
+            },
+            selectedDayColor: {
+              stringValue: merged.selectedDayColor || '#38BDF8'
             },
             updatedAt: {
               stringValue: merged.updatedAt
@@ -22004,12 +22103,6 @@ async function fetchInitialFirebaseConfig() {
   const result = {
     cloudReachable: false
   };
-  try {
-    const cachedBranding = loadBrandingSettingsFromCache();
-    if (Object.keys(cachedBranding).length > 0) {
-      result.branding = cachedBranding;
-    }
-  } catch {}
   if (!isNetworkOnline()) {
     return result;
   }
@@ -22032,12 +22125,25 @@ async function fetchInitialFirebaseConfig() {
       const data = await brandingRes.value.json();
       const f = data?.fields;
       if (f) {
+        let parsedColors;
+        try {
+          if (f.customPaletteColorsJson?.stringValue) {
+            const arr = JSON.parse(f.customPaletteColorsJson.stringValue);
+            if (Array.isArray(arr) && arr.length === 6) parsedColors = arr;
+          }
+        } catch {}
         result.branding = {
-          logoImg: f.logoImg?.stringValue || result.branding?.logoImg,
-          headerImg: f.headerImg?.stringValue || result.branding?.headerImg,
-          footerImg: f.footerImg?.stringValue || result.branding?.footerImg,
-          headerText: f.headerText?.stringValue || result.branding?.headerText,
-          footerText: f.footerText?.stringValue || result.branding?.footerText
+          logoImg: f.logoImg?.stringValue || undefined,
+          headerImg: f.headerImg?.stringValue || undefined,
+          footerImg: f.footerImg?.stringValue || undefined,
+          headerText: f.headerText?.stringValue || undefined,
+          footerText: f.footerText?.stringValue || undefined,
+          colorPaletteId: f.colorPaletteId?.stringValue || undefined,
+          customPaletteColors: parsedColors,
+          holidayBgColor: f.holidayBgColor?.stringValue || undefined,
+          leaveBgColor: f.leaveBgColor?.stringValue || undefined,
+          selectedDayColor: f.selectedDayColor?.stringValue || undefined,
+          updatedAt: f.updatedAt?.stringValue || undefined
         };
       }
     }
@@ -22247,7 +22353,7 @@ function searchHistoricalTasks(tasks, query) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.STORAGE_KEY = exports.PRE_RESTORE_SNAPSHOT_KEY = exports.OFFICIAL_STANDARD_6_COLORS = exports.OFFICIAL_ENTETE_BASE64 = exports.OFFICIAL_ENPIED_BASE64 = exports.LOCKED_STANDARD_CONFIG_KEY = exports.DEFAULT_USER_DUTIES = exports.DEFAULT_USER_CERTIFICATES = exports.DEFAULT_PRINT_LOGO_SVG = exports.DEFAULT_PRINT_HEADER_SVG = exports.DEFAULT_PRINT_FOOTER_SVG = exports.DEFAULT_MOROCCAN_HOLIDAYS = exports.DEFAULT_LOGO_SVG_DATA_URI = exports.DEFAULT_HEADER_SVG_DATA_URI = exports.DEFAULT_FOOTER_SVG_DATA_URI = exports.DEFAULT_ACTIVITY_TYPES = exports.CORE_MAINTASKS_CATALOG = exports.BRANDING_STORAGE_KEY = void 0;
+exports.STORAGE_KEY = exports.PRE_RESTORE_SNAPSHOT_KEY = exports.OFFICIAL_STANDARD_6_COLORS = exports.OFFICIAL_ENTETE_BASE64 = exports.OFFICIAL_ENPIED_BASE64 = exports.LOCKED_STANDARD_CONFIG_KEY = exports.DEFAULT_USER_DUTIES = exports.DEFAULT_USER_CERTIFICATES = exports.DEFAULT_PRINT_LOGO_SVG = exports.DEFAULT_PRINT_HEADER_SVG = exports.DEFAULT_PRINT_FOOTER_SVG = exports.DEFAULT_MOROCCAN_HOLIDAYS = exports.DEFAULT_LOGO_SVG_DATA_URI = exports.DEFAULT_HEADER_SVG_DATA_URI = exports.DEFAULT_FOOTER_SVG_DATA_URI = exports.DEFAULT_ACTIVITY_TYPES = exports.CORE_MAINTASKS_CATALOG = exports.BRANDING_STORAGE_KEY = exports.AI_FABRICATED_PURGE_IDS = void 0;
 exports.autoLearnEntities = autoLearnEntities;
 exports.buildLogicalTaskSummary = buildLogicalTaskSummary;
 exports.determineGeographicScope = determineGeographicScope;
@@ -22256,6 +22362,7 @@ exports.getCourtsSortedByFrequency = getCourtsSortedByFrequency;
 exports.getProgressSemanticInfo = getProgressSemanticInfo;
 exports.getShortLocationName = getShortLocationName;
 exports.getUnifiedCategorySubs = getUnifiedCategorySubs;
+exports.isAiFabricatedRecord = isAiFabricatedRecord;
 exports.loadLockedStandardConfig = loadLockedStandardConfig;
 exports.loadSystemData = loadSystemData;
 exports.mapToCanonicalCategoryName = mapToCanonicalCategoryName;
@@ -22396,13 +22503,6 @@ const DEFAULT_MOROCCAN_HOLIDAYS = [{
   id: 'hol-08-21',
   datePattern: '08-21',
   name: 'عيد الشباب المجيد',
-  type: 'national',
-  daysCount: 1,
-  enabled: true
-}, {
-  id: 'hol-10-18',
-  datePattern: '10-18',
-  name: 'ذكرى وطنية قضائية',
   type: 'national',
   daysCount: 1,
   enabled: true
@@ -22566,8 +22666,20 @@ const LEGACY_TO_CANONICAL_CATEGORY = {
   'التدبير الإداري والممتلكات': 'التقارير والأعمال الإدارية',
   'مهام إدارية عامة': 'التقارير والأعمال الإدارية',
   'الملفات والوثائق': 'التقارير والأعمال الإدارية',
-  'المباريات والامتحانات المهنية': 'التقارير والأعمال الإدارية'
+  'المباريات والامتحانات المهنية': 'التقارير والأعمال الإدارية',
+  'التوزيع والتسليم': 'تدبير المخزون والتوزيع',
+  'تسليم الطونير ومواد الطباعة': 'تدبير المخزون والتوزيع'
 };
+const AI_FABRICATED_PURGE_IDS = new Set(['task-1793250000100', 'task-1793250000101', 'task-1793250000102', 'task-1793250000103', 'task-1793250000104', 'task-backlog-1', 'task-backlog-2', 'task-backlog-3', 'task-backlog-3-a', 'task-backlog-3-b', 'task-backlog-3-c', 'leave-sample-oct', 'hol-10-18', 'evt-sample-1']);
+exports.AI_FABRICATED_PURGE_IDS = AI_FABRICATED_PURGE_IDS;
+function isAiFabricatedRecord(item) {
+  if (!item || typeof item !== 'object') return false;
+  if (item.id && AI_FABRICATED_PURGE_IDS.has(String(item.id))) return true;
+  if (item.originalTaskId && AI_FABRICATED_PURGE_IDS.has(String(item.originalTaskId))) return true;
+  if (item.startDate === '2026-10-26' && item.endDate === '2026-10-30' && String(item.title || '').includes('شطر من الرخصة')) return true;
+  if (item.datePattern === '10-18' && String(item.name || '').includes('ذكرى وطنية قضائية')) return true;
+  return false;
+}
 function mapToCanonicalCategoryName(rawName) {
   const clean = stripEmojisAndFieldWording(rawName || '');
   if (!clean) return 'التقارير والأعمال الإدارية';
@@ -22808,10 +22920,11 @@ function loadSystemData() {
 function normalizeSystemDataState(parsed, savedBranding) {
   const deletedMap = parsed && parsed.deletedIds && typeof parsed.deletedIds === 'object' ? parsed.deletedIds : {};
   const initTaskById = new Map((_initialData.INITIAL_SYSTEM_DATA.tasks || []).map(t => [t.id, t]));
-  const rawInputTasks = Array.isArray(parsed.tasks) && parsed.tasks.length > 0 ? [...parsed.tasks] : [..._initialData.INITIAL_SYSTEM_DATA.tasks];
+  const trashedIds = new Set(Array.isArray(parsed.trash) ? parsed.trash.map(t => t && t.id).filter(Boolean) : []);
+  const rawInputTasks = (Array.isArray(parsed.tasks) && parsed.tasks.length > 0 ? [...parsed.tasks] : [..._initialData.INITIAL_SYSTEM_DATA.tasks]).filter(t => t && !isAiFabricatedRecord(t) && !deletedMap[t.id] && !(t.originalTaskId && deletedMap[t.originalTaskId]) && !trashedIds.has(t.id));
   const seenTaskIds = new Set(rawInputTasks.map(t => t && t.id).filter(Boolean));
   (_initialData.INITIAL_SYSTEM_DATA.tasks || []).forEach(initTask => {
-    if (initTask.id && !seenTaskIds.has(initTask.id) && !deletedMap[initTask.id]) {
+    if (initTask.id && !isAiFabricatedRecord(initTask) && !seenTaskIds.has(initTask.id) && !deletedMap[initTask.id] && !(initTask.originalTaskId && deletedMap[initTask.originalTaskId]) && !trashedIds.has(initTask.id)) {
       rawInputTasks.push(initTask);
       seenTaskIds.add(initTask.id);
     }
@@ -22965,7 +23078,8 @@ function normalizeSystemDataState(parsed, savedBranding) {
     colorPaletteId: savedBranding.colorPaletteId || parsed.settings?.colorPaletteId || 'nordic-judicial',
     customPaletteColors: Array.isArray(savedBranding.customPaletteColors) && savedBranding.customPaletteColors.length === 6 ? savedBranding.customPaletteColors : Array.isArray(parsed.settings?.customPaletteColors) && parsed.settings.customPaletteColors.length === 6 ? parsed.settings.customPaletteColors : [...OFFICIAL_STANDARD_6_COLORS],
     printMarginMm: parsed.settings?.printMarginMm ?? 10,
-    printFontFamily: parsed.settings?.printFontFamily || 'Cairo'
+    printFontFamily: parsed.settings?.printFontFamily || 'Cairo',
+    updatedAt: savedBranding.lockedAt || parsed.settings?.updatedAt || '2026-10-01T00:00:00.000Z'
   };
   const existingDuties = Array.isArray(parsed.profile?.assignedDuties) ? parsed.profile.assignedDuties : [];
   const mergedDuties = Array.from(new Set([...DEFAULT_USER_DUTIES, ...existingDuties.map(d => stripEmojisAndFieldWording(d)).filter(Boolean)]));
@@ -22983,32 +23097,18 @@ function normalizeSystemDataState(parsed, savedBranding) {
     assignedDuties: mergedDuties,
     certificates: Array.isArray(parsed.profile?.certificates) && parsed.profile.certificates.length > 0 ? parsed.profile.certificates : DEFAULT_USER_CERTIFICATES
   };
-  const holidays = Array.isArray(parsed.holidays) && parsed.holidays.length > 0 ? parsed.holidays.map(h => ({
+  const holidays = (Array.isArray(parsed.holidays) && parsed.holidays.length > 0 ? parsed.holidays.map(h => ({
     ...h,
     name: stripEmojisAndFieldWording(h.name)
-  })) : DEFAULT_MOROCCAN_HOLIDAYS;
-  const annualLeaves = Array.isArray(parsed.annualLeaves) ? parsed.annualLeaves.map(l => ({
+  })) : DEFAULT_MOROCCAN_HOLIDAYS).filter(h => h && !isAiFabricatedRecord(h) && !deletedMap[h.id]);
+  const annualLeaves = Array.isArray(parsed.annualLeaves) ? parsed.annualLeaves.filter(l => l && !isAiFabricatedRecord(l) && !deletedMap[l.id]).map(l => ({
     ...l,
     title: stripEmojisAndFieldWording(l.title)
-  })) : [{
-    id: 'leave-sample-oct',
-    title: 'شطر من الرخصة الإدارية السنوية',
-    startDate: '2026-10-26',
-    endDate: '2026-10-30',
-    type: 'annual',
-    workingDaysCount: 5,
-    notes: 'الدفعة الأولى من الرخصة السنوية'
-  }];
-  const specialEvents = Array.isArray(parsed.specialEvents) ? parsed.specialEvents.map(e => ({
+  })) : [];
+  const specialEvents = Array.isArray(parsed.specialEvents) ? parsed.specialEvents.filter(e => e && !isAiFabricatedRecord(e) && !deletedMap[e.id]).map(e => ({
     ...e,
     title: stripEmojisAndFieldWording(e.title)
-  })) : [{
-    id: 'evt-sample-1',
-    date: '2026-10-15',
-    title: 'اجتماع تنسيقي لتتبع الصفقات والمخزون',
-    type: 'meeting',
-    color: '#59718A'
-  }];
+  })) : [];
   return {
     tasks: normalizedTasks,
     categories: mergedCategories,
@@ -23062,7 +23162,7 @@ function persistSystemData(data) {
         colorPaletteId: data.settings.colorPaletteId || 'nordic-judicial',
         customPaletteColors: Array.isArray(data.settings.customPaletteColors) && data.settings.customPaletteColors.length === 6 ? data.settings.customPaletteColors : [...OFFICIAL_STANDARD_6_COLORS],
         categoryColorsMap: catColorMap,
-        lockedAt: new Date().toISOString()
+        lockedAt: data.settings.updatedAt || loadLockedStandardConfig().lockedAt || '2026-10-01T00:00:00.000Z'
       };
       try {
         localStorage.setItem(BRANDING_STORAGE_KEY, JSON.stringify(brandingPayload));
